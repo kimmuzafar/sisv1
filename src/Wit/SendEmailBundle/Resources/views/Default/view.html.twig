@@ -1,0 +1,125 @@
+{% block pagestylesup %}
+    <!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/media/css/dataTables.bootstrap.css') }}">
+
+    <!-- Datatables Editor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') }}">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/magnific/magnific-popup.css') }}">
+{% endblock %}
+
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+    
+    <!-- Admin Modals CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-plugins/admin-modal/adminmodal.css') }}">
+{% endblock %}
+
+{% extends ':sendemail:layout.html.twig' %}
+
+{% block title %}{{ emailEntity.subject }}'s Detail{% endblock %}
+{% set breadcrumbPage = emailEntity.subject ~ "'s Detail" %}
+
+{% block content %}
+
+    <form action="{{ path('wit_sendemail_default_appgroup') }}" method="post" id="form">
+
+    <!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr">
+
+            <h4 class="text-muted text-center mb20 fw400">{{ emailEntity.subject }}'s Detail</h4>
+
+            <!-- begin: .admin-form -->
+            <div class="admin-form">
+
+                <div id="p1" class="panel">
+
+                    <div class="panel-body bg-light">
+                        
+                        <div class="summernote2 note-air-editor note-editable" id="note-editor-1" contenteditable="true">
+                            <h3>{{ emailEntity.subject }}</h3>
+                            <p> <strong>{{ emailEntity.dateCreated|date('Y-m-d H:i:s') }}</strong> </p>
+                            <hr class="short">
+                            <p>{{ emailEntity.message|raw }}</p>
+                            <hr class="short">
+                            <blockquote>
+                                <p><strong>Recipients</strong></p>
+                                {% for recipient in recipients %}
+                                    {{ loop.index }} - {{ recipient }}<br />
+                                {% endfor %}
+                            </blockquote>
+                            <hr class="short">
+                            <p><strong>Sender:</strong> <br /><i>{{ emailEntity.sender }}</i></p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end: .admin-form -->
+
+
+        </div>
+        <!-- end: .tray-center -->
+
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- menu quick links -->
+            <div class="p20 admin-form">
+
+                <h4 class="mt5 text-muted fw500">Available Actions</h4>
+                <hr class="short">
+
+                <h6 class="fw400">Press cancel button to go back to email history page.</h6>
+                <a href="{{ path('wit_sendemail_default_index') }}" class="button">Cancel</a>
+
+            </div>
+
+        </aside>
+        <!-- end: .tray-right -->
+        
+
+    </section>
+    <!-- End: Content -->
+
+    </form>
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    <style>
+        /* demo page styles */
+        .custom-nav-animation li {
+            display: none;
+        }
+        .custom-nav-animation li.animated {
+            display: block;
+        }
+        .email-template {
+            display: none;
+        }
+        .email-template.active {
+            display: block;
+        }
+
+        /*th, td { white-space: nowrap; }*/
+        .error{
+            color: red !important;
+        }
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

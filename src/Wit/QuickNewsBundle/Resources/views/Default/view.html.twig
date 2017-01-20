@@ -1,0 +1,93 @@
+{% extends ':qnews:qnews.html.twig' %}
+
+{% block title %}News Detail{% endblock %}
+
+{% set breadcrumbPage = "News Detail" %}
+
+{% block content %}
+    <section id="content" class="table-layout animated fadeIn">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center p25 va-t posr">
+
+            <!-- Admin-panels -->
+            <div class="admin-panels fade-onload sb-l-o-full">
+
+                {#<h3 class="text-center mb25 fw400">Menu Item Options</h3>#}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div data-animate="fadeIn" class="panel panel-transparent">
+                            <h5 class="text-muted mb20 text-center">QUICK NEWS DETAIL</h5>
+                        </div>
+                    </div>
+
+                    <!-- News List -->
+                    <div class="col-md-12">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <span class="panel-title">{{ quickNews.title|title }}</span>
+                            </div>
+                            <div class="panel-body pn">
+                                <table class="table mbn tc-med-1 tc-bold-last">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:left; font-weight:normal">
+                                                <br />
+                                                <address class="text-right"><strong>Dated: </strong>{{ quickNews.dateCreated|date("F jS \\a\\t g:ia") }}</address>
+                                                <div class="bg-logo well well-sm pt10 mt25">
+                                                    <br />
+                                                    {{ quickNews.description }}
+                                                    <br />
+                                                    <br />
+                                                </div>
+                                                <address><strong>Sent by:</strong> {{ quickNews.fromUserName|title }}</address>
+                                                <br />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <a href="{{ path('wit_quicknews_default_viewall') }}" class="btn btn-default btn-gradient dark btn-block"><< Back...</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- store activity timeline -->
+            <ol class="timeline-list pl5 mt10">
+                <!--
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-warning"><span class="fa fa-pencil"></span></div>
+                    <div class="timeline-desc"><b>System</b> Your application was reviewd.</div>
+                    <div class="timeline-date">5:25am</div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-system"><span class="fa fa-fire"></span></div>
+                    <div class="timeline-desc"><b>System</b> Your applicaiton is in pending.. waiting for review.</div>
+                    <div class="timeline-date">4:15am</div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-dark light"><span class="fa fa-tags"></span></div>
+                    <div class="timeline-desc"><b>System</b> You have completed your application..</div>
+                    <div class="timeline-date">8:25am</div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-system"><span class="fa fa-fire"></span></div>
+                    <div class="timeline-desc"><b>System</b> Your Account was successfully created and activated..</div>
+                    <div class="timeline-date">4:15am</div>
+                </li>
+                -->
+            </ol>
+
+        </aside>
+        <!-- end: .tray-right -->
+
+    </section>
+{% endblock %}

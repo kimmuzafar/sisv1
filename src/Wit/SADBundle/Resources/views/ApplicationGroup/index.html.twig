@@ -1,0 +1,372 @@
+{% block pagestylesup %}
+    <!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/media/css/dataTables.bootstrap.css') }}">
+
+    <!-- Datatables Editor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') }}">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/magnific/magnific-popup.css') }}">
+{% endblock %}
+
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+    
+    <!-- Admin Modals CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-plugins/admin-modal/adminmodal.css') }}">
+{% endblock %}
+
+{% extends ':sad:base.html.twig' %}
+
+{% block title %}Groups{% endblock %}
+{% set breadcrumbPage = "Groups" %}
+
+{% block content %}
+    
+    <!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+        
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr">
+
+            <div class="mw1100 center-block">
+                <h2 class="lh30 mt25 text-center">APPLICATION GROUPS</h2>
+                <p class="text-center">
+                    Deleting a group will also delete applications in it, however original applications won't be deleted!
+                </p>
+            </div>
+
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                {% if flashMessage %}
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <i class="fa fa-remove pr10"></i>
+                        <strong>{{ flashMessage | raw }}</strong>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            {% if editForm is defined %}{# if edit form needs to show #}
+                <!-- update user panel -->
+                <div class="panel mb25 mt5">
+                    <div class="panel-heading">
+                        <span class="panel-title"> Update "{{ editEntity.title|capitalize }}"</span>
+                        <ul class="nav panel-tabs-border panel-tabs">
+                            <li class="active"><a href="#tab-add-new-user" data-toggle="tab">Information</a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body p20 pb10">
+                        <div class="tab-content pn br-n admin-form">
+
+                            <div id="tab-add-new-user" class="tab-pane active">
+
+                                {{ form_start(editForm) }}
+
+                                    <div class="section row">
+                                        <div class="col-md-12">
+                                            <label class="field select">
+                                                {{ form_widget(editForm.admissionScheduler) }}
+                                                <i class="arrow double"></i>                    
+                                            </label>
+                                        </div><!-- end section -->
+                                    </div><!-- end .section row section -->
+
+                                    <div class="section row">
+                                        <div class="col-md-12">
+                                            <label for="email" class="field prepend-icon">
+                                                {{ form_widget(editForm.title) }}
+                                                <label for="email" class="field-icon"><i class="fa fa-envelope"></i>
+                                                </label>
+                                            </label>
+                                        </div>
+                                        <!-- end section -->
+                                    </div>
+                                    <!-- end .section row section -->
+
+                                    <!-- end .form-body section -->
+                                    <div class="panel-footer clearfix">
+                                        <button type="submit" class="button btn-primary pull-right">Update</button>
+                                    </div>
+                                    <!-- end .form-footer section -->
+
+                                {{ form_end(editForm) }}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end: update user panel -->
+            {% endif %}
+
+            <div class="row">
+                
+                <div class="col-md-12">
+                    
+                    <div class="panel panel-visible" id="spy3">
+                        <div class="panel-heading">
+                            <div class="panel-title hidden-xs">
+                                <span class="glyphicon glyphicon-tasks"></span>
+                                Application Groups
+                            </div>
+                        </div>
+                        <div class="panel-body pn">
+                            
+                            <table class="table admin-form theme-warning tc-checkbox-1 fs13" id="user-role-datatable">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">SELECT</th>
+                                        <th class="text-left">SCHEDULE</th>
+                                        <th class="text-left">TITLE</th>
+                                        <th class="text-center">APPLICATIONS</th>
+                                        <th class="text-right"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for entity in entities %}
+                                        <tr>
+                                            <td class="text-center">
+                                                <label class="option block mn">
+                                                    <input type="checkbox" name="userId[]" value="{{ entity.id }}">
+                                                    <span class="checkbox mn"></span>
+                                                </label>
+                                            </td>
+                                            <td class="text-left">
+                                                {{ entity.admissionScheduler.title|default('') }}
+                                            </td>
+                                            <td class="text-left">
+                                                <a href="{{ path('wit_sad_groupedapplication_browsebygroup', { 'id': entity.id }) }}" title="Click Here to View All Applications added in this Group!">
+                                                    <span class="glyphicons glyphicons-list"></span> 
+                                                    {{ entity.title }}
+                                                </a>
+                                            </td>
+                                            <td class="text-center">
+                                                {{ entity.groupApplications|length }}
+                                            </td>
+                                            <td class="text-right">
+                                                <div class="btn-group text-right">
+                                                    <button type="button" class="btn btn-warning br2 btn-md fs12 dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> 
+                                                        Action
+                                                        <span class="caret ml5"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li><a href="{{ path('wit_sad_groupedapplication_browsebygroup', { 'id': entity.id }) }}">Browse</a></li>
+                                                        <li><a href="{{ path('wit_sad_applicationgroup_index_1', { 'id': entity.id }) }}">Edit</a></li>
+                                                        <li><a href="{{ path('wit_sad_applicationgroup_delete', { 'id': entity.id }) }}" onClick="return confirm('Are you sure you want to delete this group?')">Remove</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+            <div class="mw1100 center-block">
+                <h2 class="lh30 mt25 text-center">ADD NEW GROUP</h2>
+                <p class="text-center">After adding new application group you can add applications in it from 'All Applications' Page.</p>
+            </div>
+
+            <!-- create new user panel -->
+            <div class="panel mb25 mt5">
+                <div class="panel-heading">
+                    <span class="panel-title"> Add New Group</span>
+                    <ul class="nav panel-tabs-border panel-tabs">
+                        <li class="active"><a href="#tab-add-new-record" data-toggle="tab">Group Info</a></li>
+                    </ul>
+                </div>
+                <div class="panel-body p20 pb10">
+                    <div class="tab-content pn br-n admin-form">
+
+                        <div id="tab-add-new-user" class="tab-pane active">
+                            
+                            {{ form_start(addForm) }}
+
+                                <div class="section row">
+                                    <div class="col-md-12">
+                                        <label class="field select">
+                                            {{ form_widget(addForm.admissionScheduler) }}
+                                            <i class="arrow double"></i>                    
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-12">
+                                        <label for="email" class="field prepend-icon">
+                                            {{ form_widget(addForm.title) }}
+                                            <label for="email" class="field-icon"><i class="fa fa-envelope"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                    <!-- end section -->
+                                </div>
+                                <!-- end .section row section -->
+
+                                <!-- end .form-body section -->
+                                <div class="panel-footer clearfix">
+                                    <button type="submit" class="button btn-primary pull-right">Submit</button>
+                                </div>
+                                <!-- end .form-footer section -->
+
+                            {{ form_end(addForm) }}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end: create new user panel -->
+
+        </div>
+        <!-- end: .tray-center -->
+
+
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- menu quick links -->
+            <div class="p20 admin-form">
+
+                <h4 class="mt5 text-muted fw500"> Search / Filter</h4>
+
+                <hr class="short">
+
+                <h6>Nothing available yet!</h6>
+                
+
+            </div>
+
+        </aside>
+                <!-- end: .tray-right -->
+
+
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    <style>
+        /* demo page styles */
+        .custom-nav-animation li {
+            display: none;
+        }
+        .custom-nav-animation li.animated {
+            display: block;
+        }
+        .email-template {
+            display: none;
+        }
+        .email-template.active {
+            display: block;
+        }
+
+        /*th, td { white-space: nowrap; }*/
+        .error{
+            color: red !important;
+        }
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+    <!-- Holder js  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/js/bootstrap/holder.min.js') }}"></script>
+    
+    <!-- Datatables -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+
+    <!-- Datatables Tabletools addon -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+
+    <!-- Datatables Editor addon - READ LICENSING NOT MIT  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/dataTables.editor.js') }}"></script>
+
+    <!-- Datatables Bootstrap Modifications  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/editor.bootstrap.js') }}"></script>
+    
+    <!-- Page Plugins -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/magnific/jquery.magnific-popup.js') }}"></script>
+
+    <!-- Admin Forms Javascript -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.spectrum.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.stepper.min.js') }}"></script>
+    
+    <!-- JQuery Validation -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/additional-methods.min.js') }}"></script>
+    
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            
+            $('#user-role-datatable').dataTable({
+                "aoColumnDefs": [{
+                    'bSortable': false,
+                    'aTargets': [-1]
+                }],
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "",
+                        "sNext": ""
+                    }
+                },
+                "iDisplayLength": 10,
+                "aLengthMenu": [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+                ],
+                "sDom": '<"dt-panelmenu clearfix"Tfr>t<"dt-panelfooter clearfix"ip>',
+                "oTableTools": {
+                    "sSwfPath": "{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/swf/copy_csv_xls_pdf.swf') }}"
+                }
+            });
+
+            $("#add-new-user-form").validate({
+                rules: {
+                    wit_modelbundle_user_firstname: {
+                      required: true,
+                      minlength: 3,
+                    },
+                    wit_modelbundle_user_lastname: {
+                      required: true,
+                      minlength: 3,
+                    },
+                    wit_modelbundle_user_email: {
+                      required: true,
+                      minlength: 8,
+                      email: true,
+                    },
+                    wit_modelbundle_user_nationalid: {
+                      required: true,
+                      min: 10,
+                      number: true,
+                    },
+                    wit_modelbundle_user_password: {
+                      required: true,
+                      minlength: 5,
+                    },
+                    confirmPassword: {
+                      required: true,
+                      equalTo: "#wit_modelbundle_user_password",
+                    },
+                    wit_modelbundle_user_roles: {
+                      required: true,
+                    }
+                }
+            });
+            
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

@@ -1,0 +1,89 @@
+send_email:
+    resource: "@SendEmailBundle/Controller/"
+    type:     annotation
+    prefix:   /sendemail
+
+onboarding:
+    resource: "@OnboardingBundle/Controller/"
+    type:     annotation
+    prefix:   /onboarding
+
+transcript:
+    resource: "@TranscriptBundle/Controller/"
+    type:     annotation
+    prefix:   /transcript
+
+quick_news:
+    resource: "@QuickNewsBundle/Controller/"
+    type:     annotation
+    prefix:   /news
+
+performance:
+    resource: "@PerformanceBundle/Controller/"
+    type:     annotation
+    prefix:   /performance
+
+user_enrolment:
+    resource: "@UserEnrolmentBundle/Controller/"
+    type:     annotation
+    prefix:   /enrol
+
+course_management:
+    resource: "@CourseManagementBundle/Controller/"
+    type:     annotation
+    prefix:   /course
+
+dh:
+    resource: "@DHBundle/Controller/"
+    type:     annotation
+    prefix:   /dh
+
+student:
+    resource: "@StudentBundle/Controller/"
+    type:     annotation
+    prefix:   /student
+
+teacher:
+    resource: "@TeacherBundle/Controller/"
+    type:     annotation
+    prefix:   /teacher
+
+account:
+    resource: "@AccountBundle/Controller/"
+    type:     annotation
+    prefix:   /account
+
+setting:
+    resource: "@SettingBundle/Controller/"
+    type:     annotation
+    prefix:   /setting
+
+tod:
+    resource: "@TODBundle/Controller/"
+    type:     annotation
+    prefix:   /tod
+
+admin:
+    resource: "@AdminBundle/Controller/"
+    type:     annotation
+    prefix:   /admin
+
+auth:
+    resource: "@AuthBundle/Controller/"
+    type:     annotation
+    prefix:   /auth
+
+user:
+    resource: "@UserBundle/Controller/"
+    type:     annotation
+    prefix:   /user
+
+sad:
+    resource: "@SADBundle/Controller/"
+    type:     annotation
+    prefix:   /sad
+
+default:
+    resource: "@DefaultBundle/Controller/"
+    type:     annotation
+    prefix:   /

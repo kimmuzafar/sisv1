@@ -1,0 +1,214 @@
+{% block pagestylesup %}
+	<!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/media/css/dataTables.bootstrap.css') }}">
+
+	<!-- Datatables Editor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') }}">
+
+	<!-- Vendor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/magnific/magnific-popup.css') }}">
+{% endblock %}
+
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+    
+    <!-- Admin Modals CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-plugins/admin-modal/adminmodal.css') }}">
+{% endblock %}
+
+{% extends ':teacher:teacher.html.twig' %}
+
+{% block title %}View Course{% endblock %}
+{% set breadcrumbPage = "View Course" %}
+
+{% block content %}
+    
+	<!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+		
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr" id="printable">
+            
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                {% if flashMessage %}
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <i class="fa fa-remove pr10"></i>
+                        <strong>{{ flashMessage | raw }}</strong>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            
+            <div class="mw1100 center-block">
+                <h2 class="lh30 mt25 text-center">{{ course.title|upper }} ({{ course.code|upper }})</h2>
+                <p class="text-center">{{ course.description }}</p>
+                {% for data in enrolmentData %}
+                    {% if data.user.roles[0]=="ROLE_TEACHER" %}
+                        <div class="alert alert-default light alert-dismissable text-center">TEACHER: {{ data.user.firstname|upper }} {{ data.user.lastname|upper }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+            <div class="row">
+                
+                <div class="panel panel-transparent" data-animate="fadeIn">
+                    <h5 class="text-muted mb20 text-center">ENROLLED STUDENTS</h5>
+                </div>
+
+            	<div class="col-md-12 center-block">
+
+                	<!-- Personal Info -->
+                    {% for data in enrolmentData %}
+                        {% if data.user.roles[0]=="ROLE_STUDENT" %} {# only students should display here.. #}
+                            <div class="panel mb50" id="xedit-demo">
+                                <div class="panel-heading">
+                                    <span class="panel-title">{{ data.user.firstname|capitalize }} {{ data.user.lastname|capitalize }} <b>({{ data.user.roles[0].name }})</b></span>
+                                    <div class="widget-menu pull-right mr10">
+                                        {% if data.user.id in marksheetStudents %}
+                                            
+                                        {% else %}
+                                            {% if course.isAllowedGrading %}
+                                                <a href="{{ path('wit_teacher_grade_index', {'user_id':data.user.id, 'course_id':data.course.id }) }}"><span class="badge">Grade Me</span></a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                        <tbody>
+                                            <tr>
+                                                <td rowspan="3" style="width:120px">
+                                                    <img src="{% if data.user.docYourPhoto %}{{ vich_uploader_asset(data.user, 'docYourPhotoFile') }}{% else %}{{ _defaultProfileImage }}{% endif %}" width="100px" class="responsive">
+                                                </td>
+                                                <td>{% if data.user.traineeid %}{{ data.user.traineeid }}{% else %}N/A{% endif %}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{% if data.user.nationalid %}{{ data.user.nationalid }}{% else %}N/A{% endif %}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{% if data.user.email %}{{ data.user.email }}{% else %}N/A{% endif %}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                </div>
+                <!-- end: .col-md-12 -->
+
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- menu quick links -->
+            <div class="p20 admin-form">
+
+                <h4 class="mt5 text-muted fw500"> Available Options:</h4>
+
+                <hr class="short">
+
+                <div class="section row">
+                    <div class="col-sm-12">
+                        <p><a onclick="$('#main').hide();$('#printable').appendTo('body');" class="btn btn-default btn-block"><i class="fa fa-print pr5"></i> Print Course Page</a></p>
+                        <hr class="short">
+                        <p><a href="{{ path('wit_teacher_default_index') }}" class="btn btn-default btn-block"><i class="glyphicon glyphicon-arrow-left"></i> &nbsp; Go Back</a></p>
+                    </div>
+                </div>
+
+            </div>
+
+        </aside>
+        <!-- end: .tray-right -->
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    <style>
+	    /* demo page styles */
+	    .custom-nav-animation li {
+	        display: none;
+	    }
+	    .custom-nav-animation li.animated {
+	        display: block;
+	    }
+		.email-template {
+			display: none;
+		}
+		.email-template.active {
+			display: block;
+		}
+
+		/*th, td { white-space: nowrap; }*/
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+	<!-- Holder js  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/js/bootstrap/holder.min.js') }}"></script>
+    
+    <!-- Datatables -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+
+    <!-- Datatables Tabletools addon -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+
+    <!-- Datatables Editor addon - READ LICENSING NOT MIT  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/dataTables.editor.js') }}"></script>
+
+    <!-- Datatables Bootstrap Modifications  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/editor.bootstrap.js') }}"></script>
+    
+    <!-- Page Plugins -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/magnific/jquery.magnific-popup.js') }}"></script>
+
+    <!-- Admin Forms Javascript -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.spectrum.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.stepper.min.js') }}"></script>
+    
+    <!-- JQuery Validation -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/additional-methods.min.js') }}"></script>
+    
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            
+            $('#user-role-datatable').dataTable({
+                "aoColumnDefs": [{
+                    'bSortable': false,
+                    'aTargets': [-1]
+                }],
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "",
+                        "sNext": ""
+                    }
+                },
+                "iDisplayLength": 50,
+                "aLengthMenu": [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+                ],
+                "sDom": '<"dt-panelmenu clearfix"Tfr>t<"dt-panelfooter clearfix"ip>',
+                "oTableTools": {
+                    "sSwfPath": "{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/swf/copy_csv_xls_pdf.swf') }}"
+                }
+            });
+            
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

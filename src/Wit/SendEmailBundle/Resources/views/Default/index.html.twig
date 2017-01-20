@@ -1,0 +1,197 @@
+{% block pagestylesup %}
+    <!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/media/css/dataTables.bootstrap.css') }}">
+
+    <!-- Datatables Editor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') }}">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/magnific/magnific-popup.css') }}">
+{% endblock %}
+
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+    
+    <!-- Admin Modals CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-plugins/admin-modal/adminmodal.css') }}">
+{% endblock %}
+
+{% extends ':sendemail:layout.html.twig' %}
+
+{% block title %}History of sent emails{% endblock %}
+{% set breadcrumbPage = "History of sent emails" %}
+
+{% block content %}
+
+    <!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr">
+
+            <div class="mw1100 center-block">
+                <h2 class="lh30 mt25 text-center"><b class="text-primary">SENT EMAIL</b> HISTORY</h2>
+                <p class="lead mb35 text-center">Below list displays history of all sent emails, detail of each email can be seen while clicking on email subject.</p>
+            </div>
+
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                {% if flashMessage %}
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <i class="fa fa-remove pr10"></i>
+                        <strong>{{ flashMessage | raw }}</strong>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+
+            <div class="row">
+                    
+                <div class="col-md-12">
+                    
+                    <div class="panel panel-visible" id="spy3">
+                        <div class="panel-heading">
+                            <div class="panel-title hidden-xs">
+                                <span class="glyphicon glyphicon-tasks"></span>
+                                Email History
+                            </div>
+                        </div>
+                        <div class="panel-body pn">
+                            
+                            <table class="table admin-form theme-warning tc-checkbox-1 fs13" id="user-role-datatable">
+                                <thead>
+                                    <tr>
+                                        {# <th class="text-center">SELECT</th> #}
+                                        <th class="text-left">SUBJECT</th>
+                                        <th class="text-left">SENDER</th>
+                                        <th class="text-right">DATE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for email in sentEmails %}
+                                        <tr>
+                                            {# <td class="text-center">
+                                                <label class="option block mn">
+                                                    <input type="checkbox" name="userId[]" value="{{ entity.id }}">
+                                                    <span class="checkbox mn"></span>
+                                                </label>
+                                            </td> #}
+                                            <td class="text-left"><a href="{{ path('wit_sendemail_default_view', { 'emailid': email.id }) }}">{{ email.subject }}</a></td>
+                                            <td class="text-left">{{ email.sender }}</td>
+                                            <td class="text-right">{{ email.dateCreated|date('Y-m-d H:i:s') }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+
+        </div>
+        <!-- end: .tray-center -->
+
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- menu quick links -->
+            <div class="p20 admin-form">
+
+                <h4 class="mt5 text-muted fw500">Available Actions</h4>
+                <hr class="short">
+
+                <h6 class="fw400">Nothing availabe yet!</h6>
+
+            </div>
+
+        </aside>
+        <!-- end: .tray-right -->
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    <style>
+        /* demo page styles */
+        .custom-nav-animation li {
+            display: none;
+        }
+        .custom-nav-animation li.animated {
+            display: block;
+        }
+        .email-template {
+            display: none;
+        }
+        .email-template.active {
+            display: block;
+        }
+
+        /*th, td { white-space: nowrap; }*/
+        .error{
+            color: red !important;
+        }
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+    <!-- Ckeditor JS -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/editors/ckeditor/ckeditor.js') }}"></script>
+
+    <!-- Holder js  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/js/bootstrap/holder.min.js') }}"></script>
+    
+    <!-- Datatables -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+
+    <!-- Datatables Tabletools addon -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+
+    <!-- Datatables Editor addon - READ LICENSING NOT MIT  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/dataTables.editor.js') }}"></script>
+
+    <!-- Datatables Bootstrap Modifications  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/editor.bootstrap.js') }}"></script>
+
+    <!-- JQuery Validation -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/additional-methods.min.js') }}"></script>
+    
+    <script type="text/javascript">
+
+        jQuery(document).ready(function() {
+
+            $('#user-role-datatable').dataTable({
+                "aoColumnDefs": [{
+                    'bSortable': false,
+                    'aTargets': [-1]
+                }],
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "",
+                        "sNext": ""
+                    }
+                },
+                "iDisplayLength": 10,
+                "aLengthMenu": [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+                ],
+                "sDom": '<"dt-panelmenu clearfix"Tfr>t<"dt-panelfooter clearfix"ip>',
+                "oTableTools": {
+                    "sSwfPath": "{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/swf/copy_csv_xls_pdf.swf') }}"
+                }
+            });
+
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

@@ -1,0 +1,142 @@
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+{% endblock %}
+
+{% extends ':enrol:enrol.html.twig' %}
+
+{% block title %}New Enrolment{% endblock %}
+{% set breadcrumbPage = "New Enrolment" %}
+
+{% block content %}
+    
+    <!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr">
+
+            <div class="admin-panels fade-onload mn pn">
+
+                <div class="row">
+
+                    <div class="col-md-8 center-block">
+                        
+                        <div class="mw1100 center-block">
+                            <h2 class="lh30 mt25 text-center">NEW ENROLMENT</h2>
+                            <p class="lead mb50 text-center">You can enroll students in different courses from this page.</p>
+                        </div>
+
+                        {% for flashMessage in app.session.flashbag.get('error') %}
+                            {% if flashMessage %}
+                                <div class="alert alert-success alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <i class="fa fa-remove pr10"></i>
+                                    <strong>{{ flashMessage | raw }}</strong>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        <div class="panel mt20 mb50 sort-disable" id="p0" data-panel-title="false" data-panel-fullscreen="false" data-panel-remove="false" data-panel-collapse="false" data-panel-fullscreen="false">
+                            <div class="panel-heading">
+                                <span class="panel-icon"><i class="fa fa-edit"></i>
+                                </span>
+                                <span class="panel-title"> Course selector</span>
+                            </div>
+                            <div class="panel-body">
+                                
+                                <div class="admin-form">
+
+                                    <p></p>
+
+                                    <p>Please select the course below, once selected students will display in next section to get enrolled in this course.</p>
+                                    <div class="section row">
+                                        <div class="col-md-12">
+                                            <label class="field" for="email">
+                                                <form action="" method="get">
+                                                    <select class="gui-input" name="course" id="course" onchange="this.form.submit()">
+                                                        <option value=""> -- Select Course</option>
+                                                        {% for course in courses %}
+                                                            <option value="{{ course.id }}">{{ course.coursequarter.coursebatch.coursecategory.title }} >> {{ course.coursequarter.coursebatch.title }} >> {{ course.coursequarter.title }} >> {{ course.title }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </form>
+                                            </label>
+                                        </div>
+                                        <!-- end section -->
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="panel mt20 mb50 sort-disable" id="p0" data-panel-title="false" data-panel-fullscreen="false" data-panel-remove="false" data-panel-collapse="false" data-panel-fullscreen="false">
+                            <div class="panel-heading">
+                                <span class="panel-icon"><i class="fa fa-edit"></i>
+                                </span>
+                                <span class="panel-title"> Enrol Users</span>
+                            </div>
+                            <div class="panel-body">
+                                
+                                <div class="admin-form">
+
+                                    <p></p>
+
+                                    {% for user in users %}
+                                        {# {% if user.id == enrolments[loop.index-1].user.id %} #}
+                                        {% if user.id in enrolledUserIds %}
+                                        {% else %}
+                                            {# only ROLE_USER and ROLEL_TEACHER will display for enrolment #}
+                                            {% if user.roles[0].role == "ROLE_STUDENT" or user.roles[0].role == "ROLE_TEACHER" %}
+                                                <div class="media pb20">
+                                                    <a class="pull-left" href="#"> 
+                                                        <img class="media-object mn thumbnail thumbnail-sm rounded mw80" src="http://127.0.0.1:8000/bundles/secure/default/default-header-user.jpg" alt="...">
+                                                    </a>
+                                                    <a href="{{ path('wit_userenrolment_default_enrol', { 'course_id': course.id, 'user_id': user.id }) }}" class="btn btn-warning br2 btn-md fs12 pull-right" aria-expanded="false" style="margin-top:15px;">Enrol</a>
+                                                    <div class="media-body mb5">
+                                                        <h4 class="media-heading mbn">{{ user.firstname|capitalize }} {{ user.lastname|capitalize }} <small> - Joining date: {{ user.dateCreated|date('F j, Y, g:i a') }}</small></h4>
+                                                        <p></p>
+                                                        <p>Id: {{ user.nationalid }}, Email: {{ user.email }}</p>
+                                                        <p><b>{{ user.roles[0].name }}</b></p>
+                                                    </div>
+                                                </div>
+                                                <hr class="short alt">
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    <!-- end .form-body section -->
+                                    <div class="panel-footer clearfix">
+                                        <a href="{{ path('wit_coursemanagement_default_index') }}" class="button btn-primary pull-right">Finish</a>
+                                    </div>
+                                    <!-- end .form-footer section -->
+
+                                </div>
+
+
+                                
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    
+{% endblock %}
+
+{% block pagescripts %}
+    
+{% endblock %}

@@ -1,0 +1,127 @@
+<header class="navbar navbar-fixed-top bg-light">
+    <div class="navbar-branding">
+        <a class="navbar-brand" href="{{ path('wit_student_default_index') }}"> <b>WIT</b>.EDU.SA</a>
+        <span id="toggle_sidemenu_l" class="glyphicons glyphicons-show_lines"></span>
+        <ul class="nav navbar-nav pull-right hidden">
+            <li>
+                <a href="#" class="sidebar-menu-toggle">
+                    <span class="octicon octicon-ruby fs20 mr10 pull-right "></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <ul class="nav navbar-nav navbar-left">
+        <li class="hidden-xs">
+            <a class="request-fullscreen toggle-active" href="#">
+                <span class="octicon octicon-screen-full fs18"></span>
+            </a>
+        </li>
+    </ul>
+    <form class="navbar-form navbar-left navbar-search ml5" role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search...">
+        </div>
+    </form>
+    <ul class="nav navbar-nav navbar-right">
+        <!--
+        <li class="dropdown dropdown-item-slide">
+            <a class="dropdown-toggle pl10 pr10" data-toggle="dropdown" href="#">
+                <span class="octicon octicon-radio-tower fs18"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-hover dropdown-persist pn w350 bg-white animated animated-shorter fadeIn" role="menu">
+                <li class="bg-light p8">
+                    <span class="fw600 pl5 lh30"> Notifications</span>
+                    <span class="label label-warning label-sm pull-right lh20 h-20 mt5 mr5">12</span>
+                </li>
+                <li class="p10 br-t item-1">
+                    <div class="media">
+                        <a class="media-left" href="#"> <img src="{{ asset('bundles/secure/assets/img/avatars/2.jpg') }}" class="mw40" alt="holder-img"> </a>
+                        <div class="media-body va-m">
+                            <h5 class="media-heading mv5">Article <small class="text-muted">- 08/16/22</small> </h5> Last Updated 36 days ago by
+                            <a class="text-system" href="#"> Max </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="p10 br-t item-2">
+                    <div class="media">
+                        <a class="media-left" href="#"> <img src="{{ asset('bundles/secure/assets/img/avatars/3.jpg') }}" class="mw40" alt="holder-img"> </a>
+                        <div class="media-body va-m">
+                            <h5 class="media-heading mv5">Article <small class="text-muted">- 08/16/22</small> </h5> Last Updated 36 days ago by
+                            <a class="text-system" href="#"> Max </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="p10 br-t item-3">
+                    <div class="media">
+                        <a class="media-left" href="#"> <img src="{{ asset('bundles/secure/assets/img/avatars/4.jpg') }}" class="mw40" alt="holder-img"> </a>
+                        <div class="media-body va-m">
+                            <h5 class="media-heading mv5">Article <small class="text-muted">- 08/16/22</small> </h5> Last Updated 36 days ago by
+                            <a class="text-system" href="#"> Max </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="p10 br-t item-4">
+                    <div class="media">
+                        <a class="media-left" href="#"> <img src="{{ asset('bundles/secure/assets/img/avatars/5.jpg') }}" class="mw40" alt="holder-img"> </a>
+                        <div class="media-body va-m">
+                            <h5 class="media-heading mv5">Article <small class="text-muted">- 08/16/22</small> </h5> Last Updated 36 days ago by
+                            <a class="text-system" href="#"> Max </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </li>
+        -->
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <span class="flag-xs flag-us"></span>
+                <span class="fw600">US</span>
+            </a>
+            <ul class="dropdown-menu animated animated-short flipInX" role="menu">
+                <li>
+                    <a href="javascript:void(0);" class="fw600">
+                        <span class="flag-xs flag-tr mr10"></span> Arabic </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="fw600">
+                        <span class="flag-xs flag-us mr10"></span> English </a>
+                </li>
+            </ul>
+        </li>
+        <li class="ph10 pv20 hidden-xs"> <i class="fa fa-circle text-tp fs8"></i>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle fw600 p15" data-toggle="dropdown"> 
+                {% if app.user.docYourPhoto %}
+                    <img src="{{ vich_uploader_asset(app.user, 'docYourPhotoFile') }}" alt="avatar" class="mw30 br64 mr15">
+                {% else %}
+                    <img src="{{ _defaultImages }}/default-header-user.jpg" alt="avatar" class="mw30 br64 mr15">
+                {% endif %}
+                <span>{{ app.user.firstname|capitalize }} <span style="color:#898989;">({{ app.security.token.roles[0].name }})</span></span>
+                <span class="caret caret-tp hidden-xs"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-persist pn w250 bg-white" role="menu">
+                <li class="of-h">
+                    <a href="#" class="fw600 p12 animated animated-short fadeInUp">
+                        <span class="fa fa-envelope pr5"></span> Messages
+                        <span class="pull-right lh20 h-20 label label-warning label-sm">2</span>
+                    </a>
+                </li>
+                <li class="br-t of-h">
+                    <a href="{{ path('wit_account_profile_index') }}" class="fw600 p12 animated animated-short fadeInDown">
+                        <span class="fa fa-user pr5"></span> Your Profile </a>
+                </li>
+                <li class="br-t of-h">
+                    <a href="{{ path('wit_user_default_changepassword') }}" class="fw600 p12 animated animated-short fadeInDown">
+                        <span class="fa fa-gear pr5"></span> Change Password 
+                     </a>
+                </li>
+                <li class="br-t of-h">
+                    <a href="{{ path("wit_auth_security_logout") }}" class="fw600 p12 animated animated-short fadeInDown">
+                        <span class="fa fa-power-off pr5"></span> Logout 
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</header>

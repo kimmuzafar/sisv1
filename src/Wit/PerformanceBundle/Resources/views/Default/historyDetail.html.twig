@@ -1,0 +1,267 @@
+{% block pagestylesup %}
+    <!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/media/css/dataTables.bootstrap.css') }}">
+
+    <!-- Datatables Editor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') }}">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/magnific/magnific-popup.css') }}">
+{% endblock %}
+
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+{% endblock %}
+
+{% extends ':performance:performance.html.twig' %}
+
+{% block title %}Performance History Detail{% endblock %}
+
+{% set breadcrumbPage = "Performance History Detail" %}
+
+{% block content %}
+    
+    <!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+        
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr">
+
+            <div class="col-md-12 center-block">
+
+                <div class="mw1100 center-block">
+                    <h2 class="lh30 mt25 text-center">QUARTERLY PERFORMANCE DETAIL</h2>
+                    <h4 class="text-primary text-center" style="text-transform: uppercase;">
+                        {{ transcriptDetails[0].transcript.nameEnglish }}, ({{ transcriptDetails[0].transcript.witId }})
+                    </h4>
+                    <p class="text-center">{{ transcriptDetails[0].transcript.program|upper }} &#8594; {{ transcriptDetails[0].transcript.batch|upper }} &#8594; {{ transcriptDetails[0].transcript.quarter|upper }}</p>
+                </div>
+
+                {% for flashMessage in app.session.flashbag.get('error') %}
+                    {% if flashMessage %}
+                        <div class="alert alert-success alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <i class="fa fa-remove pr10"></i>
+                            <strong>{{ flashMessage | raw }}</strong>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <div class="row">
+                    
+                    <div class="col-md-12">
+                        
+                        <div class="panel panel-visible" id="spy3">
+                            <div class="panel-heading">
+                                <div class="panel-title hidden-xs">
+                                    <span class="glyphicon glyphicon-tasks"></span>
+                                    Quarter Performance Detail
+                                </div>
+                            </div>
+                            <div class="panel-body pn">
+                                
+                                <table class="table admin-form theme-warning tc-checkbox-1 fs13" id="user-role-datatable">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">#</th>
+                                            <th class="text-left">COURSE</th>
+                                            <th class="text-left">CODE</th>
+                                            <th class="text-center">CRHS</th>
+                                            <th class="text-center">T.MARKS</th>
+                                            <th class="text-center">GRADE</th>
+                                            <th class="text-center">Q.POINTS</th>
+                                            <th class="text-center">T.Q.POINTS</th>
+                                            <th class="text-center">REMARKS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for tdetail in transcriptDetails %}
+                                            <tr>
+                                            	<td class="text-center">{{ loop.index }}</td>
+                                                <td class="text-left">{{ tdetail.course }}</td>
+                                                <td class="text-left">{{ tdetail.code }}</td>
+                                                <td class="text-center">{{ tdetail.creditHours }}</td>
+                                                <td class="text-center">{{ tdetail.marks }}</td>
+                                                <td class="text-center">{{ tdetail.grade }}</td>
+                                                <td class="text-center">{{ tdetail.points }}</td>
+                                                <td class="text-center">{{ tdetail.subjectTotalPoints }}</td>
+                                                <td class="text-center">
+                                                	{% if tdetail.remarks == "Pass" %}
+		                                                <div class="btn btn-xs btn-success btn-block">{{ tdetail.remarks }}</div>
+		                                            {% elseif tdetail.remarks == "Fail" %}
+		                                                <div class="btn btn-xs btn-danger btn-block">{{ tdetail.remarks }}</div>
+		                                            {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                    	<tr><td colspan="9"></td></tr>
+                                        <tr>
+                                        	<td></td>
+                                        	<td></td>
+                                        	<td></td>
+                                        	<td></td>
+                                        	<td></td>
+                                        	<td></td>
+                                        	<td></td>
+                                        	<td align="center"><b>G.P.A</b></td>
+                                            <td align="center">{{ transcriptDetails[0].transcript.gpa }}</td>
+                                        </tr>
+                                        <tr>
+                                        	<td></td>
+                                        	<td></td>
+                                        	<td></td>
+                                        	<td></td>
+                                        	<td></td>
+                                        	<td></td>
+                                        	<td></td>
+                                        	<td align="center"><b>A.G.P.A</b></td>
+                                            <td align="center">{{ transcriptDetails[0].transcript.agpa }}</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+
+
+        {# <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- menu quick links -->
+            <div class="p20 admin-form">
+
+                <h4 class="mt5 text-muted fw500"> Search / Filter</h4>
+
+                <hr class="short">
+
+                
+
+            </div>
+
+        </aside>
+                <!-- end: .tray-right --> #}
+
+
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    <style>
+        /* demo page styles */
+        .custom-nav-animation li {
+            display: none;
+        }
+        .custom-nav-animation li.animated {
+            display: block;
+        }
+        .email-template {
+            display: none;
+        }
+        .email-template.active {
+            display: block;
+        }
+
+        /*th, td { white-space: nowrap; }*/
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+    <!-- Datatables -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+
+    <!-- Datatables Tabletools addon -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+
+    <!-- Datatables Editor addon - READ LICENSING NOT MIT  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/dataTables.editor.js') }}"></script>
+
+    <!-- Datatables Bootstrap Modifications  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/editor.bootstrap.js') }}"></script>
+    
+    <script type="text/javascript">
+
+        function filterByProgram(pid){
+            var route = "{{ path('wit_performance_default_history_1', { 'program_id': "PLACEHOLDER" }) }}";
+            window.location = route.replace("PLACEHOLDER", pid);
+        }
+
+        function filterByBatch(pid, bid){
+            var route = "{{ path('wit_performance_default_history_2', { 'program_id': "PLACEHOLDER1", 'batch_id': "PLACEHOLDER2" }) }}";
+            var replace1 = route.replace("PLACEHOLDER1", pid);
+            var replace2 = replace1.replace("PLACEHOLDER2", bid);
+            window.location = replace2;
+        }
+
+        function filterByQuarter(pid, bid, qid){
+            var route = "{{ path('wit_performance_default_history_3', { 'program_id': "PLACEHOLDER1", 'batch_id': "PLACEHOLDER2", 'quarter_id': "PLACEHOLDER3" }) }}";
+            var replace1 = route.replace("PLACEHOLDER1", pid);
+            var replace2 = replace1.replace("PLACEHOLDER2", bid);
+            var replace3 = replace2.replace("PLACEHOLDER3", qid);
+            window.location = replace3;
+        }
+
+        function filterByCourse(pid, bid, qid, cid){
+            var route = "{{ path('wit_performance_default_history_4', { 'program_id': "PLACEHOLDER1", 'batch_id': "PLACEHOLDER2", 'quarter_id': "PLACEHOLDER3", 'course_id': "PLACEHOLDER4" }) }}";
+            var replace1 = route.replace("PLACEHOLDER1", pid);
+            var replace2 = replace1.replace("PLACEHOLDER2", bid);
+            var replace3 = replace2.replace("PLACEHOLDER3", qid);
+            var replace4 = replace3.replace("PLACEHOLDER4", cid);
+            window.location = replace4;
+        }
+
+        function filterByUser(pid, bid, qid, cid, uwid){
+            var route = "{{ path('wit_performance_default_history_5', { 'program_id': "PLACEHOLDER1", 'batch_id': "PLACEHOLDER2", 'quarter_id': "PLACEHOLDER3", 'course_id': "PLACEHOLDER4", 'user_wit_id': "PLACEHOLDER5" }) }}";
+            var replace1 = route.replace("PLACEHOLDER1", pid);
+            var replace2 = replace1.replace("PLACEHOLDER2", bid);
+            var replace3 = replace2.replace("PLACEHOLDER3", qid);
+            var replace4 = replace3.replace("PLACEHOLDER4", cid);
+            var replace5 = replace4.replace("PLACEHOLDER5", uwid);
+            window.location = replace5;
+        }
+        
+
+        jQuery(document).ready(function() {
+            
+            $('#user-role-datatable').dataTable({
+                "aoColumnDefs": [{
+                    'bSortable': false,
+                    'aTargets': [-1]
+                }],
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "",
+                        "sNext": ""
+                    }
+                },
+                "iDisplayLength": 10,
+                "aLengthMenu": [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+                ],
+                "sDom": '<"dt-panelmenu clearfix"Tfr>t<"dt-panelfooter clearfix"ip>',
+                "oTableTools": {
+                    "sSwfPath": "{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/swf/copy_csv_xls_pdf.swf') }}"
+                }
+            });
+            
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

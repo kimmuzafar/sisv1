@@ -1,0 +1,161 @@
+<ul class="nav sidebar-menu">
+    <li class="sidebar-label pt20">Menu</li>
+    <li class="active">
+        <a href="{{ path('wit_admin_default_index') }}">
+            <span class="glyphicons glyphicons-home"></span>
+            <span class="sidebar-title">Dashboard</span>
+        </a>
+    </li>
+    <li>
+        <a href="#" class="accordion-toggle">
+            <span class="glyphicon glyphicon-folder-open"></span> 
+            <span class="sidebar-title">Course Management</span> 
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="{{ path('wit_coursemanagement_category_index') }}">&nbsp;&nbsp;&nbsp; Programs</a></li>
+            <li><a href="{{ path('wit_coursemanagement_batch_index') }}">&nbsp;&nbsp;&nbsp; Batches</a></li>
+            <li><a href="{{ path('wit_coursemanagement_quarter_index') }}">&nbsp;&nbsp;&nbsp; Quarters</a></li>
+            <li><a href="{{ path('wit_coursemanagement_default_index') }}">&nbsp;&nbsp;&nbsp; Courses</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <a href="#" class="accordion-toggle">
+            <span class="glyphicon glyphicon-transfer"></span> 
+            <span class="sidebar-title">User Enrolment</span> 
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="{{ path('wit_userenrolment_default_new') }}">&nbsp;&nbsp;&nbsp; New Enrolment <i>(Global)</i></a></li>
+            <li><a href="{{ path('wit_userenrolment_default_quarter') }}">&nbsp;&nbsp;&nbsp; New Enrolment <i>(Quarter)</i></a></li>
+            <li><a href="{{ path('wit_userenrolment_default_viewtrainees') }}">&nbsp;&nbsp;&nbsp; View Trainees <i>(Active)</i></a></li>
+            <li><a href="{{ path('wit_userenrolment_default_viewteachers') }}">&nbsp;&nbsp;&nbsp; View Teachers <i>(Active)</i></a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a href="#" class="accordion-toggle menu-open">
+            <!-- <span class="glyphicons glyphicons-rabbit"></span> -->
+            <span class="glyphicons glyphicons-stats"></span>
+            <span class="sidebar-title">Performance</span> 
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="{{ path('wit_performance_default_index') }}">&nbsp;&nbsp;&nbsp; Course-wise Performance</a></li>
+            <li><a href="{{ path('wit_performance_default_byquarter') }}">&nbsp;&nbsp;&nbsp; Quarter-wise Performance</a></li>
+            <li><a href="{{ path('wit_performance_default_history') }}">&nbsp;&nbsp;&nbsp; Performance History</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <a href="#" class="accordion-toggle">
+            <span class="glyphicons glyphicons-user"></span> 
+            <span class="sidebar-title">User Management</span> 
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="{{ path('wit_admin_user_index') }}">&nbsp;&nbsp;&nbsp; View All Users</a></li>
+            <li><a href="{{ path('wit_admin_user_index') }}">&nbsp;&nbsp;&nbsp; Add New User</a></li>
+            <li><a href="{{ path('wit_admin_user_bulkupload') }}">&nbsp;&nbsp;&nbsp; Bulk Upload Users</a></li>
+            <li><a href="{{ path('wit_admin_usergroup_index') }}">&nbsp;&nbsp;&nbsp; User Groups</a></li>
+            <li><a href="{{ path('wit_admin_user_roles') }}">&nbsp;&nbsp;&nbsp; User Roles</a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a class="accordion-toggle" href="#">
+            <span class="glyphicons glyphicons-envelope"></span>
+            <span class="sidebar-title">Send Email</span>
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="{{ path('wit_sendemail_default_appgroup') }}">&nbsp;&nbsp;&nbsp; to Application Group </a></li>
+            <li><a href="{{ path('wit_sendemail_default_usergroup') }}">&nbsp;&nbsp;&nbsp; to User Group </a></li>
+            <li><a href="{{ path('wit_sendemail_default_index') }}">&nbsp;&nbsp;&nbsp; Sent History </a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a class="accordion-toggle" href="#">
+            <span class="glyphicon glyphicon-phone"></span>
+            <span class="sidebar-title">Send SMS</span>
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="">&nbsp;&nbsp;&nbsp; to Application Group </a></li>
+            <li><a href="">&nbsp;&nbsp;&nbsp; to User Group </a></li>
+            <li><a href="">&nbsp;&nbsp;&nbsp; Sent History </a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <a class="accordion-toggle" href="#">
+            <span class="glyphicons glyphicons-settings"></span>
+            <span class="sidebar-title">Setting</span>
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            {# <li><a href="{{ path('wit_setting_default_index') }}"><span class="glyphicons glyphicons-calendar"></span> General</a></li> #}
+            <li>
+                <a href="#" class="accordion-toggle">
+                    <span class="glyphicons glyphicons-calendar"></span> 
+                    <span class="sidebar-title">General</span> 
+                    <span class="caret"></span>
+                </a>
+                <ul class="nav sub-nav">
+                    <li><a href=""> <span class="glyphicons glyphicons-list"></span> Date/Time</a></li>
+                    <li><a href="{{ path('wit_setting_country_index') }}"> <span class="glyphicons glyphicons-list"></span> Country</a></li>
+                    <li><a href="{{ path('wit_setting_city_index') }}"> <span class="glyphicons glyphicons-list"></span> City</a></li>
+                    <li><a href="{{ path('wit_setting_maritalstatus_index') }}"> <span class="glyphicons glyphicons-list"></span> Marital Status</a></li>
+                    <li><a href="{{ path('wit_setting_gender_index') }}"> <span class="glyphicons glyphicons-list"></span> Gender</a></li>
+                    <li><a href="{{ path('wit_setting_studylevel_index') }}"> <span class="glyphicons glyphicons-list"></span> Study Level</a></li>
+                    <li><a href="{{ path('wit_setting_completiondate_index') }}"> <span class="glyphicons glyphicons-list"></span> Completion Date</a></li>
+                    <li><a href="{{ path('wit_setting_grade_index') }}"> <span class="glyphicons glyphicons-list"></span> Grade</a></li>
+                    <li><a href="{{ path('wit_setting_accumulatedgrade_index') }}"> <span class="glyphicons glyphicons-list"></span> Accumulated Grade</a></li>
+                    <li><a href="{{ path('wit_setting_qiyasgrade_index') }}"> <span class="glyphicons glyphicons-list"></span> Qiyas Grade</a></li>
+                    <li><a href="{{ path('wit_setting_englishgrade_index') }}"> <span class="glyphicons glyphicons-list"></span> English Grade</a></li>
+                    <li><a href="{{ path('wit_setting_major_index') }}"> <span class="glyphicons glyphicons-list"></span> Majors</a></li>
+                    <li><a href="{{ path('wit_setting_hearaboutus_index') }}"> <span class="glyphicons glyphicons-list"></span> Hear About Us</a></li>
+                </ul>
+            </li>
+            <li><a href="{{ path('wit_setting_organization_index') }}"><span class="glyphicons glyphicons-user_add"></span> Organization Profile </a></li>
+            <li><a href="{{ path('wit_setting_user_index') }}"><span class="glyphicons glyphicons-show_big_thumbnails"></span> User </a></li>
+            <li><a href=""><span class="glyphicons glyphicons-sampler"></span> SMS Setting </a></li>
+            <li><a href=""><span class="glyphicons glyphicons-sampler"></span> Help Desk </a></li>
+            <li><a href=""><span class="glyphicons glyphicons-sampler"></span> Admission Setting </a></li>
+            <li><a href=""><span class="glyphicons glyphicons-sampler"></span> Termination Setting </a></li>
+        </ul>
+    </li>
+    
+    <!-- sidebar bullets -->
+    <li class="sidebar-label pt20">Misc.</li>
+    
+    <li>
+        <a href="#">
+            <span class="octicon octicon-radio-tower"></span>
+            <span class="sidebar-title">Notification Center</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="">
+            <span class="glyphicons glyphicons-settings"></span>
+            <span class="sidebar-title">Menu Settings</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="{{ path('wit_quicknews_default_index') }}">
+            <span class="glyphicon glyphicon-calendar"></span>
+            <span class="sidebar-title">Quick News</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="{{ path('wit_user_default_changepassword') }}">
+            <span class="glyphicon glyphicon-lock"></span>
+            <span class="sidebar-title">Change Password </span>
+        </a>
+    </li>
+</ul>

@@ -1,0 +1,470 @@
+{% extends ':user:user.html.twig' %}
+
+{% block title %}View / User / Application{% endblock %}
+
+{% block pagestylesup %}
+	<!-- Admin Forms CSS -->
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+{% endblock %}
+
+{% set breadcrumbPage = "View Application" %}
+
+{% block content %}
+
+	<!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+        
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr">
+            
+            <div class="mw1100 center-block">
+                <h2 class="lh30 mt25 text-center">YOUR APPLICATION</h2>
+                <p class="text-center">You are currently viewing your submitted application and your application reference # is: {{ application.applicationReferenceNo }}</p>
+            </div>
+            
+            <div class="row">
+                
+                <div class="col-md-12 center-block">
+
+                    <!-- Personal Info -->
+                    <div class="panel mb50" id="xedit-demo">
+                        <div class="panel-heading">
+                            <span class="panel-title">Personal Details</span>
+                        </div>
+                        <div class="panel-body">
+
+                            <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 35%;">FIRST NAME</td>
+                                        <td style="width: 65%;">{{ application.firstname|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>FATHER'S NAME</td>
+                                        <td>{{ application.fathersName|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>GRAND FATHER'S NAME</td>
+                                        <td>{{ application.grandFathersName|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>FAMILY NAME</td>
+                                        <td>{{ application.familyName|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MARITAL STATUS</td>
+                                        <td>{{ application.maritalStatus|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>BIRTH DATE</td>
+                                        <td>{{ application.birthDate }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>NATIONAL ID</td>
+                                        <td>{{ application.nationalId }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>GENDER</td>
+                                        <td>{{ application.gender }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Qualification Info -->
+                    <div class="panel mb50" id="xedit-demo">
+                        <div class="panel-heading">
+                            <span class="panel-title">Qualification Details</span>
+                        </div>
+                        <div class="panel-body">
+                            <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 35%;">STUDY LEVEL</td>
+                                        <td style="width: 65%;">{{ application.firstname|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>COMPLETION DATE</td>
+                                        <td>{{ application.completionDate }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>COMPLETION CITY</td>
+                                        <td>{{ application.completionCity|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>GRADE</td>
+                                        <td>{{ application.grade }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ACCUMULATED GRADE</td>
+                                        <td>{{ application.accumulatedGrade }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>QIYAS GRADE</td>
+                                        <td>{{ application.qiyasGrade }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ENGLISH GRADE</td>
+                                        <td>{{ application.englishGrade }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MAJORS</td>
+                                        <td>{{ application.major }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Current Address Info -->
+                    <div class="panel mb50" id="xedit-demo">
+                        <div class="panel-heading">
+                            <span class="panel-title">Current Address</span>
+                        </div>
+                        <div class="panel-body">
+                            <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 35%;">LIVING PLACE</td>
+                                        <td style="width: 65%;">{{ application.currentLivingPlace|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>HOUSE NO.</td>
+                                        <td>{{ application.houseNo }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>STREET NAME</td>
+                                        <td>{{ application.streetName|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>P.O.BOX</td>
+                                        <td>{{ application.pobox|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>CITY</td>
+                                        <td>{{ application.city|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>COUNTRY</td>
+                                        <td>{{ application.country|capitalize }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Permanent address Info -->
+                    <div class="panel mb50" id="xedit-demo">
+                        <div class="panel-heading">
+                            <span class="panel-title">Permanent Address</span>
+                        </div>
+                        <div class="panel-body">
+                            <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 35%;">HOUSE NO.</td>
+                                        <td style="width: 65%;">{{ application.permanentHouseNo|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>STREET NAME</td>
+                                        <td>{{ application.permanentStreetName|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>P.O.BOX</td>
+                                        <td>{{ application.permanentPobox|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>POSTAL CODE</td>
+                                        <td>{{ application.permanentPostalCode|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>CITY</td>
+                                        <td>{{ application.permanentCity|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>COUNTRY</td>
+                                        <td>{{ application.permanentCountry|capitalize }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="panel mb50" id="xedit-demo">
+                        <div class="panel-heading">
+                            <span class="panel-title">Contact Information</span>
+                        </div>
+                        <div class="panel-body">
+                            <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 35%;">TELEPHONE</td>
+                                        <td style="width: 65%;">{{ application.telephone|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MOBILE</td>
+                                        <td>{{ application.mobile|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>EMAIL ADDRESS</td>
+                                        <td>{{ application.email|capitalize }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Emergency contact 1 -->
+                    <div class="panel mb50" id="xedit-demo">
+                        <div class="panel-heading">
+                            <span class="panel-title">Emergency Contact 1</span>
+                        </div>
+                        <div class="panel-body">
+                            <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 35%;">NAME</td>
+                                        <td style="width: 65%;">{{ application.emergency1Name|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MOBILE NUMBER</td>
+                                        <td>{{ application.emergency1Mobile|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PHONE NUMBER</td>
+                                        <td>{{ application.emergency1Phone|capitalize }}{{ application.firstname|capitalize }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Emergency contact 2 -->
+                    <div class="panel mb50" id="xedit-demo">
+                        <div class="panel-heading">
+                            <span class="panel-title">Emergency Contact 2</span>
+                        </div>
+                        <div class="panel-body">
+                            <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 35%;">NAME</td>
+                                        <td style="width: 65%;">{{ application.emergency2Name|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MOBILE NUMBER</td>
+                                        <td>{{ application.emergency2Mobile|capitalize }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PHONE NUMBER</td>
+                                        <td>{{ application.emergency2Phone|capitalize }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Documents Info -->
+                    <div class="panel mb50" id="xedit-demo">
+                        <div class="panel-heading">
+                            <span class="panel-title">Uploaded Documents</span>
+                        </div>
+                        <div class="panel-body">
+                            <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 35%;">NATIONAL ID</td>
+                                        <td style="width: 65%;">
+                                            {% if application.docNationalId %}
+                                                <a href="{{ vich_uploader_asset(application, 'docNationalIdFile') }}" target="_blank">Download</a>
+                                            {% else %}
+                                                N/a
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>CERTIFICATE</td>
+                                        <td>
+                                            {% if application.docCertificate %}
+                                                <a href="{{ vich_uploader_asset(application, 'docCertificateFile') }}" target="_blank">Download</a>
+                                            {% else %}
+                                                N/a
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>QIYAS CERTIFICATE</td>
+                                        <td>
+                                            {% if application.docQiyasCertificate %}
+                                                <a href="{{ vich_uploader_asset(application, 'docQiyasCertificateFile') }}" target="_blank">Download</a>
+                                            {% else %}
+                                                N/a
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>PHOTO</td>
+                                        <td>
+                                            {% if application.docYourPhoto %}
+                                                <a href="{{ vich_uploader_asset(application, 'docYourPhotoFile') }}" target="_blank">Download</a>
+                                            {% else %}
+                                                N/a
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- other Info -->
+                    <div class="panel mb50" id="xedit-demo">
+                        <div class="panel-heading">
+                            <span class="panel-title">Other</span>
+                        </div>
+                        <div class="panel-body">
+                            <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 35%;">REFERENCE NUMBER</td>
+                                        <td style="width: 65%;">{{ application.applicationReferenceNo }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SUBMITTED ON</td>
+                                        <td>{{ application.dateCreated|date('Y-m-d') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>STATUS</td>
+                                        <td>
+                                            {% if application.applicationStatus == 0 %}
+                                                <div class="btn btn-xs btn-warning btn-block">Pending</div>
+                                            {% elseif application.applicationStatus == 1 %}
+                                                <div class="btn btn-xs btn-system btn-block">Reviewed</div>
+                                            {% elseif application.applicationStatus == 2 %}
+                                                <div class="btn btn-xs btn-success btn-block">Accepted</div>
+                                            {% elseif application.applicationStatus == 3 %}
+                                                <div class="btn btn-xs btn-danger btn-block">Rejected</div>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    
+                </div>
+                <!-- end: .col-md-12 -->
+
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- menu quick links -->
+            <div class="p20 admin-form">
+
+                <h4 class="mt5 text-muted fw500"> AVAILABLE OPTIONS</h4>
+
+                <hr class="short">
+
+                <div class="section row">
+                    <div class="col-sm-12">
+                        
+                        <p><a href="javascript:window.print()" class="btn btn-default btn-block"><i class="fa fa-print pr5"></i> Print Application</a></p>
+
+                        <hr class="short">
+
+                        <p><button class="btn btn-primary btn-gradient btn-block" type="button"><i class="fa fa-floppy-o pr5"></i> Save Application</button></p>
+
+                        <hr class="short">
+
+                        <p><a href="{{ path('wit_user_application_status', {'application_id':application.id}) }}" class="btn btn-dark btn-gradient dark btn-block"><i class="glyphicon glyphicon-arrow-left"></i></a></p>
+
+                        <hr class="short">
+
+                    </div>
+                </div>
+
+            </div>
+
+        </aside>
+        <!-- end: .tray-right -->
+
+    </section>
+    <!-- End: Content -->
+    
+{% endblock %}
+
+{% block pagestylesdown %}	
+	<style>
+    /*page demo styles*/
+    .wizard .steps .fa,
+    .wizard .steps .glyphicon,
+    .wizard .steps .glyphicon {
+        display: none;
+    }
+    .error{color:red !important;}
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+	<!-- Page Plugins -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/advanced/steps/jquery.steps.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/additional-methods.min.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js') }}"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+
+            // Form Wizard 
+            var form = $("#form-wizard");
+            form.validate({
+                /*
+                errorPlacement: function errorPlacement(error, element) {
+                    element.before(error);
+                },
+                */
+                rules: {
+                    "wit_modelbundle_application[nationalId]": {
+				      required: true,
+				      number: true
+				    }
+                }
+            });
+            form.children(".wizard").steps({
+                headerTag: ".wizard-section-title",
+                bodyTag: ".wizard-section",
+                onStepChanging: function(event, currentIndex, newIndex) {
+                    form.validate().settings.ignore = ":disabled,:hidden";
+                    return form.valid();
+                },
+                onFinishing: function(event, currentIndex) {
+                    form.validate().settings.ignore = ":disabled";
+                    return form.valid();
+                },
+                onFinished: function(event, currentIndex) {
+                    form.submit();
+                }
+            });
+
+
+            /* @date picker
+            ------------------------------------------------------------------ */
+            $("#wit_modelbundle_application_birthDate").datepicker({
+                prevText: '<i class="fa fa-chevron-left"></i>',
+                nextText: '<i class="fa fa-chevron-right"></i>',
+                showButtonPanel: false
+            });
+
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

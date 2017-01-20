@@ -1,0 +1,107 @@
+{% extends ':transcript:transcript.html.twig' %}
+
+{% block title %}Transcript / Dashboard{% endblock %}
+
+{% set breadcrumbPage = "Transcripts" %}
+
+{% block content %}
+    <section id="content" class="table-layout animated fadeIn">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center p25 va-t posr">
+
+            <!-- Admin-panels -->
+            <div class="admin-panels fade-onload sb-l-o-full">
+
+                {#<h3 class="text-center mb25 fw400">Menu Item Options</h3>#}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div data-animate="fadeIn" class="panel panel-transparent">
+                            <h5 class="text-muted mb20 text-center">TRANSCRIPTS OF RECORD NOTIFICATIONS</h5>
+                        </div>
+                    </div>
+
+                    <!-- News List -->
+                    <div class="col-md-12">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <span class="panel-title">NOTIFICATIONS</span>
+                                <div class="widget-menu pull-right mr10">
+                                    <a href="{{ path('wit_quicknews_default_viewall') }}">Browse All</a>
+                                </div>
+                            </div>
+                            <div class="panel-body pn">
+                                <table class="table mbn tc-med-1 tc-bold-last">
+                                    <tbody>
+                                    	{#
+                                        {% for qn in quickNews %}
+                                            <tr>
+                                                <td {% if qn.isRead==0 %}style="font-weight:bold; font-size:15px;"{% endif %}>
+                                                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i>
+                                                    <span class="va-t mr10"></span><a href="{{ path('wit_quicknews_default_view', {'id':qn.id}) }}">{{ qn.title }}</a>
+                                                </td>
+                                                <td style="font-weight:normal; color:#999;">{{ qn.dateCreated|date("F jS \\a\\t g:ia") }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        #}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    
+
+                </div><!-- End Row -->
+
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- store activity timeline -->
+            <ol class="timeline-list pl5 mt10">
+                {#
+                {% for log in adminLogs %}
+                    <li class="timeline-item">
+                        <div class="timeline-icon bg-warning"><span class="fa fa-pencil"></span></div>
+                        <div class="timeline-desc"><b>{{ log.generator }}</b> {{ log.detail }}.</div>
+                        <div class="timeline-date">{{ log.dateCreated|date('y/m/d') }}</div>
+                    </li>
+                {% endfor %}
+                #}
+                <!--
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-warning"><span class="fa fa-pencil"></span></div>
+                    <div class="timeline-desc"><b>System</b> Your application was reviewd.</div>
+                    <div class="timeline-date">5:25am</div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-system"><span class="fa fa-fire"></span></div>
+                    <div class="timeline-desc"><b>System</b> Your applicaiton is in pending.. waiting for review.</div>
+                    <div class="timeline-date">4:15am</div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-dark light"><span class="fa fa-tags"></span></div>
+                    <div class="timeline-desc"><b>System</b> You have completed your application..</div>
+                    <div class="timeline-date">8:25am</div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-system"><span class="fa fa-fire"></span></div>
+                    <div class="timeline-desc"><b>System</b> Your Account was successfully created and activated..</div>
+                    <div class="timeline-date">4:15am</div>
+                </li>
+                -->
+            </ol>
+
+        </aside>
+        <!-- end: .tray-right -->
+
+    </section>
+{% endblock %}

@@ -1,0 +1,107 @@
+<ul class="nav sidebar-menu">
+    <li class="sidebar-label pt20">Menu</li>
+    <li class="active">
+        <a href="{{ path('wit_teacher_default_index') }}">
+            <span class="glyphicons glyphicons-home"></span>
+            <span class="sidebar-title">Dashboard</span>
+        </a>
+    </li>
+    <li>
+        <a href="#" class="accordion-toggle">
+            <span class="glyphicon glyphicon-folder-open"></span>
+            <span class="sidebar-title">Courses</span>
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="{{ path('wit_teacher_course_index') }}">&nbsp;&nbsp;&nbsp; Current Courses</a></li>
+            <li><a href="">&nbsp;&nbsp;&nbsp; History</a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a href="#" class="accordion-toggle">
+            <!-- <span class="glyphicons glyphicons-font"></span> -->
+            <span class="glyphicons glyphicons-cup"></span>
+            <span class="sidebar-title">Grading</span> 
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="{{ path('wit_teacher_grade_peruserincourse') }}">&nbsp;&nbsp;&nbsp; User-wise in course</a></li>
+            <li><a href="">&nbsp;&nbsp;&nbsp; History</a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a href="#" class="accordion-toggle">
+            <span class="glyphicons glyphicons-restart"></span>
+            <span class="sidebar-title">re-Takes</span> 
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="{{ path('wit_teacher_course_retakes') }}">&nbsp;&nbsp;&nbsp; Course-wise (re-takes)</a></li>
+            <li><a href="">&nbsp;&nbsp;&nbsp; History</a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a href="#" class="accordion-toggle">
+            <span class="glyphicons glyphicons-alarm"></span>
+            <span class="sidebar-title">Schedules</span> 
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="">&nbsp;&nbsp;&nbsp; Current Schedules</a></li>
+            <li><a href="">&nbsp;&nbsp;&nbsp; History</a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a href="#" class="accordion-toggle">
+            <span class="glyphicons glyphicons-notes"></span>
+            <span class="sidebar-title">TODOs</span> 
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="">&nbsp;&nbsp;&nbsp; New Todo</a></li>
+            <li><a href="">&nbsp;&nbsp;&nbsp; History</a></li>
+        </ul>
+    </li>
+
+    <!--
+    <li>
+        <a class="accordion-toggle" href="#">
+            <span class="glyphicons glyphicons-envelope"></span>
+            <span class="sidebar-title">Final Exam</span>
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-edit"></span> Groups </a></li>
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-edit"></span> Send </a></li>
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-stopwatch"></span> History </a></li>
+        </ul>
+    </li>
+    -->
+    
+    <li class="sidebar-label pt20">Misc.</li>
+
+    <li>
+        <a href="{{ path('wit_teacher_default_index') }}">
+            <span class="octicon octicon-radio-tower"></span>
+            <span class="sidebar-title">Notifications</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="{{ path('wit_quicknews_default_index') }}">
+            <span class="glyphicon glyphicon-calendar"></span>
+            <span class="sidebar-title">Quick News</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="{{ path('wit_user_default_changepassword') }}">
+            <span class="glyphicon glyphicon-lock"></span>
+            <span class="sidebar-title">Change Password </span>
+        </a>
+    </li>
+</ul>

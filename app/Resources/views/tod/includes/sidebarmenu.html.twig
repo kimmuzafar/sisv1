@@ -1,0 +1,171 @@
+<ul class="nav sidebar-menu">
+    <li class="sidebar-label pt20">Menu</li>
+    <li class="active">
+        <a href="{{ path('wit_tod_default_index') }}">
+            <span class="glyphicons glyphicons-home"></span>
+            <span class="sidebar-title">Dashboard</span>
+        </a>
+    </li>
+
+    <li>
+        <a class="accordion-toggle menu-open" href="#">
+            <span class="glyphicon glyphicon-folder-open"></span>
+            <span class="sidebar-title">Course Management</span>
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="{{ path('wit_coursemanagement_category_index') }}">&nbsp;&nbsp;&nbsp; Categories</a></li>
+            <li><a href="{{ path('wit_coursemanagement_batch_index') }}">&nbsp;&nbsp;&nbsp; Batches</a></li>
+            <li><a href="{{ path('wit_coursemanagement_quarter_index') }}">&nbsp;&nbsp;&nbsp; Quarters</a></li>
+            <li><a href="{{ path('wit_coursemanagement_default_index') }}">&nbsp;&nbsp;&nbsp; Courses</a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a href="#" class="accordion-toggle menu-open">
+            <span class="glyphicon glyphicon-transfer"></span> 
+            <span class="sidebar-title">User Enrolment</span> 
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="{{ path('wit_userenrolment_default_new') }}">&nbsp;&nbsp;&nbsp; New Enrolment <i>(global)</i></a></li>
+            <li><a href="{{ path('wit_userenrolment_default_quarter') }}">&nbsp;&nbsp;&nbsp; New Enrolment <i>(Quarter)</i></a></li>
+            <li><a href="{{ path('wit_userenrolment_default_viewtrainees') }}">&nbsp;&nbsp;&nbsp; View Trainees <i>(active)</i></a></li>
+            <li><a href="{{ path('wit_userenrolment_default_viewteachers') }}">&nbsp;&nbsp;&nbsp; View Teachers <i>(active)</i></a></li>
+        </ul>
+    </li>
+    
+    {# <li>
+        <a class="accordion-toggle menu-open" href="#">
+            <span class="glyphicons glyphicons-show_big_thumbnails"></span>
+            <span class="sidebar-title">Admissions</span>
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <!--
+            <li><a href=""><span class="glyphicons glyphicons-calendar"></span> Admission Planner </a></li>
+            -->
+            <li><a href="{{ path('wit_sad_application_index') }}"><span class="glyphicons glyphicons-user_add"></span> User Applications </a></li>
+            <li><a href="{{ path('wit_sad_applicationgroup_index') }}"><span class="glyphicons glyphicons-show_big_thumbnails"></span> Application Groups </a></li>
+            <!--
+            <li><a href=""><span class="glyphicons glyphicons-sampler"></span> Archived Filtrations </a></li>
+            <li><a href=""><span class="glyphicons glyphicons-sampler"></span> Archived Applications </a></li>
+            -->
+        </ul>
+    </li>
+
+    <li>
+        <a class="accordion-toggle" href="#">
+            <span class="glyphicons glyphicons-envelope"></span>
+            <span class="sidebar-title">SMS</span>
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-edit"></span> Groups </a></li>
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-edit"></span> Send </a></li>
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-stopwatch"></span> History </a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a class="accordion-toggle" href="#">
+            <span class="glyphicons glyphicons-envelope"></span>
+            <span class="sidebar-title">Curriculum</span>
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-edit"></span> Batch/Course List </a></li>
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-edit"></span> Student List </a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a class="accordion-toggle" href="#">
+            <span class="glyphicons glyphicons-envelope"></span>
+            <span class="sidebar-title">Attendance</span>
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-stopwatch"></span> Attendance Setup </a></li>
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-stopwatch"></span> Take Attendance </a></li>
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-edit"></span> Report Generator </a></li>
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-edit"></span> Filtered/Saved Reports </a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a class="accordion-toggle" href="#">
+            <span class="glyphicons glyphicons-envelope"></span>
+            <span class="sidebar-title">Email</span>
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-stopwatch"></span> Groups </a></li>
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-stopwatch"></span> Send </a></li>
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-stopwatch"></span> History </a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a class="accordion-toggle" href="#">
+            <span class="glyphicons glyphicons-envelope"></span>
+            <span class="sidebar-title">Examination</span>
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-stopwatch"></span> Examination Planner </a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a class="accordion-toggle" href="#">
+            <span class="glyphicons glyphicons-envelope"></span>
+            <span class="sidebar-title">Termination</span>
+            <span class="caret"></span>
+        </a>
+        <ul class="nav sub-nav">
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-stopwatch"></span> New </a></li>
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-stopwatch"></span> Generate Letter </a></li>
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-stopwatch"></span> Self </a></li>
+            <li><a href="admin_plugins-panels.html"><span class="glyphicons glyphicons-stopwatch"></span> By Institute </a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a href="{{ path('wit_sad_default_index') }}">
+            <span class="glyphicons glyphicons-envelope"></span>
+            <span class="sidebar-title">Contact</span>
+        </a>
+    </li> #}
+
+    <!-- sidebar bullets -->
+    <li class="sidebar-label pt20">Setting</li>
+
+    <li>
+        <a href="#">
+            <span class="octicon octicon-radio-tower"></span>
+            <span class="sidebar-title">Notification Center</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="{{ path("wit_tod_criteria_index") }}">
+            <span class="glyphicon glyphicon-edit"></span>
+            <span class="sidebar-title">Grading Criteria</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="{{ path('wit_quicknews_default_index') }}">
+            <span class="glyphicon glyphicon-calendar"></span>
+            <span class="sidebar-title">Quick News</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="{{ path('wit_user_default_changepassword') }}">
+            <span class="glyphicon glyphicon-lock"></span>
+            <span class="sidebar-title">Change Password </span>
+        </a>
+    </li>
+</ul>

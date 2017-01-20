@@ -1,0 +1,421 @@
+{% block pagestylesup %}
+    <!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/media/css/dataTables.bootstrap.css') }}">
+
+    <!-- Datatables Editor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') }}">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/magnific/magnific-popup.css') }}">
+{% endblock %}
+
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+    
+    <!-- Admin Modals CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-plugins/admin-modal/adminmodal.css') }}">
+{% endblock %}
+
+{% extends ':performance:performance.html.twig' %}
+
+{% block title %}Performance Sheet{% endblock %}
+
+{% set breadcrumbPage = "Performance Sheet / " ~ course.title %}
+
+{% block content %}
+    
+    <!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+        
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr">
+
+            <div class="col-md-12 center-block">
+
+                <div class="mw1100 center-block">
+                    <h2 class="lh30 mt25 text-center">CONSOLIDATED STUDENTS' PERFORMANCE SHEET</h2>
+                    <p class="lead mb50 text-center">
+                        {{ course.title|upper }}<br />
+                        {{ course.code|upper }}
+                    </p>
+                </div>
+
+                {% for flashMessage in app.session.flashbag.get('error') %}
+                    {% if flashMessage %}
+                        <div class="alert alert-success alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <i class="fa fa-remove pr10"></i>
+                            <strong>{{ flashMessage | raw }}</strong>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                {% if onlineUserRole == "ROLE_DH" or onlineUserRole == "ROLE_TOD" %}
+                    {% if course.performancesheetApproval %}
+                        <div class="alert alert-success alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <i class="fa fa-remove pr10"></i>
+                            <strong>This consolidated performance sheet was already approved by you..</strong>
+                        </div>
+                    {% endif %}
+                {% endif %}
+
+                <!-- tiles -->
+                <div class="row">
+                    <div class="col-sm-4 col-xl-3">
+                        <div class="panel panel-tile text-center br-a br-grey">
+                            <div class="panel-footer br-t p12">
+                                <span class="fs11">{{ course.coursequarter.coursebatch.coursecategory.title }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-xl-3">
+                        <div class="panel panel-tile text-center br-a br-grey">
+                            <div class="panel-footer br-t p12">
+                                <span class="fs11">{{ course.coursequarter.coursebatch.title }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-xl-3">
+                        <div class="panel panel-tile text-center br-a br-grey">
+                            <div class="panel-footer br-t p12">
+                                <span class="fs11">{{ course.coursequarter.title }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end: tiles -->
+
+                <div class="row">
+                    
+                    <div class="col-md-12">
+                        
+                        <div class="panel panel-visible" id="spy3">
+                            <div class="panel-heading">
+                                <div class="panel-title hidden-xs">
+                                    <span class="glyphicon glyphicon-tasks"></span>
+                                    Student Performance Sheet for <b>"{{ course.title }}"</b>
+                                </div>
+                            </div>
+                            <div class="panel-body pn">
+                                
+                                <table class="table admin-form theme-warning tc-checkbox-1 fs13" id="user-role-datatable">
+                                    <thead>
+                                        <tr>
+                                            {# <th class="text-center">SELECT</th> #}
+                                            <th class="text-center">WIT ID</th>
+                                            <th class="text-center">NAME</th>
+                                            <th class="text-center">GROUP WORK</th>
+                                            <th class="text-center">ASSIGNMENTS</th>
+                                            <th class="text-center">QUIZZES</th>
+                                            <th class="text-center">ATTENDANCE</th>
+                                            <th class="text-center">FINAL EXAM</th>
+                                            <th class="text-center">TOTAL MARKS</th>
+                                            <th class="text-center">REMARKS</th>
+                                            <th class="text-right"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for entity in entities %}
+
+                                            {# Highlighting new record if not approved by any user type #}
+                                            {% set uncheckedRecord %}{% endset %}
+                                            {% if onlineUserRole == "ROLE_DH" %}
+                                                {% if entity.isCheckedByDH == 1 %}{% set uncheckedRecord %}class="default"{% endset %}{% endif %}
+                                            {% elseif onlineUserRole == "ROLE_TOD" %}
+                                                {% if entity.isCheckedByTOM == 1 %}{% set uncheckedRecord %}class="default"{% endset %}{% endif %}
+                                            {% elseif onlineUserRole == "ROLE_SAD" %}
+                                                {% if entity.isCheckedBySAD == 1 %}{% set uncheckedRecord %}class="default"{% endset %}{% endif %}
+                                            {% elseif onlineUserRole == "ROLE_ADMIN" %}
+                                                {% if entity.isCheckedByDH == 1 and entity.isCheckedByTOM == 1 and entity.isCheckedBySAD == 1 %}
+                                                    {% set uncheckedRecord %}class="default"{% endset %}
+                                                {% endif %}
+                                            {% endif %}
+
+                                            <tr {{ uncheckedRecord }}>
+                                                {# <td class="">
+                                                    <span class="btn btn-xs btn-primary">{{ entity.coursequarter.coursebatch.coursecategory.title|capitalize }}</span> 
+                                                    <span class="btn btn-xs btn-info">{{ entity.coursequarter.coursebatch.title|capitalize }}</span> 
+                                                    <span class="btn btn-xs btn-system">{{ entity.coursequarter.title|capitalize }}</span>
+                                                </td> #}
+                                                <td class="text-center">{{ entity.traineeid|default('') }}</td>
+                                                <td class="text-center">{{ entity.nameEnglish|capitalize }}</td>
+                                                <td class="text-center">{{ entity.groupWork }}</td>
+                                                <td class="text-center">{{ entity.assignment }}</td>
+                                                <td class="text-center">{{ entity.quiz }}</td>
+                                                <td class="text-center">{{ entity.attendance }}</td>
+                                                <td class="text-center">{{ entity.finalExam }}</td>
+                                                <td class="text-center">{{ entity.totalMarks }}</td>
+                                                <td class="text-center">
+                                                    {% if entity.remarks == "Pass" %}
+                                                        <div class="btn btn-xs btn-success btn-block">{{ entity.remarks }}</div>
+                                                    {% elseif entity.remarks == "Fail" %}
+                                                        <div class="btn btn-xs btn-danger btn-block">{{ entity.remarks }}</div>
+                                                    {% endif %}
+                                                </td>
+                                                <td class="text-right">
+                                                    <div class="btn-group text-left">
+                                                        <button type="button" class="btn btn-warning br2 btn-md fs12 dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> 
+                                                            Action
+                                                            <span class="caret ml5"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu checkbox-persist pull-right text-left" role="menu">
+                                                            <li><a href="{{ path('wit_setting_enrolusers_enrolled', { 'id': entity.id }) }}">Teacher Profile</a></li>
+                                                            <li><a href="{{ path('wit_setting_enrolusers_enrolled', { 'id': entity.id }) }}">Student Profile</a></li>
+                                                            <li class="divider"></li>
+                                                            <li><a href="{{ path('wit_setting_enrolusers_enrolled', { 'id': entity.id }) }}">View Detailed Version</a></li>
+                                                            <li><a href="{{ path('wit_transcript_default_view', {'marksheet_id':entity.id}) }}">View Transcript</a></li>
+                                                            <li class="divider"></li>
+                                                            <li><a href="{{ path('wit_transcript_default_generatepdf', {'marksheet_id':entity.id}) }}">Generate PDF</a></li>
+                                                            {#
+                                                            {% if entity.isCheckedByTOM == 1 %}
+                                                                <li><a>Submitted to SAD</a></li>
+                                                            {% else %}
+                                                                <li><a href="{{ path('wit_performance_default_submitsheet', { 'marksheet_id': entity.id, 'course_id': course.id }) }}" onClick="return confirm('Are you sure you want to submit this performance record to SAD?')">Approve and submit to SAD</a></li>
+                                                            {% endif %}
+                                                            #}
+                                                            {#
+                                                            {% if onlineUserRole == "ROLE_DH" %}
+                                                                {% if entity.isCheckedByDH == 1 %}
+                                                                    <li><a>Submitted to TOM</a></li>
+                                                                {% else %}
+                                                                    <li><a href="{{ path('wit_performance_default_submitsheet', { 'marksheet_id': entity.id, 'course_id': course.id }) }}" onClick="return confirm('Are you sure you want to submit this performance record to SAD?')">Approve and submit to TOM</a></li>
+                                                                {% endif %}
+                                                            {% elseif onlineUserRole == "ROLE_TOD" %}
+                                                                {% if entity.isCheckedByTOM == 1 %}
+                                                                    <li><a>Submitted to SAD</a></li>
+                                                                {% else %}
+                                                                    <li><a href="{{ path('wit_performance_default_submitsheet', { 'marksheet_id': entity.id, 'course_id': course.id }) }}" onClick="return confirm('Are you sure you want to submit this performance record to SAD?')">Approve and submit to SAD</a></li>
+                                                                {% endif %}
+                                                            {% elseif onlineUserRole == "ROLE_SAD" %}
+
+                                                            {% else %}
+
+                                                            {% endif %}
+                                                            #}
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                        {% set approvalHTMLBlock %}
+                            <div class="p20 admin-form">
+                                <div class="section row">
+                                    <div class="col-sm-12">
+                                        Please consider below, once your are ready to submit this performance sheet..
+                                    </div>                            
+                                </div>
+                                <hr class="short">
+                                <div class="section row">
+                                    <div class="col-sm-12">
+                                        <div class="text-right">
+                                            <label class="field option ml15">
+                                                <span class="text-muted">I approve this performance sheet (Your digital signature)</span>
+                                            </label>
+                                            <a href="{{ path('wit_performance_default_approvalfor', {'course_id':course.id}) }}" class="btn btn-default btn-sm ph25" onClick="return confirm('Are you sure you want to approve it?')">Submit</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endset %}
+
+                        {% if course.performancesheetApproval is null %}
+                            {{ approvalHTMLBlock }} {# if DH needs to approve it #}
+                        {% elseif course.performancesheetApproval == 1 and onlineUserRole == "ROLE_TOD" %}
+                            {{ approvalHTMLBlock }} {# if TOD needs to approve it #}
+                        {% elseif course.performancesheetApproval == 2 and onlineUserRole == "ROLE_SAD" %}
+                            
+                        {% else %}
+
+                        {% endif %}
+                        
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+
+
+        {# <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- menu quick links -->
+            <div class="p20 admin-form">
+
+                <h4 class="mt5 text-muted fw500"> Search / Filter</h4>
+
+                <hr class="short">
+
+                
+
+            </div>
+
+        </aside>
+                <!-- end: .tray-right --> #}
+
+
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    <style>
+        /* demo page styles */
+        .custom-nav-animation li {
+            display: none;
+        }
+        .custom-nav-animation li.animated {
+            display: block;
+        }
+        .email-template {
+            display: none;
+        }
+        .email-template.active {
+            display: block;
+        }
+
+        /*th, td { white-space: nowrap; }*/
+        .error{
+            color: red !important;
+        }
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+    <!-- Holder js  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/js/bootstrap/holder.min.js') }}"></script>
+    
+    <!-- Datatables -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+
+    <!-- Datatables Tabletools addon -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+
+    <!-- Datatables Editor addon - READ LICENSING NOT MIT  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/dataTables.editor.js') }}"></script>
+
+    <!-- Datatables Bootstrap Modifications  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/editor.bootstrap.js') }}"></script>
+    
+    <!-- Page Plugins -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/magnific/jquery.magnific-popup.js') }}"></script>
+
+    <!-- Admin Forms Javascript -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.spectrum.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.stepper.min.js') }}"></script>
+    
+    <!-- JQuery Validation -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/additional-methods.min.js') }}"></script>
+    
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            
+            $('#user-role-datatable').dataTable({
+                "aoColumnDefs": [{
+                    'bSortable': false,
+                    'aTargets': [-1]
+                }],
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "",
+                        "sNext": ""
+                    }
+                },
+                "iDisplayLength": 10,
+                "aLengthMenu": [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+                ],
+                "sDom": '<"dt-panelmenu clearfix"Tfr>t<"dt-panelfooter clearfix"ip>',
+                "oTableTools": {
+                    "sSwfPath": "{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/swf/copy_csv_xls_pdf.swf') }}",
+                    "aButtons": [
+                        {
+                            "sExtends": "copy",
+                            "mColumns": [0,1,2,3,4,5,6,7,8]
+                        },
+                        {
+                            "sExtends": "csv",
+                            "mColumns": [0,1,2,3,4,5,6,7,8],
+                            "sFileName": "Consolidated Students Performance Sheet.csv",
+                            "sTitle": "Consolidated Students' Performance Sheet",
+                        },
+                        {
+                            "sExtends": "xls",
+                            "mColumns": [0,1,2,3,4,5,6,7,8],
+                            "sFileName": "Consolidated Students Performance Sheet.xls",
+                            "sPdfOrientation": "landscape",
+                            "sTitle": "Consolidated Students' Performance Sheet",
+                        },
+                        {
+                            "sExtends": "pdf",
+                            "mColumns": [0,1,2,3,4,5,6,7,8],
+                            "sFileName": "Consolidated Students Performance Sheet.pdf",
+                            "sPdfOrientation": "landscape",
+                            "sTitle": "Consolidated Students' Performance Sheet",
+                        },
+                        {
+                            "sExtends": "print",
+                            "mColumns": [0,1,2,3,4,5,6,7,8],
+                            "sTitle": "Consolidated Students' Performance Sheet",
+                        },
+                    ]
+                }
+            });
+
+            $("#add-new-user-form").validate({
+                rules: {
+                    wit_modelbundle_user_firstname: {
+                      required: true,
+                      minlength: 3,
+                    },
+                    wit_modelbundle_user_lastname: {
+                      required: true,
+                      minlength: 3,
+                    },
+                    wit_modelbundle_user_email: {
+                      required: true,
+                      minlength: 8,
+                      email: true,
+                    },
+                    wit_modelbundle_user_nationalid: {
+                      required: true,
+                      min: 10,
+                      number: true,
+                    },
+                    wit_modelbundle_user_password: {
+                      required: true,
+                      minlength: 5,
+                    },
+                    confirmPassword: {
+                      required: true,
+                      equalTo: "#wit_modelbundle_user_password",
+                    },
+                    wit_modelbundle_user_roles: {
+                      required: true,
+                    }
+                }
+            });
+            
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

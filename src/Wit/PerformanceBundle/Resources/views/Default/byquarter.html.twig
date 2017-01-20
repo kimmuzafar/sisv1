@@ -1,0 +1,288 @@
+{% block pagestylesup %}
+    <!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/media/css/dataTables.bootstrap.css') }}">
+
+    <!-- Datatables Editor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') }}">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/magnific/magnific-popup.css') }}">
+{% endblock %}
+
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+{% endblock %}
+
+{% extends ':performance:performance.html.twig' %}
+
+{% block title %}Quarter-wise Performance{% endblock %}
+
+{% set breadcrumbPage = "Quarter-wise Performance" %}
+
+{% block content %}
+    
+    <!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr">
+
+            <div class="mw1100 center-block">
+                <h2 class="lh30 mt25 text-center">QUARTER-WISE PERFORMANCE</h2>
+                {% if courseEntities %}
+                    <h4 class="text-primary text-center" style="text-transform: uppercase;">
+                        {{ courseEntities[0].coursequarter.coursebatch.coursecategory.title }} &rarr; {{ courseEntities[0].coursequarter.coursebatch.title }} &rarr; {{ courseEntities[0].coursequarter.title }}
+                    </h4>
+                {% endif %}
+                <p class="text-center">
+                    Please use "Quarter Filter" in right navigation to load all it's courses to see their performance status
+                </p>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12 center-block">
+
+                    {% for flashMessage in app.session.flashbag.get('error') %}
+                        {% if flashMessage %}
+                            <div class="alert alert-success alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <i class="fa fa-remove pr10"></i>
+                                <strong>{{ flashMessage | raw }}</strong>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    {# 3/6*100 = 50 #}
+                    {% if courseEntities %}
+                        {# total courses with grading submitted / total courses in quarter * 100 = %age of submitted grading in quarter #}
+                        {% if (totalCoursesWithGrading/totalCourses*100) >= 100 %}
+                            <div class="alert alert-success alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <i class="fa fa-remove pr10"></i>
+                                <strong>Performance is submitted against all courses in this Quarter</strong>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <i class="fa fa-remove pr10"></i>
+                                <strong>In-complete performance, please check courses below with missing performance!</strong>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if selectedQuarter %}
+                        <div class="alert alert-info alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <i class="fa fa-remove pr10"></i>
+                            <strong>Transcripts already been generated for this Quarter..</strong>
+                        </div>
+                    {% endif %}
+
+                    <div class="panel panel-visible" id="spy3">
+                        <div class="panel-heading" style="text-transform: uppercase;">
+                            <div class="panel-title hidden-xs">
+                                Course List with Performance Status
+                            </div>
+                        </div>
+                        <div class="panel-body pn">
+                            
+                            <table class="table admin-form theme-warning tc-checkbox-1 fs13" id="user-role-datatable">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left">SELECT</th>
+                                        <th class="text-left">COURSE NAME</th>
+                                        <th class="text-center">CODE</th>
+                                        <th class="text-center">STATUS</th>
+                                        <th class="text-right"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for course in courseEntities %}
+                                        <tr>
+                                            <td class="">
+                                                <label class="option block mn">
+                                                    <input type="checkbox" name="courses[]" value="{{ course.id }}">
+                                                    <span class="checkbox mn"></span>
+                                                </label>
+                                            </td>
+                                            <td class="text-left">{{ course.title }}</td>
+                                            <td class="text-center">{{ course.code }}</td>
+                                            <td class="text-center">
+                                                {% if course.isGradingSubmitted %}
+                                                    <span class="text-success">100%</span>
+                                                {% else %}
+                                                    <span class="text-danger">0%</span>
+                                                {% endif %}
+                                            </td>
+                                            <td class="text-right">
+                                                <div class="btn-group text-right">
+                                                    <button type="button" class="btn btn-warning br2 btn-md fs12 dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> 
+                                                        Action
+                                                        <span class="caret ml5"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li><a href="{{ path('wit_performance_default_index_1', {'course_id': course.id}) }}">View Detail</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div> 
+                    <!-- end: spy3 -->
+
+                    
+
+                    {% if selectedQuarter %}
+
+                    {% else %}
+                        {# 3/6*100 = 50 #}
+                        {% if courseEntities %}
+                            {# total courses with grading submitted / total courses in quarter * 100 = %age of submitted grading in quarter #}
+                            {% if (totalCoursesWithGrading/totalCourses*100) >= 100 %}
+                                <h4 class="mt5 text-muted fw500"><i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i>Available Options</h4>
+                                <hr class="short">
+                                <div class="section row">
+                                    <div class="col-sm-12">
+                                        <p><a href="{{ path('wit_performance_default_submitforquarter', {'quarter_id': courseEntities[0].courseQuarter.id}) }}" class="btn btn-primary btn-block" onClick="return confirm('Please press (OK) button, if you really want to generate transcripts for this quarter..');"><i class="fa fa-print pr5"></i> Click Here to Generate Transcripts for this Quarter and Submit..</a></p>
+                                        <hr class="short">
+                                        <!-- <p><button class="btn btn-primary btn-gradient btn-block" type="button"><i class="fa fa-floppy-o pr5"></i> Save This Page</button></p>
+                                        <hr class="short"> -->
+                                        <p><a href="{{ path('wit_performance_default_byquarter') }}" class="btn btn-default btn-block"><i class="glyphicon glyphicon-arrow-left"></i> &nbsp;&nbsp;&nbsp;Go Back..</a></p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- menu quick links -->
+            <div class="p20 admin-form">
+
+                <h4 class="mt5 text-muted fw500"> Available Options</h4>
+                <hr class="short">
+
+                <h6 class="fw400">Quarter Filter:</h6>
+                <div class="section mb15">
+                    <label class="field select">
+                        <select id="course" name="course" onchange="filterByQuarter(this.value)" style="direction:rtl">
+                            <option value="" selected="selected" style="direction:ltr;"> - - - - - - - - Select a quarter - - - - - - - - </option>
+                            {% for quarter in quarterEntities %}
+                                <option value="{{ quarter.id }}" style="direction:ltr;">{{ quarter.coursebatch.coursecategory.title }} &rarr; {{ quarter.coursebatch.title }} &rarr; {{ quarter.title }} {% if quarter.isCurrentQuarter %}(Current){% endif %}</option>
+                            {% endfor %}
+                        </select>
+                        <i class="arrow double"></i>
+                    </label>
+                </div>
+
+                <br />
+
+                <h4 class="mt5 text-muted fw500">Help ? (read below)</h4>
+                <hr class="short">
+
+                <p>
+                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i> 
+                    <span class="fs14 fw400 text-muted">Quarter Filter above, displays all quarters available in the system.</span>
+                </p>
+                <p>
+                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i> 
+                    <span class="fs14 fw400 text-muted">Selecting any quarter from above dropdown loads all courses in it.</span>
+                </p>
+                <p>
+                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i> 
+                    <span class="fs14 fw400 text-muted">Once loaded you can see 'grading status' for each course in respective cell of 'status' column.</span>
+                </p>
+                
+            </div>
+
+        </aside>
+        <!-- end: .tray-right -->
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    <style>
+        /* demo page styles */
+        .custom-nav-animation li {
+            display: none;
+        }
+        .custom-nav-animation li.animated {
+            display: block;
+        }
+        .email-template {
+            display: none;
+        }
+        .email-template.active {
+            display: block;
+        }
+
+        /*th, td { white-space: nowrap; }*/
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+    <!-- Datatables -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+
+    <!-- Datatables Tabletools addon -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+
+    <!-- Datatables Editor addon - READ LICENSING NOT MIT  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/dataTables.editor.js') }}"></script>
+
+    <!-- Datatables Bootstrap Modifications  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/editor.bootstrap.js') }}"></script>
+    
+    <script type="text/javascript">
+
+        function filterByQuarter(qid){
+            var route = "{{ path('wit_performance_default_byquarter_1', { 'quarter_id': "PLACEHOLDER" }) }}";
+            window.location = route.replace("PLACEHOLDER", qid);
+        }
+
+        jQuery(document).ready(function() {
+            
+            $('#user-role-datatable').dataTable({
+                "aoColumnDefs": [{
+                    'bSortable': false,
+                    'aTargets': [-1]
+                }],
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "",
+                        "sNext": ""
+                    }
+                },
+                "iDisplayLength": 10,
+                "aLengthMenu": [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+                ],
+                "sDom": '<"dt-panelmenu clearfix"Tfr>t<"dt-panelfooter clearfix"ip>',
+                "oTableTools": {
+                    "sSwfPath": "{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/swf/copy_csv_xls_pdf.swf') }}"
+                }
+            });
+            
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

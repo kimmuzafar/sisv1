@@ -1,0 +1,111 @@
+{% extends ':user:user.html.twig' %}
+
+{% block title %}User / Dashboard{% endblock %}
+
+{% block pagestylesup %}
+	
+{% endblock %}
+
+{% set breadcrumbPage = "Dashboard" %}
+
+{% block content %}
+
+	<!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center p25 va-t posr">
+
+            <!-- dashboard tiles -->
+            <div class="row">
+                <div class="col-sm-4 col-xl-3">
+                    <div class="panel panel-tile text-center br-a br-grey">
+                        <div class="panel-body">
+                            <h1 class="fs30 mt5 mbn">1,426</h1>
+                            <h6 class="text-system">NEW</h6>
+                        </div>
+                        <div class="panel-footer br-t p12">
+                            <span class="fs11"><i class="fa fa-arrow-up pr5"></i> 3% INCREASE <b>1W AGO</b>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xl-3">
+                    <div class="panel panel-tile text-center br-a br-grey">
+                        <div class="panel-body">
+                            <h1 class="fs30 mt5 mbn">63,262</h1>
+                            <h6 class="text-success">TOTAL</h6>
+                        </div>
+                        <div class="panel-footer br-t p12">
+                            <span class="fs11"><i class="fa fa-arrow-up pr5"></i> 2.7% INCREASE <b>1W AGO</b>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xl-3">
+                    <div class="panel panel-tile text-center br-a br-grey">
+                        <div class="panel-body">
+                            <h1 class="fs30 mt5 mbn">248</h1>
+                            <h6 class="text-warning">PENDING</h6>
+                        </div>
+                        <div class="panel-footer br-t p12">
+                            <span class="fs11"><i class="fa fa-arrow-up pr5 text-success"></i> 1% INCREASE <b>1W AGO</b>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-xl-3 visible-xl">
+                    <div class="panel panel-tile text-center br-a br-grey">
+                        <div class="panel-body">
+                            <h1 class="fs30 mt5 mbn">6,718</h1>
+                            <h6 class="text-danger">UNIQUE</h6>
+                        </div>
+                        <div class="panel-footer br-t p12">
+                            <span class="fs11"><i class="fa fa-arrow-down pr5 text-danger"></i> 6% DECREASE <b>1W AGO</b>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- store activity timeline -->
+            <ol class="timeline-list pl5 mt10">
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-warning"><span class="fa fa-pencil"></span></div>
+                    <div class="timeline-desc"><b>System</b> Your application was reviewd.</div>
+                    <div class="timeline-date">5:25am</div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-system"><span class="fa fa-fire"></span></div>
+                    <div class="timeline-desc"><b>System</b> Your applicaiton is in pending.. waiting for review.</div>
+                    <div class="timeline-date">4:15am</div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-dark light"><span class="fa fa-tags"></span></div>
+                    <div class="timeline-desc"><b>System</b> You have completed your application..</div>
+                    <div class="timeline-date">8:25am</div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-system"><span class="fa fa-fire"></span></div>
+                    <div class="timeline-desc"><b>System</b> Your Account was successfully created and activated..</div>
+                    <div class="timeline-date">4:15am</div>
+                </li>
+            </ol>
+
+        </aside>
+        <!-- end: .tray-right -->
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagescripts %}
+	
+{% endblock %}

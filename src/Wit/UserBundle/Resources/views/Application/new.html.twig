@@ -1,0 +1,600 @@
+{% extends ':user:user.html.twig' %}
+
+{% block title %}User / Application / Complete{% endblock %}
+
+{% block pagestylesup %}
+	<!-- Admin Forms CSS -->
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datepicker/css/bootstrap-datetimepicker.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/daterange/daterangepicker.css') }}">
+{% endblock %}
+
+{% set breadcrumbPage = "Complete Application" %}
+
+{% block content %}
+
+	<!-- Begin: Content -->
+    <section id="content" class="animated fadeIn">
+
+        <h2 class="lh30 mt15 text-center">Your Application status is <b class="text-primary">incomplete</b></h2>
+    	<p class="text-center">Hurry up! and complete it before current admission schedule is closed! Only <b>Saudi Nationals</b> will be considered for admission!</p>
+
+        <div class="row">
+            <div class="col-md-9 center-block">
+
+                <!-- Form Wizard -->
+                <div class="admin-form">
+
+                    {{ form_start(form) }}
+                        <div class="wizard steps-bg steps-left">
+
+                            <!-- Wizard step 1 -->
+                            <h4 class="wizard-section-title">1. Personal Info</h4>
+                            <section class="wizard-section">
+                                
+                                <div class="section-divider mb40 mt20"><span> ADMISSION SCHEDULE </span></div><!-- .section-divider -->
+                                
+                                <div class="section row">
+                                    <div class="col-md-12">
+                                        <h6 class="fw400">Admission Schedule: <span class="text-danger">*</span></h6>
+                                        <label class="field select">
+										    {{ form_widget(form.admissionScheduler) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+                                
+                                <br />
+                                
+                                <div class="section-divider mb40 mt20"><span> PERSONAL INFORMATION </span></div><!-- .section-divider -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">First Name: <span class="text-danger">*</span></h6>
+                                        <label for="firstname" class="field prepend-icon">
+                                            {{ form_widget(form.firstname) }}
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Father's Name: <span class="text-danger">*</span></h6>
+                                        <label for="lastname" class="field prepend-icon">
+                                            {{ form_widget(form.fathersName) }}
+                                            <label for="lastname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Grand Father's Name: <span class="text-danger">*</span></h6>
+                                        <label for="firstname" class="field prepend-icon">
+                                            {{ form_widget(form.grandFathersName) }}
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Family Name / Last Name: <span class="text-danger">*</span></h6>
+                                        <label for="lastname" class="field prepend-icon">
+                                            {{ form_widget(form.familyName) }}
+                                            <label for="lastname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Marital Status: <span class="text-danger">*</span></h6>
+                                        <label class="field select">
+	                                        {{ form_widget(form.maritalStatus) }}
+	                                        <i class="arrow double"></i>                    
+	                                    </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Date of Birth: (hint: mm/dd/yyyy) <span class="text-danger">*</span></h6>
+                                        <div class="field">
+                                            {{ form_widget(form.birthDate) }}
+                                        </div>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">National ID: (hint: min/max 10 digits) <span class="text-danger">*</span></h6>
+                                        <label for="firstname" class="field">
+                                            {{ form_widget(form.nationalId) }}
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Gender: <span class="text-danger">*</span></h6>
+                                        <label class="field select">
+										    {{ form_widget(form.gender) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                            </section>
+                            <!-- End Wizard step 1 -->
+
+                            <!-- Wizard step 2 -->
+                            <h4 class="wizard-section-title">2. Contact Info</h4>
+                            <section class="wizard-section">
+
+                            	<div class="section-divider mb40 mt20"><span> CURRENT ADDRESS </span></div><!-- .section-divider -->
+
+                            	<div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Living Place: <span class="text-danger">*</span></h6>
+                                        <label class="field select">
+										    {{ form_widget(form.currentLivingPlace) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Living Place Other:</h6>
+                                        <label for="lastname" class="field">
+                                            {{ form_widget(form.currentLivingPlaceOther) }}
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">House #:</h6>
+                                        <label for="firstname" class="field">
+                                            {{ form_widget(form.houseNo) }}
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Street Name: <span class="text-danger">*</span></h6>
+                                        <label for="lastname" class="field">
+                                            {{ form_widget(form.streetName) }}
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">P.O.Box #:</h6>
+                                        <label for="firstname" class="field">
+                                            {{ form_widget(form.pobox) }}
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">City: <span class="text-danger">*</span></h6>
+                                        <label class="field select">
+										    {{ form_widget(form.city) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section">
+                                    <h6 class="fw400">Country: <span class="text-danger">*</span></h6>
+                                    <label class="field select">
+                                        {{ form_widget(form.country) }}
+                                        <i class="arrow double"></i>                    
+                                    </label>  
+                                </div><!-- end section -->
+
+                                <div class="section-divider mb40 mt20"><span> CONTACT INFORMATION </span></div><!-- .section-divider -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Telephone:</h6>
+                                        <label for="firstname" class="field">
+                                            {{ form_widget(form.telephone) }}
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Mobile: (hint: 966596698827) <span class="text-danger">*</span></h6>
+                                        <label for="lastname" class="field">
+                                            {{ form_widget(form.mobile) }}
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section">
+                                    <h6 class="fw400">Email: <span class="text-danger">*</span></h6>
+                                    <label for="firstname" class="field prepend-icon">
+                                        {{ form_widget(form.email) }}
+                                        <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
+                                        </label>
+                                    </label>
+                                </div>
+                                <!-- end section -->
+
+                                <div class="section-divider mb40 mt20"><span> PERMANENT ADDRESS </span></div><!-- .section-divider -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">House #:</h6>
+                                        <label for="firstname" class="field">
+                                            {{ form_widget(form.permanentHouseNo) }}
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Street Name: <span class="text-danger">*</span></h6>
+                                        <label for="lastname" class="field">
+                                            {{ form_widget(form.permanentStreetName) }}
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">P.O.Box #:</h6>
+                                        <label for="firstname" class="field">
+                                            {{ form_widget(form.permanentPobox) }}
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Postal Code:</h6>
+                                        <label for="lastname" class="field">
+                                            {{ form_widget(form.permanentPostalCode) }}
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">City: <span class="text-danger">*</span></h6>
+                                        <label class="field select">
+										    {{ form_widget(form.permanentCity) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Country: <span class="text-danger">*</span></h6>
+                                        <label class="field select">
+	                                        {{ form_widget(form.permanentCountry) }}
+	                                        <i class="arrow double"></i>                    
+	                                    </label>  
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section-divider mb40 mt20"><span> EMERGENCY CONTACT 1 </span></div><!-- .section-divider -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Name: <span class="text-danger">*</span></h6>
+                                        <label for="firstname" class="field prepend-icon">
+                                            {{ form_widget(form.emergency1Name) }}
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Mobile: (hint: 966596698827) <span class="text-danger">*</span></h6>
+                                        <label for="lastname" class="field">
+                                            {{ form_widget(form.emergency1Mobile) }}
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section">
+                                    <h6 class="fw400">Telephone:</h6>
+                                    <label for="firstname" class="field">
+                                        {{ form_widget(form.emergency1Phone) }}
+                                        </label>
+                                    </label>
+                                </div>
+                                <!-- end section -->
+
+                                <div class="section-divider mb40 mt20"><span> EMERGENCY CONTACT 2 </span></div><!-- .section-divider -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Name: <span class="text-danger">*</span></h6>
+                                        <label for="firstname" class="field prepend-icon">
+                                            {{ form_widget(form.emergency2Name) }}
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Mobile: (hint: 966596698827) <span class="text-danger">*</span></h6>
+                                        <label for="lastname" class="field">
+                                            {{ form_widget(form.emergency2Mobile) }}
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section">
+                                    <h6 class="fw400">Telephone:</h6>
+                                    <label for="firstname" class="field">
+                                        {{ form_widget(form.emergency2Phone) }}
+                                        </label>
+                                    </label>
+                                </div>
+                                <!-- end section -->
+
+                            </section>
+                            <!-- End Wizard step 2 -->
+
+                            <!-- Wizard step 3 -->
+                            <h4 class="wizard-section-title">3. Qualification Info</h4>
+                            <section class="wizard-section">
+
+                            	<div class="section-divider mb40 mt20"><span> QUALIFICATION INFORMATION </span></div><!-- .section-divider -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Study Level: <span class="text-danger">*</span></h6>
+                                        <label class="field select">
+										    {{ form_widget(form.studyLevel) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Study Level other:</h6>
+                                        <label class="field">
+										    {{ form_widget(form.studyLevelOther) }}               
+										</label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Major: <span class="text-danger">*</span></h6>
+                                        <label class="field select">
+                                            {{ form_widget(form.major) }}
+                                            <i class="arrow double"></i>                    
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Major Other:</h6>
+                                        <label class="field">
+                                            {{ form_widget(form.majorOther) }}
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-12">
+                                        <h6 class="fw400">Above Study Completion Date: <span class="text-danger">*</span></h6>
+                                        <label class="field select">
+                                            {{ form_widget(form.completionDate) }}
+                                            <i class="arrow double"></i>                    
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Above Study Completion City: <span class="text-danger">*</span></h6>
+                                        <label class="field select">
+										    {{ form_widget(form.completionCity) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Above Study Completion City Other:</h6>
+                                        <label for="lastname" class="field">
+                                            {{ form_widget(form.completionCityOther) }}
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Your Grade in Above Study: <span class="text-danger">*</span></h6>
+                                        <label class="field select">
+										    {{ form_widget(form.grade) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Accumulated Grade in Above Study: <span class="text-danger">*</span></h6>
+                                        <label class="field select">
+										    {{ form_widget(form.accumulatedGrade) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Qiyas Grade: <span class="text-danger">*</span></h6>
+                                        <label class="field select">
+										    {{ form_widget(form.qiyasGrade) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">English Grade: <span class="text-danger">*</span></h6>
+                                        <label class="field select">
+										    {{ form_widget(form.englishGrade) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                            </section>
+                            <!-- End Wizard step 3 -->
+
+                            <!-- Wizard step 4 -->
+                            <h4 class="wizard-section-title">4. Upload Docs</h4>
+                            <section class="wizard-section">
+
+                            	<div class="section-divider mb40 mt20"><span> UPLOAD DOCUMENTS </span></div><!-- .section-divider -->
+
+                            	<div class="section row">
+                                    <div class="col-md-6">
+                                        <div class="section">
+                                            <label for="file1" class="field prepend-icon file">
+                                                <span class="button btn-primary"> Choose File </span>
+                                                {{ form_widget(form.docNationalIdFile) }}
+                                                <input type="text" class="gui-input" id="uploadfile1" placeholder="Select National ID File">
+                                                <label class="field-icon"><i class="fa fa-upload"></i></label>
+                                            </label>
+                                        </div>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <div class="section">
+                                            <label for="file1" class="field prepend-icon file">
+                                                <span class="button btn-primary"> Choose File </span>
+                                                {{ form_widget(form.docCertificateFile) }}
+                                                <input type="text" class="gui-input" id="uploadfile2" placeholder="Select Certificate File">
+                                                <label class="field-icon"><i class="fa fa-upload"></i></label>
+                                            </label>
+                                        </div>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <div class="section">
+                                            <label for="file1" class="field prepend-icon file">
+                                                <span class="button btn-primary"> Choose File </span>
+                                                {{ form_widget(form.docQiyasCertificateFile) }}
+                                                <input type="text" class="gui-input" id="uploadfile3" placeholder="Select Qiyas Certificate File">
+                                                <label class="field-icon"><i class="fa fa-upload"></i></label>
+                                            </label>
+                                        </div>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <div class="section">
+                                            <label for="file1" class="field prepend-icon file">
+                                                <span class="button btn-primary"> Choose File </span>
+                                                {{ form_widget(form.docYourPhotoFile) }}
+                                                <input type="text" class="gui-input" id="uploadfile4" placeholder="Select Your Photo">
+                                                <label class="field-icon"><i class="fa fa-upload"></i></label>
+                                            </label>
+                                        </div>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section-divider mb40 mt20"><span> OTHERS </span></div><!-- .section-divider -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <div class="section">
+                                            <h6 class="fw400">Where did you hear about us?: <span class="text-danger">*</span></h6>
+                                            <label class="field select">
+        									    {{ form_widget(form.hearAboutUs) }}
+        									    <i class="arrow double"></i>                    
+        									</label>
+                                        </div>
+                                        <!-- end section -->
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <h6 class="fw400">Where did you hear about us? other:</h6>
+                                        <label class="field">
+                                            {{ form_widget(form.hearAboutUsOther) }}
+                                        </label>
+                                    </div><!-- end section -->
+                                </div>
+
+                            </section>
+                            <!-- End Wizard step 4 -->
+
+                        </div>
+                        <!-- End: Wizard -->
+
+                    {{ form_end(form) }}
+                    <!-- End Account2 Form -->
+
+                </div>
+                <!-- end: .admin-form -->
+
+            </div>
+
+        </div>
+
+    </section>
+    <!-- End: Content -->
+    
+{% endblock %}
+
+{% block pagestylesdown %}	
+	<style>
+    /*page demo styles*/
+    .wizard .steps .fa,
+    .wizard .steps .glyphicon,
+    .wizard .steps .glyphicon {
+        display: none;
+    }
+    .error{color:red !important;}
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+	<!-- Page Plugins -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/daterange/daterangepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/jquerymask/jquery.maskedinput.min.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/advanced/steps/jquery.steps.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/additional-methods.min.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js') }}"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+
+            // Form Wizard 
+            var form = $("#form-wizard");
+            form.validate({
+                /*
+                errorPlacement: function errorPlacement(error, element) {
+                    element.before(error);
+                },
+                */
+                rules: {
+                    "wit_modelbundle_application[nationalId]": {
+				        required: true,
+                        /*number: true,
+                        minlength: 10,
+                        maxlength: 10,
+                        */
+				    }
+                }
+            });
+
+            form.children(".wizard").steps({
+                headerTag: ".wizard-section-title",
+                bodyTag: ".wizard-section",
+                onStepChanging: function(event, currentIndex, newIndex) {
+                    form.validate().settings.ignore = ":disabled,:hidden";
+                    return form.valid();
+                },
+                onFinishing: function(event, currentIndex) {
+                    form.validate().settings.ignore = ":disabled";
+                    return form.valid();
+                },
+                onFinished: function(event, currentIndex) {
+                    form.submit();
+                }
+            });
+
+            // Init jQuery masked inputs
+            $('#wit_modelbundle_application_birthDate').mask('99/99/9999', {placeholder:"mm/dd/yyyy"});
+            $('#wit_modelbundle_application_nationalId').mask('9999999999');
+            $('.mobile').mask('999999999999');
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

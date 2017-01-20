@@ -1,0 +1,676 @@
+{% block pagestylesup %}
+    <!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/media/css/dataTables.bootstrap.css') }}">
+
+    <!-- Datatables Editor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') }}">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/magnific/magnific-popup.css') }}">
+{% endblock %}
+
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+    
+    <!-- Admin Modals CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-plugins/admin-modal/adminmodal.css') }}">
+{% endblock %}
+
+{% extends ':admin:admin.html.twig' %}
+
+{% block title %}Registered Users{% endblock %}
+
+{% set breadcrumbPage = "Registered Users" %}
+
+{% block content %}
+    
+    <!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+        
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr">
+
+            <div class="mw1100 center-block">
+                <h2 class="lh30 mt25 text-center">REGISTERED USERS</h2>
+                <p class="text-center">Displaying all active or blocked users in the system, you can active/block users, you can filter users based on given criteria, you can add/view/update and remove users, you can export users.</p>
+            </div>
+
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                {% if flashMessage %}
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <i class="fa fa-remove pr10"></i>
+                        <strong>{{ flashMessage | raw }}</strong>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            {% if editUserForm is defined %}{# if edit form needs to show #}
+                <!-- update user panel -->
+                <div class="panel mb25 mt5">
+                    <div class="panel-heading">
+                        <span class="panel-title"> Update User "{{ userEntity.firstname|capitalize }} {{ userEntity.lastname|capitalize }}"</span>
+                        <ul class="nav panel-tabs-border panel-tabs">
+                            <li class="active"><a href="#tab-add-new-user" data-toggle="tab">User Information</a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body p20 pb10">
+                        <div class="tab-content pn br-n admin-form">
+
+                            <div id="tab-add-new-user" class="tab-pane active">
+
+                                {{ form_start(editUserForm) }}
+
+                                    <div class="section row">
+                                        <div class="col-md-6">
+                                            <label for="firstname" class="field prepend-icon">
+                                                {{ form_widget(editUserForm.firstname) }}
+                                                <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
+                                                </label>
+                                            </label>
+                                        </div>
+                                        <!-- end section -->
+
+                                        <div class="col-md-6">
+                                            <label for="lastname" class="field prepend-icon">
+                                                {{ form_widget(editUserForm.lastname) }}
+                                                <label for="lastname" class="field-icon"><i class="fa fa-user"></i>
+                                                </label>
+                                            </label>
+                                        </div>
+                                        <!-- end section -->
+                                    </div>
+                                    <!-- end .section row section -->
+
+                                    <div class="section row">
+                                        <div class="col-md-12">
+                                            <label for="email" class="field prepend-icon">
+                                                {{ form_widget(editUserForm.mobile) }}
+                                                <label for="email" class="field-icon"><i class="fa fa-envelope"></i>
+                                                </label>
+                                            </label>
+                                        </div>
+                                        <!-- end section -->
+                                    </div>
+                                    <!-- end .section row section -->
+
+                                    <div class="section row">
+                                        <div class="col-md-6">
+                                            <label for="email" class="field prepend-icon">
+                                                {{ form_widget(editUserForm.email) }}
+                                                <label for="email" class="field-icon"><i class="fa fa-envelope"></i>
+                                                </label>
+                                            </label>
+                                        </div>
+                                        <!-- end section -->
+
+                                        <div class="col-md-6">
+                                            <label for="nationalid" class="field prepend-icon">
+                                                {{ form_widget(editUserForm.nationalid) }}
+                                                <label for="nationalid" class="field-icon"><i class="fa fa-credit-card"></i>
+                                                </label>
+                                            </label>
+                                        </div>
+                                        <!-- end section -->
+                                    </div>
+                                    <!-- end .section row section -->
+
+                                    <div class="section row">
+                                        <div class="col-md-6">
+                                            <label class="field select">
+                                                {{ form_widget(editUserForm.gender) }}
+                                                <i class="arrow double"></i>                    
+                                            </label>
+                                        </div><!-- end section -->
+                                        <!-- end section -->
+
+                                        <div class="col-md-6">
+                                            <label class="field select">
+                                                {{ form_widget(editUserForm.country) }}
+                                                <i class="arrow double"></i>                    
+                                            </label>  
+                                        </div><!-- end section -->
+                                    </div>
+                                    <!-- end .section row section -->
+
+                                    <div class="section row">
+                                        <div class="col-md-12">
+                                            <div class="section">
+                                                {% if userEntity.docYourPhoto %}
+                                                    <img src="{{ vich_uploader_asset(userEntity, 'docYourPhotoFile') }}" width="150px" />
+                                                {% endif %}
+                                            </div>
+                                            <div class="section">
+                                                <label for="file1" class="field prepend-icon file">
+                                                    <span class="button btn-primary"> Choose File </span>
+                                                    {{ form_widget(editUserForm.docYourPhotoFile) }}
+                                                    <input type="text" class="gui-input" id="uploadfile4" placeholder="Select Photo">
+                                                    <label class="field-icon"><i class="fa fa-upload"></i></label>
+                                                </label>
+                                            </div>
+                                        </div><!-- end section -->
+                                    </div>
+                                    <!-- end .section row section -->
+
+                                    <div class="section">
+                                        <label class="field select-multiple">
+                                          {{ form_widget(editUserForm.roles) }}
+                                        </label>        
+                                    </div>
+                                    <!-- end .section row section -->
+
+                                    <!-- end .form-body section -->
+                                    <div class="panel-footer clearfix">
+                                        <a href="{{ path('wit_admin_user_index') }}" class="button pull-left">Cancel</a>
+                                        <button type="submit" class="button btn-primary pull-right">Update</button>
+                                    </div>
+                                    <!-- end .form-footer section -->
+
+                                {{ form_end(editUserForm) }}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end: update user panel -->
+            {% endif %}
+
+            <div class="row">
+                
+                <div class="col-md-12">
+                    
+                    <div class="panel panel-visible" id="spy3">
+                        <div class="panel-heading">
+                            <div class="panel-title hidden-xs">
+                                <span class="glyphicon glyphicon-tasks"></span>
+                                Registered Users
+                            </div>
+                        </div>
+                        <div class="panel-body pn">
+                            
+                            <form id="create_user_group_form" action="{{ path('wit_admin_usergroup_addusers') }}" method="post">
+                                <table class="table admin-form theme-warning tc-checkbox-1 fs13" id="user-role-datatable">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">SELECT</th>
+                                            <th>FULL NAME</th>
+                                            <th>ROLE</th>
+                                            <th class="text-center">NATIONAL ID</th>
+                                            <th class="text-center">DATE</th>
+                                            <th class="text-right">ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for user in users %}
+                                            <tr>
+                                                <td class="">
+                                                    <label class="option block mn">
+                                                        <input type="checkbox" name="users[]" value="{{ user.id }}">
+                                                        <span class="checkbox mn"></span>
+                                                    </label>
+                                                </td>
+                                                <td class="{% if user.isActive==0 %}text-danger{% endif %}">{{ user.firstname|capitalize }} {{ user.lastname|capitalize }}</td>
+                                                <td>
+                                                    {% for role in user.roles %}
+                                                        {{ role.role }}
+                                                    {% endfor %}
+                                                </td>
+                                                <td class="text-center">{{ user.nationalid }} </td>
+                                                <td class="text-center">{{ user.dateCreated|date('Y-m-d') }}</td>
+                                                <td class="text-right">
+                                                    <div class="btn-group text-right">
+                                                        <button type="button" class="btn btn-warning br2 btn-md fs12 dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> 
+                                                            Action
+                                                            <span class="caret ml5"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu" role="menu">
+                                                            <li><a href="{{ path('wit_admin_user_index_1', { 'id': user.id }) }}">Edit</a></li>
+                                                            <li><a href="{{ path('wit_admin_user_delete', { 'id': user.id }) }}" onClick="return confirm('Are you sure you want to (Remove) this user?')">Remove</a></li>
+                                                            <li class="divider"></li>
+                                                            <li><a href="{{ path('wit_admin_user_sendlogininfotouser', { 'id': user.id }) }}" onClick="return confirm('Please press (OK) to send login info!')">Send Login/Account Info</a></li>
+                                                            <li><a href="{{ path('wit_admin_user_resetpasswordtodefault', { 'id': user.id }) }}" onClick="return confirm('Are you sure you want to (Reset Password) for this user? \nOnce reset, default password will be (password)')">Reset password</a></li>
+                                                            <li class="divider"></li>
+                                                            {% if user.isActive==1 %}
+                                                                <li><a href="{{ path('wit_admin_user_status', { 'id': user.id, 'code':2 }) }}" onClick="return confirm('Are you sure you want to (Block) this user? \nOnce blocked, respective user full name will display in (Red).');"><span class="text-danger">Block this user</span></a></li>
+                                                            {% else %}
+                                                                <li><a href="{{ path('wit_admin_user_status', { 'id': user.id, 'code':1 }) }}"><span class="text-success">Activate this user</span></a></li>
+                                                            {% endif %}
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="7" align="center">
+                                                
+                                                <h5 class="text-muted fw400 mb10 text-left" style="margin-left: 12px;"> 
+                                                    1. Select Users above.<br />
+                                                    2. Select Group below to add selected users to.<br />
+                                                    3. Press "Add Into Group" button to add users to selected group.
+                                                </h5>
+
+                                                <p>
+                                                    <div class="col-sm-9">
+                                                        <label class="field select">
+                                                            <select name="user_group">
+                                                                <option value=""> - - - Select Group - - - </option>
+                                                                {% for ags in userGroups %}
+                                                                    <option value="{{ ags.id }}">{{ ags.title }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </label>
+                                                    </div>
+                                                    <button class="btn btn-primary" type="button" onClick="document.getElementById('create_user_group_form').submit();">Add Into Group</button>
+                                                </p>
+                                                <br />
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </form>
+
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+            <div class="mw1100 center-block">
+                <h2 class="lh30 mt25 text-center">ADD NEW USER</h2>
+                <p class="text-center">User will be notified and activated once created.</p>
+            </div>
+
+            <!-- create new user panel -->
+            <div class="panel mb25 mt5">
+                <div class="panel-heading">
+                    <span class="panel-title"> Add New User</span>
+                    <ul class="nav panel-tabs-border panel-tabs">
+                        <li class="active"><a href="#tab-add-new-user" data-toggle="tab">User Information</a></li>
+                    </ul>
+                </div>
+                <div class="panel-body p20 pb10">
+                    <div class="tab-content pn br-n admin-form">
+
+                        <div id="tab-add-new-user" class="tab-pane active">
+
+                            <div class="alert alert-micro alert-border-left alert-info light alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <i class="fa fa-info pr10"></i>
+                                <strong>Note!</strong> Default
+                                <a href="#" class="alert-link">Password</a> for this user will be "password" it needs to be changed on first login!
+                            </div>
+                            
+                            {{ form_start(addUserForm) }}
+                                
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label class="field-label">First Name</label>
+                                        <label for="firstname" class="field prepend-icon">
+                                            {{ form_widget(addUserForm.firstname) }}
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                    <!-- end section -->
+
+                                    <div class="col-md-6">
+                                        <label class="field-label">Last Name</label>
+                                        <label for="lastname" class="field prepend-icon">
+                                            {{ form_widget(addUserForm.lastname) }}
+                                            <label for="lastname" class="field-icon"><i class="fa fa-user"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                    <!-- end section -->
+                                </div>
+                                <!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-12">
+                                        <label class="field-label">Mobile: i-e "966533432212"</label>
+                                        <label for="email" class="field prepend-icon">
+                                            {{ form_widget(addUserForm.mobile) }}
+                                            <label for="email" class="field-icon"><i class="fa fa-envelope"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                    <!-- end section -->
+                                </div>
+                                <!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label class="field-label">Email: i-e "johndoe@gmail.com"</label>
+                                        <label for="email" class="field prepend-icon">
+                                            {{ form_widget(addUserForm.email) }}
+                                            <label for="email" class="field-icon"><i class="fa fa-envelope"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                    <!-- end section -->
+
+                                    <div class="col-md-6">
+                                        <label class="field-label">National ID: i-e "2321234543"</label>
+                                        <label for="nationalid" class="field prepend-icon">
+                                            {{ form_widget(addUserForm.nationalid) }}
+                                            <label for="nationalid" class="field-icon"><i class="fa fa-credit-card"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                    <!-- end section -->
+                                </div>
+                                <!-- end .section row section -->
+
+                                {#
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label for="password" class="field prepend-icon">
+                                            {{ form_widget(addUserForm.password) }}
+                                            <label for="password" class="field-icon"><i class="fa fa-unlock-alt"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="confirmPassword" class="field prepend-icon">
+                                            <input type="password" name="confirmPassword" id="confirmPassword" class="gui-input" placeholder="Retype your password">
+                                            <label for="confirmPassword" class="field-icon"><i class="fa fa-lock"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                                <!-- end section -->
+                                #}
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label class="field-label">Gender</label>
+                                        <label class="field select">
+                                            {{ form_widget(addUserForm.gender) }}
+                                            <i class="arrow double"></i>                    
+                                        </label>
+                                    </div><!-- end section -->
+                                    <!-- end section -->
+
+                                    <div class="col-md-6">
+                                        <label class="field-label">Country</label>
+                                        <label class="field select">
+                                            {{ form_widget(addUserForm.country) }}
+                                            <i class="arrow double"></i>                    
+                                        </label>  
+                                    </div><!-- end section -->
+                                </div>
+                                <!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-12">
+                                        <div class="section">
+                                            <label class="field-label">Profile Photo</label>
+                                            <label for="file1" class="field prepend-icon file">
+                                                <span class="button btn-primary"> Choose File </span>
+                                                {{ form_widget(addUserForm.docYourPhotoFile) }}
+                                                <input type="text" class="gui-input" id="uploadfile4" placeholder="Select Photo">
+                                                <label class="field-icon"><i class="fa fa-upload"></i></label>
+                                            </label>
+                                        </div>
+                                    </div><!-- end section -->
+                                </div>
+                                <!-- end .section row section -->
+
+                                <div class="section">
+                                    <label class="field-label">System Role</label>
+                                    <label class="field select-multiple">
+                                      {{ form_widget(addUserForm.roles) }}
+                                    </label>        
+                                </div>
+                                <!-- end .section row section --> 
+
+                                <!-- end .form-body section -->
+                                <div class="panel-footer clearfix">
+                                    <button type="submit" class="button btn-primary pull-right">Submit</button>
+                                </div>
+                                <!-- end .form-footer section -->
+
+                            {{ form_end(addUserForm) }}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end: create new user panel -->
+
+        </div>
+        <!-- end: .tray-center -->
+
+
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- menu quick links -->
+            <div class="p20 admin-form">
+
+                <h4 class="mt5 text-muted fw500"> Search/Filter Users</h4>
+
+                <hr class="short">
+
+                {{ form_start(searchform) }}
+
+                    <h6 class="fw400">First Name</h6>
+                    <div class="section mb15">
+                        <label for="order-id" class="field prepend-icon">
+                            {{ form_widget(searchform.firstname) }}
+                            <label for="order-id" class="field-icon"><i class="fa fa-tag"></i>
+                            </label>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">Last Name</h6>
+                    <div class="section mb15">
+                        <label for="order-id" class="field prepend-icon">
+                            {{ form_widget(searchform.lastname) }}
+                            <label for="order-id" class="field-icon"><i class="fa fa-tag"></i>
+                            </label>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">Email</h6>
+                    <div class="section mb15">
+                        <label for="order-id" class="field prepend-icon">
+                            {{ form_widget(searchform.email) }}
+                            <label for="order-id" class="field-icon"><i class="fa fa-tag"></i>
+                            </label>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">National ID</h6>
+                    <div class="section mb15">
+                        <label for="order-id" class="field prepend-icon">
+                            {{ form_widget(searchform.nationalid) }}
+                            <label for="order-id" class="field-icon"><i class="fa fa-tag"></i>
+                            </label>
+                        </label>
+                    </div>
+
+                    {# 
+                    <h6 class="fw400">Role</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.roles) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div> 
+                    #}
+
+                    <h6 class="fw400">Mobile</h6>
+                    <div class="section mb15">
+                        <label for="order-id" class="field prepend-icon">
+                            {{ form_widget(searchform.mobile) }}
+                            <label for="order-id" class="field-icon"><i class="fa fa-tag"></i>
+                            </label>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">Gender</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.gender) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">Country</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.country) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div>
+
+                    <hr class="short">
+
+                    <div class="section row">
+                        <div class="col-sm-12">
+                            <input type="submit" class="btn btn-default btn-sm ph25" value="Search" />
+                            <label class="field option ml15">
+                                <input type="checkbox" name="info">
+                                <span class="checkbox"></span> <span class="text-muted">Save Search</span>
+                            </label>
+                        </div>
+                    </div>
+
+                {{ form_end(searchform) }}
+
+            </div>
+
+        </aside>
+                <!-- end: .tray-right -->
+
+
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    <style>
+        /* demo page styles */
+        .custom-nav-animation li {
+            display: none;
+        }
+        .custom-nav-animation li.animated {
+            display: block;
+        }
+        .email-template {
+            display: none;
+        }
+        .email-template.active {
+            display: block;
+        }
+
+        /*th, td { white-space: nowrap; }*/
+        .error{
+            color: red !important;
+        }
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+    <!-- Holder js  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/js/bootstrap/holder.min.js') }}"></script>
+    
+    <!-- Datatables -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+
+    <!-- Datatables Tabletools addon -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+
+    <!-- Datatables Editor addon - READ LICENSING NOT MIT  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/dataTables.editor.js') }}"></script>
+
+    <!-- Datatables Bootstrap Modifications  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/editor.bootstrap.js') }}"></script>
+    
+    <!-- Page Plugins -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/magnific/jquery.magnific-popup.js') }}"></script>
+
+    <!-- Admin Forms Javascript -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.spectrum.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.stepper.min.js') }}"></script>
+    
+    <!-- JQuery Validation -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/additional-methods.min.js') }}"></script>
+    
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            
+            $('#user-role-datatable').dataTable({
+                "aoColumnDefs": [{
+                    'bSortable': false,
+                    'aTargets': [-1]
+                }],
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "",
+                        "sNext": ""
+                    }
+                },
+                "iDisplayLength": 10,
+                "aLengthMenu": [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+                ],
+                "sDom": '<"dt-panelmenu clearfix"Tfr>t<"dt-panelfooter clearfix"ip>',
+                "oTableTools": {
+                    "sSwfPath": "{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/swf/copy_csv_xls_pdf.swf') }}"
+                }
+            });
+
+            $("#add-new-user-form").validate({
+                rules: {
+                    wit_modelbundle_user_firstname: {
+                      required: true,
+                      minlength: 3,
+                    },
+                    wit_modelbundle_user_lastname: {
+                      required: true,
+                      minlength: 3,
+                    },
+                    wit_modelbundle_user_email: {
+                      required: true,
+                      minlength: 8,
+                      email: true,
+                    },
+                    wit_modelbundle_user_nationalid: {
+                      required: true,
+                      min: 10,
+                      number: true,
+                    },
+                    wit_modelbundle_user_password: {
+                      required: true,
+                      minlength: 5,
+                    },
+                    confirmPassword: {
+                      required: true,
+                      equalTo: "#wit_modelbundle_user_password",
+                    },
+                    wit_modelbundle_user_roles: {
+                      required: true,
+                    }
+                }
+            });
+            
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

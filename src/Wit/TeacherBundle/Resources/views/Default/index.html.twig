@@ -1,0 +1,289 @@
+{% extends ':teacher:teacher.html.twig' %}
+
+{% block title %}Teacher / Dashboard{% endblock %}
+
+{% block pagestylesup %}
+	
+{% endblock %}
+
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+{% endblock %}
+
+{% set breadcrumbPage = "Dashboard" %}
+
+{% block content %}
+
+	<!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center p25 va-t posr">
+
+            <!-- dashboard tiles -->
+            <div class="row">
+
+                <!-- <div class="col-md-4">
+                    <div class="panel bg-alert light of-h mb10">
+                        <div class="pn pl20 p5">
+                            <div class="icon-bg"> <i class="fa fa-comments-o"></i> </div>
+                            <h2 class="mt15 lh15"> <b>5</b> </h2>
+                            <h5 class="text-muted">Courses</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel bg-info light of-h mb10">
+                        <div class="pn pl20 p5">
+                            <div class="icon-bg"> <i class="fa fa-user"></i> </div>
+                            <h2 class="mt15 lh15"> <b>348</b> </h2>
+                            <h5 class="text-muted">Students</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel bg-warning light of-h mb10">
+                        <div class="pn pl20 p5">
+                            <div class="icon-bg"> <i class="fa fa-envelope"></i> </div>
+                            <h2 class="mt15 lh15"> <b>714</b> </h2>
+                            <h5 class="text-muted">Messages</h5>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- <div class="col-md-12">
+                    <div data-animate="fadeIn" class="panel panel-transparent">
+                        <h5 class="text-muted mb20 text-center">NEWS UPDATE FOR TEACHERS'</h5>
+                    </div>
+                </div> -->
+
+                <!-- News List -->
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <span class="panel-title">NEWS UPDATE</span>
+                            <div class="widget-menu pull-right mr10">
+                                <a href="{{ path('wit_quicknews_default_viewall') }}">Browse All</a>
+                            </div>
+                        </div>
+                        <div class="panel-body pn">
+                            <table class="table mbn tc-med-1 tc-bold-last">
+                                <tbody>
+                                    {% for qn in quickNews %}
+                                        {% if qn.dateCreated > app.user.dateCreated %}
+                                        <tr>
+                                            <td {% if qn.isRead==0 %}style="font-weight:bold; font-size:15px;"{% endif %}>
+                                                <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i>
+                                                <span class="va-t mr10"></span><a href="{{ path('wit_quicknews_default_view', {'id':qn.id}) }}">{{ qn.title }}</a>
+                                            </td>
+                                            <td style="font-weight:normal; color:#999;">{{ qn.dateCreated|date("F jS \\a\\t g:ia") }}</td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                {# 
+                <div class="panel panel-transparent" data-animate="fadeIn">
+                    <h5 class="text-muted mb20 text-center">SITE NEWS</h5>
+                </div>
+                <div class="col-sm-6 col-lg-12">
+                    <div class="panel-group accordion" id="notifications">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <a class="accordion-toggle accordion-icon link-unstyled" data-toggle="collapse" data-parent="#notifications" href="#notifications_body">
+                                    <span class="panel-title"><span class="glyphicon glyphicon-cog hidden"></span>SITE NEWS</span>
+                                </a>
+                            </div>
+                            <div id="notifications_body" class="panel-collapse collapse in" style="height: auto;">
+                                <div class="panel-body">
+                                    <div class="alert alert-info alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        <i class="fa fa-info pr10"></i>
+                                        <strong>Heads up!</strong> This
+                                        <a href="#" class="alert-link">alert needs your attention</a>, it's kinda important.
+                                    </div>
+                                    <div class="alert alert-warning alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        <i class="fa fa-warning pr10"></i>
+                                        <strong>Warning!</strong> Best check yo self, you're
+                                        <a href="#" class="alert-link">not looking too good</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                #}
+
+                {#
+                <div class="col-md-12">
+                    <div class="panel panel-transparent" data-animate="fadeIn">
+                        <h5 class="text-muted mb20 text-center">MY COURSES</h5>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-12">
+                    <div class="panel-group accordion" id="my_courses">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <a class="accordion-toggle accordion-icon link-unstyled" data-toggle="collapse" data-parent="#my_courses" href="#my_courses_body">
+                                    <span class="panel-title"><span class="glyphicon glyphicon-cog hidden"></span>MY COURSES</span>
+                                </a>
+                            </div>
+                            <div id="my_courses_body" class="panel-collapse collapse in" style="height: auto;">
+                                <div class="panel-body">
+                                    {% for data in enrolmentData %}
+                                        <a href="{{ path('wit_teacher_course_view', {'course_id': data.course.id }) }}"><h3>{{ data.course.title }}</h3></a>
+                                        <p>{{ data.course.description }}</p>
+                                        <hr class="short alt">
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                #}
+
+
+
+                <!-- TODO -->
+                <div class="col-md-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <span class="panel-title"> TODO</span>
+                        <ul class="nav panel-tabs panel-tabs-light">
+                            <li class="active">
+                                <a href="#tab1_1" data-toggle="tab"> Grading / Re-takes</a>
+                            </li>
+                            <li>
+                                <a href="#tab1_2" data-toggle="tab"> Attendance</a>
+                            </li>
+                            <li>
+                                <a href="#tab1_3" data-toggle="tab"> Misc.</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-body pn">
+                        <table class="table admin-form theme-warning tc-checkbox-1 fs13">
+                            <thead>
+                                <tr class="bg-light">
+                                    <th class="text-center">#</th>
+                                    <th class="">Detail</th>
+                                    <th class="">Owner</th>
+                                    <th class="text-right">Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td class="">Submit student grading for biology2, it's already been approved for you</td>
+                                    <td class="">TOD</td>
+                                    <td class="text-right">
+                                        <div class="btn-group text-right">
+                                            <button type="button" class="btn btn-success br2 btn-xs fs12 dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Action
+                                                <span class="caret ml5"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li>
+                                                    <a href="#">Complete</a>
+                                                </li>
+                                                <li class="active">
+                                                    <a href="#">Pending</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Canceled</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td class="">TOD already approved 3 new re-takes for Math2, please completed them asap</td>
+                                    <td class="">TOD</td>
+                                    <td class="text-right">
+                                        <div class="btn-group text-right">
+                                            <button type="button" class="btn btn-success br2 btn-xs fs12 dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Action
+                                                <span class="caret ml5"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li>
+                                                    <a href="#">Complete</a>
+                                                </li>
+                                                <li class="active">
+                                                    <a href="#">Pending</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Canceled</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- end: TODO -->
+                </div>
+
+
+
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- store activity timeline -->
+            <ol class="timeline-list pl5 mt10">
+                {% for log in userLogs %}
+                    {% if log.dateCreated > app.user.dateCreated %}
+                    <li class="timeline-item">
+                        <div class="timeline-icon bg-warning"><span class="fa fa-pencil"></span></div>
+                        <div class="timeline-desc"><b>{{ log.generator }}</b> {{ log.detail|raw }}.</div>
+                        <div class="timeline-date">{{ log.dateCreated|date('y/m/d') }}</div>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                <!--
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-system"><span class="fa fa-fire"></span></div>
+                    <div class="timeline-desc"><b>System</b> Your applicaiton is in pending.. waiting for review.</div>
+                    <div class="timeline-date">4:15am</div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-dark light"><span class="fa fa-tags"></span></div>
+                    <div class="timeline-desc"><b>System</b> You have completed your application..</div>
+                    <div class="timeline-date">8:25am</div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-system"><span class="fa fa-fire"></span></div>
+                    <div class="timeline-desc"><b>System</b> Your Account was successfully created and activated..</div>
+                    <div class="timeline-date">4:15am</div>
+                </li>
+                -->
+            </ol>
+
+        </aside>
+        <!-- end: .tray-right -->
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagescripts %}
+	
+{% endblock %}

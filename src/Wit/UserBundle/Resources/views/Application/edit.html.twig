@@ -1,0 +1,556 @@
+{% extends ':user:user.html.twig' %}
+
+{% block title %}User / Application / Update{% endblock %}
+
+{% block pagestylesup %}
+	<!-- Admin Forms CSS -->
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+{% endblock %}
+
+{% set breadcrumbPage = "Update Your Application" %}
+
+{% block content %}
+
+	<!-- Begin: Content -->
+    <section id="content" class="animated fadeIn">
+
+        <h2 class="lh30 mt15 text-center">Update Your Application</h2>
+    	<p class="lead mb30 text-center">Please check all fields carefully before submitting it! You may not be able to update it again.</p>
+
+        <div class="row">
+            <div class="col-md-9 center-block">
+
+            	<div class="alert alert-warning alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <i class="fa fa-cubes pr10"></i>
+                    1 time <strong>Editing</strong> was enabled for your application, please update it soon for further evaluation..
+                </div>
+
+                <!-- Form Wizard -->
+                <div class="admin-form">
+
+                    {{ form_start(edit_form) }}
+                        <div class="wizard steps-bg steps-left">
+
+                            <!-- Wizard step 1 -->
+                            <h4 class="wizard-section-title">1. Personal Info</h4>
+                            <section class="wizard-section">
+                                
+                                <div class="section-divider mb40 mt20"><span> ADMISSION SCHEDULE </span></div><!-- .section-divider -->
+                                
+                                <div class="section row">
+                                    <div class="col-md-12">
+                                        <label class="field select">
+										    {{ form_widget(edit_form.admissionScheduler) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+                                
+                                <br />
+                                
+                                <div class="section-divider mb40 mt20"><span> PERSONAL INFORMATION </span></div><!-- .section-divider -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label for="firstname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.firstname) }}
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label for="lastname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.fathersName) }}
+                                            <label for="lastname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label for="firstname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.grandFathersName) }}
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label for="lastname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.familyName) }}
+                                            <label for="lastname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label class="field select">
+	                                        {{ form_widget(edit_form.maritalStatus) }}
+	                                        <i class="arrow double"></i>                    
+	                                    </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label for="lastname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.birthDate) }}
+                                            <label for="lastname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label for="firstname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.nationalId) }}
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label class="field select">
+										    {{ form_widget(edit_form.gender) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                            </section>
+                            <!-- End Wizard step 1 -->
+
+                            <!-- Wizard step 2 -->
+                            <h4 class="wizard-section-title">2. Contact Info</h4>
+                            <section class="wizard-section">
+
+                            	<div class="section-divider mb40 mt20"><span> CURRENT ADDRESS </span></div><!-- .section-divider -->
+
+                            	<div class="section row">
+                                    <div class="col-md-6">
+                                        <label class="field select">
+										    {{ form_widget(edit_form.currentLivingPlace) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label for="lastname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.currentLivingPlaceOther) }}
+                                            <label for="lastname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label for="firstname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.houseNo) }}
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label for="lastname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.streetName) }}
+                                            <label for="lastname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label for="firstname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.pobox) }}
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label class="field select">
+										    {{ form_widget(edit_form.city) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section">
+                                    <label class="field select">
+                                        {{ form_widget(edit_form.country) }}
+                                        <i class="arrow double"></i>                    
+                                    </label>  
+                                </div><!-- end section -->
+
+                                <div class="section-divider mb40 mt20"><span> CONTACT INFORMATION </span></div><!-- .section-divider -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label for="firstname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.telephone) }}
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label for="lastname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.mobile) }}
+                                            <label for="lastname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section">
+                                    <label for="firstname" class="field prepend-icon">
+                                        {{ form_widget(edit_form.email) }}
+                                        <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
+                                        </label>
+                                    </label>
+                                </div>
+                                <!-- end section -->
+
+                                <div class="section-divider mb40 mt20"><span> PERMANENT ADDRESS </span></div><!-- .section-divider -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label for="firstname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.permanentHouseNo) }}
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label for="lastname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.permanentStreetName) }}
+                                            <label for="lastname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label for="firstname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.permanentPobox) }}
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label for="lastname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.permanentPostalCode) }}
+                                            <label for="lastname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label class="field select">
+										    {{ form_widget(edit_form.permanentCity) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label class="field select">
+	                                        {{ form_widget(edit_form.permanentCountry) }}
+	                                        <i class="arrow double"></i>                    
+	                                    </label>  
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section-divider mb40 mt20"><span> EMERGENCY CONTACT 1 </span></div><!-- .section-divider -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label for="firstname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.emergency1Name) }}
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label for="lastname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.emergency1Mobile) }}
+                                            <label for="lastname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section">
+                                    <label for="firstname" class="field prepend-icon">
+                                        {{ form_widget(edit_form.emergency1Phone) }}
+                                        <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
+                                        </label>
+                                    </label>
+                                </div>
+                                <!-- end section -->
+
+                                <div class="section-divider mb40 mt20"><span> EMERGENCY CONTACT 2 </span></div><!-- .section-divider -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label for="firstname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.emergency2Name) }}
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label for="lastname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.emergency2Mobile) }}
+                                            <label for="lastname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section">
+                                    <label for="firstname" class="field prepend-icon">
+                                        {{ form_widget(edit_form.emergency2Phone) }}
+                                        <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
+                                        </label>
+                                    </label>
+                                </div>
+                                <!-- end section -->
+
+                            </section>
+                            <!-- End Wizard step 2 -->
+
+                            <!-- Wizard step 3 -->
+                            <h4 class="wizard-section-title">3. Qualification Info</h4>
+                            <section class="wizard-section">
+
+                            	<div class="section-divider mb40 mt20"><span> QUALIFICATION INFORMATION </span></div><!-- .section-divider -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label class="field select">
+										    {{ form_widget(edit_form.studyLevel) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label class="field select">
+										    {{ form_widget(edit_form.completionDate) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label class="field select">
+										    {{ form_widget(edit_form.completionCity) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label for="lastname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.completionCityOther) }}
+                                            <label for="lastname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label class="field select">
+										    {{ form_widget(edit_form.grade) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label class="field select">
+										    {{ form_widget(edit_form.accumulatedGrade) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label class="field select">
+										    {{ form_widget(edit_form.qiyasGrade) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label class="field select">
+										    {{ form_widget(edit_form.englishGrade) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <label class="field select">
+										    {{ form_widget(edit_form.major) }}
+										    <i class="arrow double"></i>                    
+										</label>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <label for="lastname" class="field prepend-icon">
+                                            {{ form_widget(edit_form.majorOther) }}
+                                            <label for="lastname" class="field-icon"><i class="fa fa-user"></i></label>  
+                                        </label>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                            </section>
+                            <!-- End Wizard step 3 -->
+
+                            <!-- Wizard step 4 -->
+                            <h4 class="wizard-section-title">4. Upload Docs</h4>
+                            <section class="wizard-section">
+
+                            	<div class="section-divider mb40 mt20"><span> UPLOAD DOCUMENTS </span></div><!-- .section-divider -->
+
+                            	<div class="section row">
+                                    <div class="col-md-6">
+                                        <div class="section">
+                                            <label for="file1" class="field prepend-icon file">
+                                                <span class="button btn-primary"> Choose File </span>
+                                                {{ form_widget(edit_form.docNationalIdFile) }}
+                                                <input type="text" class="gui-input" id="uploadfile1" placeholder="Select National ID File">
+                                                <label class="field-icon"><i class="fa fa-upload"></i></label>
+                                            </label>
+                                        </div>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <div class="section">
+                                            <label for="file1" class="field prepend-icon file">
+                                                <span class="button btn-primary"> Choose File </span>
+                                                {{ form_widget(edit_form.docCertificateFile) }}
+                                                <input type="text" class="gui-input" id="uploadfile2" placeholder="Select Certificate File">
+                                                <label class="field-icon"><i class="fa fa-upload"></i></label>
+                                            </label>
+                                        </div>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section row">
+                                    <div class="col-md-6">
+                                        <div class="section">
+                                            <label for="file1" class="field prepend-icon file">
+                                                <span class="button btn-primary"> Choose File </span>
+                                                {{ form_widget(edit_form.docQiyasCertificateFile) }}
+                                                <input type="text" class="gui-input" id="uploadfile3" placeholder="Select Qiyas Certificate File">
+                                                <label class="field-icon"><i class="fa fa-upload"></i></label>
+                                            </label>
+                                        </div>
+                                    </div><!-- end section -->
+                                    
+                                    <div class="col-md-6">
+                                        <div class="section">
+                                            <label for="file1" class="field prepend-icon file">
+                                                <span class="button btn-primary"> Choose File </span>
+                                                {{ form_widget(edit_form.docYourPhotoFile) }}
+                                                <input type="text" class="gui-input" id="uploadfile4" placeholder="Select Your Photo">
+                                                <label class="field-icon"><i class="fa fa-upload"></i></label>
+                                            </label>
+                                        </div>
+                                    </div><!-- end section -->
+                                </div><!-- end .section row section -->
+
+                                <div class="section-divider mb40 mt20"><span> OTHERS </span></div><!-- .section-divider -->
+
+                                <div class="section">
+                                    <label class="field select">
+									    {{ form_widget(edit_form.hearAboutUs) }}
+									    <i class="arrow double"></i>                    
+									</label>
+                                </div>
+                                <!-- end section -->
+
+                            </section>
+                            <!-- End Wizard step 4 -->
+
+                        </div>
+                        <!-- End: Wizard -->
+
+                    {{ form_end(edit_form) }}
+                    <!-- End Account2 Form -->
+
+                </div>
+                <!-- end: .admin-form -->
+
+            </div>
+
+        </div>
+
+    </section>
+    <!-- End: Content -->
+    
+{% endblock %}
+
+{% block pagestylesdown %}	
+	<style>
+    /*page demo styles*/
+    .wizard .steps .fa,
+    .wizard .steps .glyphicon,
+    .wizard .steps .glyphicon {
+        display: none;
+    }
+    .error{color:red !important;}
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+	<!-- Page Plugins -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/advanced/steps/jquery.steps.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/additional-methods.min.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js') }}"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+
+            // Form Wizard 
+            var form = $("#form-wizard");
+            form.validate({
+                /*
+                errorPlacement: function errorPlacement(error, element) {
+                    element.before(error);
+                },
+                */
+                rules: {
+                    "wit_modelbundle_application[nationalId]": {
+				      required: true,
+				      number: true
+				    }
+                }
+            });
+            form.children(".wizard").steps({
+                headerTag: ".wizard-section-title",
+                bodyTag: ".wizard-section",
+                onStepChanging: function(event, currentIndex, newIndex) {
+                    form.validate().settings.ignore = ":disabled,:hidden";
+                    return form.valid();
+                },
+                onFinishing: function(event, currentIndex) {
+                    form.validate().settings.ignore = ":disabled";
+                    return form.valid();
+                },
+                onFinished: function(event, currentIndex) {
+                    form.submit();
+                }
+            });
+
+
+            /* @date picker
+            ------------------------------------------------------------------ */
+            $("#wit_modelbundle_application_birthDate").datepicker({
+                prevText: '<i class="fa fa-chevron-left"></i>',
+                nextText: '<i class="fa fa-chevron-right"></i>',
+                showButtonPanel: false
+            });
+
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

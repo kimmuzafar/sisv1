@@ -1,0 +1,231 @@
+{% block pagestylesup %}
+	<!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/media/css/dataTables.bootstrap.css') }}">
+
+	<!-- Datatables Editor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') }}">
+
+	<!-- Vendor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/magnific/magnific-popup.css') }}">
+{% endblock %}
+
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+    
+    <!-- Admin Modals CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-plugins/admin-modal/adminmodal.css') }}">
+{% endblock %}
+
+{% extends ':teacher:teacher.html.twig' %}
+
+{% block title %}Bulk Grade{% endblock %}
+{% set breadcrumbPage = "Submit Grading in Bulk" %}
+
+{% block content %}
+    
+	<!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+		
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr" id="printable_area">
+            
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                {% if flashMessage %}
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <i class="fa fa-remove pr10"></i>
+                        <strong>{{ flashMessage | raw }}</strong>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            
+            <div class="mw1100 center-block">
+                <h2 class="lh30 mt25 text-center">SUBMIT GRADING FOR "{{ course.title|upper }}"</h2>
+            </div>
+            
+            <div class="row">
+                
+                <div class="panel panel-transparent" data-animate="fadeIn">
+                    <p class="text-center">
+                    	Must review it before submitting. 
+                    	Once it is submitted you can not modify it, and it will be sent to your reporting to (head) for review and further action
+                    </p>
+                </div>
+
+            	<div class="col-md-12 center-block admin-form">
+
+            		<form action="{{ path('wit_teacher_grade_bulksubmit') }}" method="post" id="myform">
+
+	                	<!-- Personal Info -->
+	                    {% for data in enrolmentData %}
+	                    	{# only students should display and those will not display who are already been rated #}
+	                        {% if data.user.roles[0]=="ROLE_STUDENT" and data.user.id not in alreadyGradedUsers %} 
+	                        	
+	                            <div class="panel mb50" id="xedit-demo">
+	                                <div class="panel-heading" style="text-transform: uppercase;">
+	                                    <span class="panel-title"><b>{{ loop.index }}</b> - {{ data.user.firstname|capitalize }} {{ data.user.lastname|capitalize }}</span>
+	                                    <div class="widget-menu pull-right mr10">{{ data.user.traineeid|default('N/a') }}</div>
+	                                </div>
+	                                <div class="panel-body">
+	                                    <table id="user" class="table table-bordered table-striped" style="clear: both">
+	                                        <tbody>
+	                                        	<tr>
+	                                        		<td class="text-center"><h4>GROUP WORK</h4></td>
+	                                        		<td class="text-center"><h4>ASSIGNMENTS</h4></td>
+	                                        		<td class="text-center"><h4>QUIZZES</h4></td>
+	                                        		<td class="text-center"><h4>ATTENDANCE</h4></td>
+	                                        		<td class="text-center"><h4>FINAL EXAM</h4></td>
+	                                        		<td class="text-center"><h4>REMARKS</h4></td>
+	                                        	<tr>
+	                                        	<tr>
+	                                        		<td class="text-center">(Max: {{ criteria.groupWork }})</td>
+	                                        		<td class="text-center">(Max: {{ criteria.assignment }})</td>
+	                                        		<td class="text-center">(Max: {{ criteria.quiz }})</td>
+	                                        		<td class="text-center">(Max: {{ criteria.attendance }})</td>
+	                                        		<td class="text-center">(Max: {{ criteria.finalExam }})</td>
+	                                        		<td class="text-center">Pass/Fail</td>
+	                                        	</tr>
+	                                            <tr>
+	                                                <td class="text-center"><input type="number" value="0" min="0" max="{{ criteria.groupWork }}" name="groupWork[]" id="groupWork_{{ data.user.id }}" class="gui-input" style="width:75px;" /></td>
+	                                                <td class="text-center"><input type="number" value="0" min="0" max="{{ criteria.assignment }}" name="assignment[]" id="assignment_{{ data.user.id }}" class="gui-input" style="width:75px;" /></td>
+	                                                <td class="text-center"><input type="number" value="0" min="0" max="{{ criteria.quiz }}" name="quiz[]" id="quiz_{{ data.user.id }}" class="gui-input" style="width:75px;" /></td>
+	                                                <td class="text-center"><input type="number" value="0" min="0" max="{{ criteria.attendance }}" name="attendance[]" id="attendance_{{ data.user.id }}" class="gui-input" style="width:75px;" /></td>
+	                                                <td class="text-center"><input type="number" value="0" min="0" max="{{ criteria.finalExam }}" name="finalExam[]" id="finalexam_{{ data.user.id }}" class="gui-input" style="width:75px;" /></td>
+	                                                <td class="text-center"><div id="remarks_{{ data.user.id }}">N/A</div></td>
+
+	                                                {# <td class="text-center" style="background-color:#2eb24a; color:white;">Pass</td> #}
+	                                                {# <td class="text-center" style="background-color:#ef6266; color:white;">Fail</td> #}
+
+	                                                <input type="hidden" name="course_title[]" value="{{ course.title|capitalize }}" />
+				                                    <input type="hidden" name="course_code[]" value="{{ course.code }}" />
+				                                    <input type="hidden" name="course_credit_hours[]" value="{{ course.creditHours }}" />
+
+				                                    <input type="hidden" name="course_category[]" value="{{ course.coursequarter.coursebatch.coursecategory.title|capitalize }}" />
+				                                    <input type="hidden" name="course_category_code[]" value="{{ course.coursequarter.coursebatch.coursecategory.code }}" />
+
+				                                    <input type="hidden" name="course_batch[]" value="{{ course.coursequarter.coursebatch.title|capitalize }}" />
+				                                    <input type="hidden" name="course_batch_code[]" value="{{ course.coursequarter.coursebatch.code }}" />
+
+				                                    <input type="hidden" name="course_quarter[]" value="{{ course.coursequarter.title|capitalize }}" />
+				                                    <input type="hidden" name="quarter_id[]" value="{{ course.coursequarter.id }}" />
+				                                    <input type="hidden" name="quarter_number[]" value="{{ course.coursequarter.quarterNumber }}" />
+
+				                                    <input type="hidden" name="studentNameEnglish[]" value="{{ data.user.firstname|capitalize }} {{ data.user.lastname|capitalize }}" />
+				                                    <input type="hidden" name="studentNameArabic[]" value="{{ data.user.firstname|capitalize }} {{ data.user.lastname|capitalize }}" />
+				                                    <input type="hidden" name="traineeid[]" value="{{ data.user.traineeid|default('') }}" />
+
+				                                    <input type="hidden" name="user_id[]" value="{{ data.user.id }}" />
+				                                    <input type="hidden" name="course_id[]" value="{{ course.id }}" />
+				                                    <input type="hidden" name="teacher_id[]" value="{{ app.user.id }}" />
+				                                    <input type="hidden" name="teacher_name[]" value="{{ app.user.firstname }} {{ app.user.lastname }}" />
+
+				                                    <input type="hidden" name="finalExamMarksCriteria[]" value="{{ criteria.finalExam }}" />
+	                                            </tr>
+	                                        </tbody>
+	                                    </table>
+	                                </div>
+	                            </div>
+	                        {% endif %}
+	                    {% endfor %}
+
+	                    <!-- end .form-body section -->
+	                    <div class="panel-footer clearfix">
+	                        <a href="{{ path('wit_teacher_course_index') }}" class="button btn-default pull-left">Cancel</a>
+	                        <button type="submit" class="button btn-primary pull-right" onClick="return confirm('Please press (OK) to submit');">Submit</button>
+	                    </div>
+	                    <!-- end .form-footer section -->
+
+                	</form>
+
+                </div>
+                <!-- end: .col-md-12 -->
+
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- menu quick links -->
+            <div class="p20 admin-form">
+
+                <h4 class="mt5 text-muted fw500"> Available Options:</h4>
+                <hr class="short">
+
+                <div class="section row">
+                    <div class="col-sm-12">
+                        <p><a onclick="$('#main').hide();$('#printable_area').appendTo('body');" class="btn btn-default btn-block"><i class="fa fa-print pr5"></i> Print This Page</a></p>
+                        <hr class="short">
+                        <p><a href="{{ path('wit_teacher_default_index') }}" class="btn btn-default btn-block"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp;&nbsp;&nbsp;Go Back..</a></p>
+                    </div>
+                </div>
+
+            </div>
+
+        </aside>
+        <!-- end: .tray-right -->
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    <style>
+	    /* demo page styles */
+	    .custom-nav-animation li {
+	        display: none;
+	    }
+	    .custom-nav-animation li.animated {
+	        display: block;
+	    }
+		.email-template {
+			display: none;
+		}
+		.email-template.active {
+			display: block;
+		}
+
+		/*th, td { white-space: nowrap; }*/
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+	<!-- Holder js  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/js/bootstrap/holder.min.js') }}"></script>
+    
+    <!-- Datatables -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+
+    <!-- Datatables Tabletools addon -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+
+    <!-- Datatables Editor addon - READ LICENSING NOT MIT  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/dataTables.editor.js') }}"></script>
+
+    <!-- Datatables Bootstrap Modifications  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/editor.bootstrap.js') }}"></script>
+    
+    <!-- Page Plugins -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/magnific/jquery.magnific-popup.js') }}"></script>
+
+    <!-- Admin Forms Javascript -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.spectrum.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.stepper.min.js') }}"></script>
+    
+    <!-- JQuery Validation -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/additional-methods.min.js') }}"></script>
+    
+    <script type="text/javascript">
+    	
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

@@ -1,0 +1,176 @@
+{% extends ':user:user.html.twig' %}
+
+{% block title %}{{ "Application Ref#: " ~ application.applicationReferenceNo|default('New Application') }}{% endblock %}
+
+{% block pagestylesup %}
+    <!-- Admin Forms CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+{% endblock %}
+
+{% set breadcrumbPage = "Application Ref#: " ~ application.applicationReferenceNo|default('New Application') %}
+
+{% block content %}
+
+    <!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr">
+
+            <div class="admin-panels fade-onload mn pn">
+
+                <div class="row">
+
+                    <div class="col-md-8 center-block">
+
+                        <div class="panel panel-transparent" id="pt0">
+
+                            {% for flashMessage in app.session.flashbag.get('error') %}
+                                {% if flashMessage %}
+                                    <div class="alert alert-success alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <i class="fa fa-remove pr10"></i>
+                                        <strong>{{ flashMessage | raw }}</strong>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if not application %}
+                                <div class="alert alert-warning alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <i class="fa fa-warning pr10"></i>
+                                    <strong>Heads Up!</strong> Your Application is <a href="#" class="alert-link">in-complete</a>! please complete it.
+                                </div>
+                            {% else %}
+
+                                {% if application.applicationStatus == 0 %}
+                                <div class="alert alert-system alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <i class="fa fa-cubes pr10"></i>
+                                    <strong>Great!</strong> Your Application was <a href="#" class="alert-link">successfully submitted</a>! and waiting for review.
+                                </div>
+                                {% endif %}
+                                
+                                {% if application.applicationStatus == 1 %}
+                                <div class="alert alert-system alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <i class="fa fa-cubes pr10"></i>
+                                    <strong>Reviewed!</strong> Your Application was <a href="#" class="alert-link">reviewed</a>! and waiting for further evaluation.
+                                </div>
+                                {% endif %}
+
+                                {% if application.applicationStatus == 2 %}
+                                <div class="alert alert-success alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <i class="fa fa-check pr10"></i>
+                                    <strong>Accepted!</strong> Your Application was <a href="#" class="alert-link">Accepted</a>! for further evaluation.
+                                </div>
+                                {% endif %}
+
+                                {% if application.applicationStatus == 3 %}
+                                <div class="alert alert-danger alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <i class="fa fa-remove pr10"></i>
+                                    <strong>Rejected!</strong> Your Application was <a href="#" class="alert-link">Rejected</a>! please try your luck next time.
+                                </div>
+                                {% endif %}
+
+                            {% endif %}
+                        </div>
+
+                        <div class="panel mt20 mb50 sort-disable" id="p0" data-panel-title="false" data-panel-fullscreen="false" data-panel-remove="false" data-panel-collapse="false" data-panel-fullscreen="false">
+                            <div class="panel-heading">
+                                <span class="panel-icon"><i class="fa fa-eyedropper"></i>
+                                </span>
+                                <span class="panel-title"> Application Ref#: {{ application.applicationReferenceNo|default('N/a') }}</span>
+                            </div>
+                            <div class="panel-body">
+
+                                {% if not application %}
+                                    {% set applicationProgress = 10 %}
+                                {% else %}
+                                    {% set applicationProgress = 100 %}
+                                {% endif %}
+
+                                <div class="progress mt10">
+                                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="{{ applicationProgress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ applicationProgress }}%;">{{ applicationProgress }}%</div>
+                                </div>
+
+
+                                <div class="panel">
+
+                                    {% if not application %}<p><a href="{{ path('wit_user_application_new') }}" class="btn btn-default pr5"><i class="fa fa-floppy-o pr5"></i> Click Here to Submit a new Application</a></p>{% endif %}
+
+                                    <div class="panel-body pn">
+
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr class="warning">
+                                                    <th>REF#</th>
+                                                    <th>SCHEDULE</th>
+                                                    <th class="text-center">DATE</th>
+                                                    <th class="text-center">STATUS</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{% if not application %}<code>N/a</code>{% else %}{{ application.applicationReferenceNo }}{% endif %}</td>
+                                                    <td>{% if not application %}<code>N/a</code>{% else %}{{ application.admissionScheduler.title }}{% endif %}</td>
+                                                    <td class="text-center">{% if not application %}<code>N/a</code>{% else %}{{ application.dateCreated|date('Y-m-d') }}{% endif %}</td>
+                                                    <td class="text-center">
+                                                        {% if not application %}
+                                                            <code>N/a</code>
+                                                        {% else %}
+                                                            {% if application.applicationStatus == 0 %}
+                                                                Pending
+                                                            {% elseif application.applicationStatus == 1 %}
+                                                                Reviewed
+                                                            {% elseif application.applicationStatus == 2 %}
+                                                                Accepted
+                                                            {% elseif application.applicationStatus == 3 %}
+                                                                Rejected
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    {% if application %}
+                                        <br />
+                                        <p>
+                                            <button class="btn btn-default mr10"><i class="fa fa-print pr5"></i></button> 
+                                            <a href="{{ path('wit_user_application_view', {'application_id':application.id}) }}" title="View Your Application" class="btn btn-default mr10"><i class="glyphicons glyphicons-folder_open pr5"></i></a> 
+                                            {% if application.isEditable==1 %}<a href="{{ path('wit_user_application_edit', {'id':application.id}) }}" title="Edit Your Application" class="btn btn-default mr10"><i class="glyphicons glyphicons-edit pr5"></i></a>{% endif %}
+                                        </p>
+                                    {% endif %}
+
+                                </div>
+                            
+
+                                <p>We will review your application once it was completed, remember you must completed your application above, in-complete application will not be proceesed.</p>
+
+                                <hr class="short alt">
+
+                                <p>Completed applications will be reviewd, once accepted, you will be notified by Email and SMS, you can also check your application status from this page at anytime.</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagescripts %}
+    
+{% endblock %}

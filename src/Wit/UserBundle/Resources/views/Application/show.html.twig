@@ -1,0 +1,208 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Application</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Firstname</th>
+                <td>{{ entity.firstname }}</td>
+            </tr>
+            <tr>
+                <th>Fathersname</th>
+                <td>{{ entity.fathersName }}</td>
+            </tr>
+            <tr>
+                <th>Grandfathersname</th>
+                <td>{{ entity.grandFathersName }}</td>
+            </tr>
+            <tr>
+                <th>Familyname</th>
+                <td>{{ entity.familyName }}</td>
+            </tr>
+            <tr>
+                <th>Maritalstatus</th>
+                <td>{{ entity.maritalStatus }}</td>
+            </tr>
+            <tr>
+                <th>Birthdate</th>
+                <td>{{ entity.birthDate }}</td>
+            </tr>
+            <tr>
+                <th>Nationalid</th>
+                <td>{{ entity.nationalId }}</td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>{{ entity.gender }}</td>
+            </tr>
+            <tr>
+                <th>Currentlivingplace</th>
+                <td>{{ entity.currentLivingPlace }}</td>
+            </tr>
+            <tr>
+                <th>Currentlivingplaceother</th>
+                <td>{{ entity.currentLivingPlaceOther }}</td>
+            </tr>
+            <tr>
+                <th>Houseno</th>
+                <td>{{ entity.houseNo }}</td>
+            </tr>
+            <tr>
+                <th>Streetname</th>
+                <td>{{ entity.streetName }}</td>
+            </tr>
+            <tr>
+                <th>Pobox</th>
+                <td>{{ entity.pobox }}</td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>{{ entity.city }}</td>
+            </tr>
+            <tr>
+                <th>Country</th>
+                <td>{{ entity.country }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ entity.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Mobile</th>
+                <td>{{ entity.mobile }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ entity.email }}</td>
+            </tr>
+            <tr>
+                <th>Permanenthouseno</th>
+                <td>{{ entity.permanentHouseNo }}</td>
+            </tr>
+            <tr>
+                <th>Permanentstreetname</th>
+                <td>{{ entity.permanentStreetName }}</td>
+            </tr>
+            <tr>
+                <th>Permanentpobox</th>
+                <td>{{ entity.permanentPobox }}</td>
+            </tr>
+            <tr>
+                <th>Permanentpostalcode</th>
+                <td>{{ entity.permanentPostalCode }}</td>
+            </tr>
+            <tr>
+                <th>Permanentcity</th>
+                <td>{{ entity.permanentCity }}</td>
+            </tr>
+            <tr>
+                <th>Permanentcountry</th>
+                <td>{{ entity.permanentCountry }}</td>
+            </tr>
+            <tr>
+                <th>Emergency1name</th>
+                <td>{{ entity.emergency1Name }}</td>
+            </tr>
+            <tr>
+                <th>Emergency1mobile</th>
+                <td>{{ entity.emergency1Mobile }}</td>
+            </tr>
+            <tr>
+                <th>Emergency1phone</th>
+                <td>{{ entity.emergency1Phone }}</td>
+            </tr>
+            <tr>
+                <th>Emergency2name</th>
+                <td>{{ entity.emergency2Name }}</td>
+            </tr>
+            <tr>
+                <th>Emergency2mobile</th>
+                <td>{{ entity.emergency2Mobile }}</td>
+            </tr>
+            <tr>
+                <th>Emergency2phone</th>
+                <td>{{ entity.emergency2Phone }}</td>
+            </tr>
+            <tr>
+                <th>Studylevel</th>
+                <td>{{ entity.studyLevel }}</td>
+            </tr>
+            <tr>
+                <th>Completiondate</th>
+                <td>{{ entity.completionDate|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Completioncity</th>
+                <td>{{ entity.completionCity }}</td>
+            </tr>
+            <tr>
+                <th>Completioncityother</th>
+                <td>{{ entity.completionCityOther }}</td>
+            </tr>
+            <tr>
+                <th>Grade</th>
+                <td>{{ entity.grade }}</td>
+            </tr>
+            <tr>
+                <th>Accumulatedgrade</th>
+                <td>{{ entity.accumulatedGrade }}</td>
+            </tr>
+            <tr>
+                <th>Qiyasgrade</th>
+                <td>{{ entity.qiyasGrade }}</td>
+            </tr>
+            <tr>
+                <th>Englishgrade</th>
+                <td>{{ entity.englishGrade }}</td>
+            </tr>
+            <tr>
+                <th>Major</th>
+                <td>{{ entity.major }}</td>
+            </tr>
+            <tr>
+                <th>Majorother</th>
+                <td>{{ entity.majorOther }}</td>
+            </tr>
+            <tr>
+                <th>Docnationalid</th>
+                <td>{{ entity.docNationalId }}</td>
+            </tr>
+            <tr>
+                <th>Doccertificate</th>
+                <td>{{ entity.docCertificate }}</td>
+            </tr>
+            <tr>
+                <th>Docqiyascertificate</th>
+                <td>{{ entity.docQiyasCertificate }}</td>
+            </tr>
+            <tr>
+                <th>Docyourphoto</th>
+                <td>{{ entity.docYourPhoto }}</td>
+            </tr>
+            <tr>
+                <th>Hearaboutus</th>
+                <td>{{ entity.hearAboutUs }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('wit_user_application_index') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('wit_user_application_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

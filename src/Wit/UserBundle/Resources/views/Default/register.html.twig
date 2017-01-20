@@ -1,0 +1,233 @@
+{% extends ':login:login.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <div class="admin-form theme-info" id="login1">
+
+        <div class="row mb15 table-layout">
+
+            <div class="col-xs-6 va-m pln"></div>
+
+            <div class="col-xs-6 text-right va-b pr5">
+
+                <div class="login-links">
+                    <a href="{{ path('wit_auth_security_login') }}" class="active" title="Sign In">LOGIN TO YOUR EXISTING ACCOUNT</a>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="panel panel-info mt10 br-n">
+
+            <div class="panel-heading heading-border bg-white">
+                <div class="section row mn">
+                    <span class="panel-title"><i class="fa fa-sign-in"></i>CREATE NEW ACCOUNT</span>
+                    <a href="" target="_blank" title="Click here for procedural help"><span class="glyphicon glyphicon-question-sign"></span></a>
+                </div>
+            </div>
+
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                {% if flashMessage %}
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <i class="fa fa-remove pr10"></i>
+                        <strong>{{ flashMessage | raw }}</strong>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            <!-- end .form-header section -->
+            <form method="post" action="{{ path('wit_user_default_register') }}" id="form-register">
+
+                <div class="panel-body p25 bg-light">
+
+                    <div class="section-divider mt10 mb40">
+                        <span>Create new Account</span>
+                    </div>
+                    <!-- .section-divider -->
+
+                    <div class="section row">
+                        <div class="col-md-6">
+                            <label for="firstname" class="field prepend-icon">
+                                <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="First name...">
+                                <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
+                                </label>
+                            </label>
+                        </div>
+                        <!-- end section -->
+
+                        <div class="col-md-6">
+                            <label for="lastname" class="field prepend-icon">
+                                <input type="text" name="lastname" id="lastname" class="gui-input" placeholder="Family name / Last name...">
+                                <label for="lastname" class="field-icon"><i class="fa fa-user"></i>
+                                </label>
+                            </label>
+                        </div>
+                        <!-- end section -->
+                    </div>
+                    <!-- end .section row section -->
+
+                    <div class="section row">
+                        <div class="col-md-6">
+                            <label for="email" class="field prepend-icon">
+                                <input type="email" name="email" id="email" class="gui-input" placeholder="Email address">
+                                <label for="email" class="field-icon"><i class="fa fa-envelope"></i>
+                                </label>
+                            </label>
+                        </div>
+                        <!-- end section -->
+
+                        <div class="col-md-6">
+                            <label class="field prepend-icon">
+                                <input type="text" name="mobile" id="mobile" class="gui-input" placeholder="Mobile e-g: 966599000000">
+                                <label class="field-icon"><i class="fa fa-mobile-phone"></i>
+                                </label>
+                            </label>
+                        </div>
+                        <!-- end section -->
+                    </div>
+                    <!-- end .section row section -->
+                    
+                    <div class="section row">
+                        <div class="col-md-6">
+                            <label for="password" class="field prepend-icon">
+                                <input type="password" name="password" id="password" class="gui-input" placeholder="Create a password">
+                                <label for="password" class="field-icon"><i class="fa fa-lock"></i>
+                                </label>
+                            </label>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="confirmPassword" class="field prepend-icon">
+                                <input type="password" name="confirmPassword" id="confirmPassword" class="gui-input" placeholder="Retype your password">
+                                <label for="confirmPassword" class="field-icon"><i class="fa fa-lock"></i>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- end section -->
+
+                    <div class="section-divider mv40">
+                        <span class="glyphicons glyphicons-bullhorn"></span><span>Need Help?</span>
+                    </div>
+                    <!-- .section-divider -->
+
+                    <div class="section mb15 text-center">
+                        <p>
+                            If you can not figure out why you are unable to create new account, please send an email to "support@wit.edu.sa" while explaining the problem along with screenshots if possible!
+                        </p>
+                    </div>
+
+                    <div class="section-divider mv40">
+                        <span>Disclaimer</span>
+                    </div>
+                    <!-- .section-divider -->
+
+                    <div class="section mb15 text-center">
+                        <p>By creating this account, you have either intended to submit your application for admission in Al Watania Poultry Institute Of Technology or to stay upto date with our academic news..</p>
+                    </div>
+                    <!-- end section -->
+
+                </div>
+                <!-- end .form-body section -->
+                <div class="panel-footer clearfix">
+                    <a href="{{ path('wit_auth_security_login') }}" class="button pull-left">Cancel</a>
+                    <button type="submit" class="button btn-primary pull-right">Submit</button>
+                </div>
+                <!-- end .form-footer section -->
+
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block pagestylesdown %}
+    <style>
+    .error{
+        color: red !important;
+    }
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+    <!-- Page Plugins -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/additional-methods.min.js') }}"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+
+            $("#nationalid").change(function(){
+                $("#nationalid").removeData("previousValue");
+                //$("#form-register").data('validator').element('#nationalid');
+                //$(this).removeClass(this.settings.errorClass).removeData("previousValue");
+            });
+
+            $("#email").change(function(){
+                $("#email").removeData("previousValue");
+            });
+
+            $("#form-register").validate({
+                rules: {
+                    firstname: {
+                      required: true,
+                      minlength: 3,
+                    },
+                    lastname: {
+                      required: true,
+                      minlength: 3,
+                    },
+                    email: {
+                      required: true,
+                      minlength: 8,
+                      email: true,
+                      remote: {
+                        url: "{{ path('wit_user_default_checkemailifalreadyexist') }}",
+                        type: "post"
+                      },
+                    },
+                    /*
+                    nationalid: {
+                      required: true,
+                      number: true,
+                      remote: {
+                        url: "{{ path('wit_user_default_validatesaudinationalid') }}",
+                        type: "post",
+                      },
+                      minlength: 10,
+                      maxlength: 10,
+                    },
+                    */
+                    mobile: {
+                      required: true,
+                      number: true,
+                      minlength: 10,
+                      maxlength: 18,
+                    },
+                    password: {
+                      required: true,
+                      minlength: 5,
+                    },
+                    confirmPassword: {
+                      required: true,
+                      equalTo: "#password",
+                    }
+                },
+                messages: {
+                    email: {
+                        remote: jQuery.validator.format("{0} is already in use..")
+                    },
+                    nationalid: {
+                        required: "Enter national id..",
+                        minlength: jQuery.validator.format("Enter at least {0} characters.."),
+                        maxlength: jQuery.validator.format("Enter no more than {0} characters.."),
+                        remote: jQuery.validator.format("{0} is invalid or already in use..!")
+                    }
+                }
+            });
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

@@ -1,0 +1,108 @@
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+{% endblock %}
+
+{% extends ':admin:admin.html.twig' %}
+
+{% block title %}Admin / Setting{% endblock %}
+
+{% set breadcrumbPage = "Organization Setting" %}
+
+{% block content %}
+
+    <!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+		
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr">
+            
+            <div class="mw1100 center-block">
+                <h2 class="lh30 mt25 text-center">ACADEMIC ADMINISTRATION SYSTEM</h2>
+                <p class="lead mb50 text-center">We even included following prebuilt setting to configure your application.</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- start panel -->
+                    <div class="panel email-template active" id="setting_general">
+                        <div class="panel-heading">
+                            <ul class="nav panel-tabs-border panel-tabs panel-tabs-left">
+                                <li class="active">
+                                    <a href="#tab2_1" data-toggle="tab">Organization Profile</a>
+                                </li>
+                                <li>
+                                    <a href="#tab2_2" data-toggle="tab">Terms & Conditions</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="tab-content pn br-n">
+                                <div id="tab2_1" class="tab-pane active">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tab2_2" class="tab-pane">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p>Enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end panel -->
+                </div>
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+        <!-- begin: .tray-right -->
+        {% include ('SettingBundle:include:_rightnav.html.twig') %}
+        <!-- end: .tray-right -->
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    <style>
+	    /* demo page styles */
+	    .custom-nav-animation li {
+	        display: none;
+	    }
+	    .custom-nav-animation li.animated {
+	        display: block;
+	    }
+		.email-template {
+			display: none;
+		}
+		.email-template.active {
+			display: block;
+		}
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+
+            // Custom Nav Tray Animation
+            setTimeout(function() {
+                $('.custom-nav-animation li').each(function(i, e) {
+                    var This = $(this);
+                    var timer = setTimeout(function() {
+                        This.addClass('animated animated-short zoomIn');
+                    }, 50 * i);
+                });
+            }, 500);
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

@@ -1,0 +1,186 @@
+{% extends ':transcript:transcript.html.twig' %}
+
+{% block title %}View Transcript{% endblock %}
+
+{% set breadcrumbPage = "View Transcript" %}
+
+{% block content %}
+    <!-- Begin: Content -->
+    <section id="content" class="animated fadeIn">
+
+        <div class="animated-delay" data-animate='["100","fadeIn"]'>
+            <h2 class="lh30 mt15 text-center">OFFICIAL <b class="text-primary">TRANSCRIPT</b> OF RECORDS</h2>
+            <p class="lead mb30 text-center center-block mw800">{{ marksheetEntity.batch }} -> {{ marksheetEntity.quarter }}, School Year 2014 - 2015, Transcript Serial #: 00100</p>
+        </div>
+
+        <div class="row animated-delay" data-animate='["500","fadeIn"]'>
+
+            <div class="col-md-11 center-block text-center">
+
+                <div class="panel" >
+                    <div class="panel-body pn">
+                        <table class="table table-bordered">
+                            <head>
+                                <tr class="success">
+                                    <td colspan="100%"><span class="panel-title"><b>PERSONAL INFORMATION</b></span></td>
+                                </tr>
+                            </head>
+                            <tbody>
+                                <tr>
+                                    <th>Name of Trainee</th>
+                                    <td>Al Thuwaini, AbdulAziz Abdullah Abdullah Thuwaini</td>
+                                    <td colspan="4">عبد العزيز عبد الله عبد الله ثويني</td>
+                                </tr>
+                                <tr>
+                                    <th>Trainee I.D. No.</th>
+                                    <td>16-14030</td>
+                                    <th>Nationality</th>
+                                    <td>Saudi</td>
+                                    <th>National I.D.</th>
+                                    <td>1081118768</td>
+                                </tr>
+                                <tr>
+                                    <th>Joining Date</th>
+                                    <td>14 / 08 / 2014</td>
+                                    <th>Academic Prog.</th>
+                                    <td colspan="3">Poultry Production</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row table-layout">
+                    
+                    <!-- Left Section -->
+                    <div class="col-xs-3 br-a br-light bg-light pv20 ph30 va-t">
+                        <div class="row" id="content-type">
+                            <div class="col-sm-12">
+                                <h5 class="text-muted mtn mb20">NUMERICAL INTERPRETATION</h5>
+                            </div>
+                            {% for gs in gradingSystemEntities %}
+                                <div class="col-sm-12">
+                                    <a class="holder-style p15 mb20 holder-active col-sm-6">
+                                        {{ gs.marksMin }}-{{ gs.marksMax }}
+                                    </a>
+                                    <a class="holder-style p15 mb20 col-sm-6">
+                                        {{ gs.gradeLetter }}
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <button type="button" class="btn btn-success fs14 fw600 pv15 btn-block" onclick="$('#main').hide();$('#content').appendTo('body');">Print</button>
+                    </div>
+
+                    <div class="col-xs-9 br-a br-light bg-light dark va-t p10 va-m">
+                        <h5 class="text-muted mb30">ACCUMULATED TRANSCRIPT FOR THE QUARTER</h5>
+
+                        <div id="dock-content" class="ph20">
+                            <div id="dock-table">
+                                <div class="dock-item" data-title="Green Table">
+                                    <div class="panel">
+                                        <div class="panel-body pn">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr class="success">
+                                                        <th>SUBJECT</th>
+                                                        <th>CREDIT HRS.</th>
+                                                        <th>MARKS</th>
+                                                        <th>GRADE</th>
+                                                        <th>EARNED POINTS</th>
+                                                        <th>REMARKS</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-left">ENGLISH LANGUAGE</td>
+                                                        <td>2</td>
+                                                        <td>55</td>
+                                                        <td>A+</td>
+                                                        <td>4.00</td>
+                                                        <td>Pass</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-left">INFORMATION TECHNOLOGY</td>
+                                                        <td>3</td>
+                                                        <td>44</td>
+                                                        <td>B+</td>
+                                                        <td>3.5</td>
+                                                        <td>Pass</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-left">MATHEMATICS 4</td>
+                                                        <td>2</td>
+                                                        <td>66</td>
+                                                        <td>C+</td>
+                                                        <td>4.00</td>
+                                                        <td>Fail</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-left">KNOW ABOUT BUSINESS 2</td>
+                                                        <td>2</td>
+                                                        <td>88</td>
+                                                        <td>D+</td>
+                                                        <td>4.00</td>
+                                                        <td>Pass</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-left">POULTRY PRODUCTION</td>
+                                                        <td>4</td>
+                                                        <td>99</td>
+                                                        <td>A+</td>
+                                                        <td>2.9</td>
+                                                        <td>Fail</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-left">EQUIPMENT MAINTENANCE</td>
+                                                        <td>5</td>
+                                                        <td>22</td>
+                                                        <td>B</td>
+                                                        <td>2.5</td>
+                                                        <td>Pass</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h5 class="text-muted mb30">GPA / AGPA</h5>
+
+                            <div class="panel">
+                                <div class="panel-body pn">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <th class="text-left">Current Quarter</th>
+                                                <td>3.05</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-left">Accumulated</th>
+                                                <td>3.33</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div id="dock-text">
+                                <div class="dock-item" data-title="Just Text">
+                                    <p class="fs15 mb20 ph20">THIS IS A COMPUTER-GENERATED DOCUMENT AND IT DOES NOT REQUIRE A SIGNATURE.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}

@@ -1,0 +1,385 @@
+{% block pagestylesup %}
+	<!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/media/css/dataTables.bootstrap.css') }}">
+
+	<!-- Datatables Editor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') }}">
+
+	<!-- Vendor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/magnific/magnific-popup.css') }}">
+{% endblock %}
+
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+    
+    <!-- Admin Modals CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-plugins/admin-modal/adminmodal.css') }}">
+{% endblock %}
+
+{% extends ':sad:base.html.twig' %}
+
+{% block title %}Search Result{% endblock %}
+{% block pageName %}Search Result{% endblock %}
+
+{% block content %}
+    
+	<!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+		
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr">
+            
+            <div class="mw1100 center-block">
+                <h2 class="lh30 mt25 text-center">FILTER / SEARCH RESULT</h2>
+                <p class="text-center">Total "{{ searchResult|length }}" application(s) is/are matching with your given filter/search criteria!</p>
+            </div>
+            
+            <div class="row">
+                
+            	<div class="col-md-12">
+                                        
+                	<div class="alert alert-success alert-dismissable hidden" id="role-add-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <i class="fa fa-check pr10"></i>
+                        Application was added successfully..
+                    </div>
+                	
+                    <div class="panel panel-visible" id="spy3">
+                        <div class="panel-heading">
+                            <div class="panel-title hidden-xs">
+                                <span class="glyphicon glyphicon-tasks"></span>
+                                Matching Applications
+                            </div>
+                        </div>
+                        <div class="panel-body pn">
+                            
+                            <form id="create_application_group_form" action="{{ path('wit_sad_groupedapplication_new') }}" method="post">
+                                <table class="table admin-form theme-warning tc-checkbox-1 fs13" id="user-role-datatable">
+                                    <thead>
+                                        <tr>
+                                        	<th class="text-left">SELECT</th>
+                                            <th>FULL NAME</th>
+                                            <th>DOB</th>
+                                            <th class="text-center">GENDER</th>
+                                            <th class="text-center">CITY</th>
+                                            <th class="text-right">ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    	{% for application in searchResult %}
+    	                                    <tr>
+    	                                    	<td class="">
+    	                                            <label class="option block mn">
+    	                                                <input type="checkbox" name="applications[]" value="{{ application.id }}">
+    	                                                <span class="checkbox mn"></span>
+    	                                            </label>
+    	                                        </td>
+    	                                        <td>
+    	                                        	<a href="{{ path('wit_sad_application_view', { 'id': application.id }) }}">
+    		                                        	{{ application.firstname|capitalize }} 
+    		                                        	{{ application.fathersName|capitalize }} 
+    		                                        	{{ application.grandFathersName|capitalize }} 
+    		                                        	{{ application.familyName|capitalize }}
+    	                                        	</a>
+    	                                        </td>
+    	                                        <td>{{ application.birthDate|date('Y-m-d') }}</td>
+    	                                        <td class="text-center">{{ application.gender|capitalize }}</td>
+    	                                        <td class="text-center">{{ application.city|capitalize }}</td>
+    	                                        <td class="text-right">
+    	                                        	<div class="btn-group text-right">
+    	                                                <button type="button" class="btn btn-warning br2 btn-md fs12 dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> 
+    	                                                	Action
+    	                                                    <span class="caret ml5"></span>
+    	                                                </button>
+    	                                                <ul class="dropdown-menu" role="menu">
+    	                                                    <li><a href="#">Edit</a></li>
+    	                                                    <li><a href="#">Remove</a></li>
+    	                                                </ul>
+    	                                            </div>
+    	                                        </td>
+    	                                    </tr>
+                                        {% endfor %}
+                                    </tbody>
+
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="7" align="center">
+                                                
+                                                <h5 class="text-muted fw400 mb10 text-left" style="margin-left: 12px;"> 
+                                                    1. Select Applications above.<br />
+                                                    2. Select Group below to add selected applications to.<br />
+                                                    3. Press "Add Into Group" button to add applications to selected group.
+                                                </h5>
+
+                                                <p>
+                                                    <div class="col-sm-9">
+                                                        <label class="field select">
+                                                            <select name="application_group">
+                                                                <option value=""> - - - Select Group - - - </option>
+                                                                {% for ags in applicationGroups %}
+                                                                    <option value="{{ ags.id }}">{{ ags.title }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </label>
+                                                    </div>
+                                                    <button class="btn btn-primary" type="button" onClick="document.getElementById('create_application_group_form').submit();">Add Into Group</button>
+                                                </p>
+                                                <br />
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+
+                                </table>
+                            </form>
+
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- menu quick links -->
+            <div class="p20 admin-form">
+
+                <h4 class="mt5 text-muted fw500"> Search/Filter Applications</h4>
+
+                <hr class="short">
+                
+                {{ form_start(searchform) }}
+
+                    <h6 class="fw400">Marital Status</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.maritalStatus) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">Gender</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.gender) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">Current Living City</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.city) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">Current Living Country</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.country) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">Permanent Living City</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.permanentCity) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">Permanent Living Country</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.permanentCountry) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">Study Level</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.studyLevel) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">Completion Date</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.completionDate) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">Completion City</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.completionCity) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">Grade</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.grade) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">Accumulated Grade</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.accumulatedGrade) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">Qiyas Grade</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.qiyasGrade) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">English Grade</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.englishGrade) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">Majors</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.major) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div>
+
+                    <h6 class="fw400">Where did you hear about us?</h6>
+                    <div class="section mb15">
+                        <label class="field select">
+                            {{ form_widget(searchform.hearAboutUs) }}
+                            <i class="arrow double"></i>
+                        </label>
+                    </div>
+
+                    <hr class="short">
+
+                    <div class="section row">
+                        <div class="col-sm-12">
+                            <input type="submit" class="btn btn-default btn-sm ph25" value="Search" />
+                            <label class="field option ml15">
+                                <input type="checkbox" name="info">
+                                <span class="checkbox"></span> <span class="text-muted">Save Search</span>
+                            </label>
+                        </div>
+                    </div>
+
+                {{ form_end(searchform) }}
+
+            </div>
+
+        </aside>
+                <!-- end: .tray-right -->
+
+
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    <style>
+	    /* demo page styles */
+	    .custom-nav-animation li {
+	        display: none;
+	    }
+	    .custom-nav-animation li.animated {
+	        display: block;
+	    }
+		.email-template {
+			display: none;
+		}
+		.email-template.active {
+			display: block;
+		}
+
+		/*th, td { white-space: nowrap; }*/
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+	<!-- Holder js  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/js/bootstrap/holder.min.js') }}"></script>
+    
+    <!-- Datatables -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+
+    <!-- Datatables Tabletools addon -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+
+    <!-- Datatables Editor addon - READ LICENSING NOT MIT  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/dataTables.editor.js') }}"></script>
+
+    <!-- Datatables Bootstrap Modifications  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/editor.bootstrap.js') }}"></script>
+    
+    <!-- Page Plugins -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/magnific/jquery.magnific-popup.js') }}"></script>
+
+    <!-- Admin Forms Javascript -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.spectrum.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.stepper.min.js') }}"></script>
+    
+    <!-- JQuery Validation -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/additional-methods.min.js') }}"></script>
+    
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            
+            $('#user-role-datatable').dataTable({
+                "aoColumnDefs": [{
+                    'bSortable': false,
+                    'aTargets': [-1]
+                }],
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "",
+                        "sNext": ""
+                    }
+                },
+                "iDisplayLength": 50,
+                "aLengthMenu": [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+                ],
+                "sDom": '<"dt-panelmenu clearfix"Tfr>t<"dt-panelfooter clearfix"ip>',
+                "oTableTools": {
+                    "sSwfPath": "{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/swf/copy_csv_xls_pdf.swf') }}"
+                }
+            });
+            
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

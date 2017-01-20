@@ -1,0 +1,105 @@
+{% extends ':login:login.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <div class="admin-form theme-info" id="login1">
+
+        <div class="row mb15 table-layout">
+
+            <div class="col-xs-6 va-m pln"></div>
+
+            <div class="col-xs-6 text-right va-b pr5">
+                <div class="login-links">
+                    <a href="{{ path('wit_user_default_register') }}" class="active" title="Register">CREATE NEW ACCOUNT</a>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="panel panel-info mt10 br-n">
+
+            <div class="panel-heading heading-border bg-white">
+                <div class="section row mn">
+                    <span class="panel-title"><i class="fa fa-sign-in"></i>LOGIN TO YOUR ACCOUNT</span>
+                </div>
+            </div>
+
+            {% if error %}
+                <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="fa fa-remove pr10"></i>
+                    <strong>{{ error.messageKey|trans(error.messageData) }}</strong>
+                </div>
+            {% endif %}
+
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                {% if flashMessage %}
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <i class="fa fa-remove pr10"></i>
+                        <strong>{{ flashMessage | raw }}</strong>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            <!-- end .form-header section -->
+            <form method="post" action="{{ path('wit_auth_security_logincheck') }}" id="contact">
+                <div class="panel-body bg-light p30">
+                    <div class="row">
+                        <div class="col-sm-7 pr30">
+
+                            <div class="section">
+                                <label for="username" class="field-label text-muted fs18 mb10">Email:</label>
+                                <label for="username" class="field prepend-icon">
+                                    <input type="text" name="_username" id="username" class="gui-input" placeholder="Enter your email.." value="{{ last_username }}" required="required">
+                                    <label for="username" class="field-icon"><i class="fa fa-user"></i>
+                                    </label>
+                                </label>
+                            </div>
+                            <!-- end section -->
+
+                            <div class="section">
+                                <label for="username" class="field-label text-muted fs18 mb10">Password:</label>
+                                <label for="password" class="field prepend-icon">
+                                    <input type="password" name="_password" id="password" class="gui-input" placeholder="Enter password" required="required">
+                                    <label for="password" class="field-icon"><i class="fa fa-lock"></i>
+                                    </label>
+                                </label>
+                            </div>
+                            <!-- end section -->
+
+                        </div>
+                        <div class="col-sm-5 br-l br-grey pl30">
+                            <h3 class="mb25"> You'll Have Access To Your :</h3>
+                            <p class="mb15">
+                                <span class="fa fa-check text-success pr5"></span> Application approval notification</p>
+                            <p class="mb15">
+                                <span class="fa fa-check text-success pr5"></span> Application shortlist notifications</p>
+                            <p class="mb15">
+                                <span class="fa fa-check text-success pr5"></span> Placement test invitation notifications</p>
+                            <p class="mb15">
+                                <span class="fa fa-check text-success pr5"></span> Notifications on Placement test results</p>
+                        </div>
+                    </div>
+                </div>
+                {#
+                    If you want to control the URL the user
+                    is redirected to on success (more details below)
+                    <input type="hidden" name="_target_path" value="/account" />
+                #}
+                <!-- end .form-body section -->
+                <div class="panel-footer clearfix p10 ph15">
+                    <button type="submit" class="button btn-primary mr10 pull-right">LOGIN</button>
+                    <label class="switch block switch-primary pull-left input-align mt10">
+                        <input type="checkbox" name="remember" id="remember" checked>
+                        <label for="remember" data-on="YES" data-off="NO"></label>
+                        <span>Remember me</span>
+                    </label>
+                </div>
+                <!-- end .form-footer section -->
+            </form>
+        </div>
+    </div>
+{% endblock %}

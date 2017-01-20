@@ -1,0 +1,273 @@
+{% block pagestylesup %}
+    <!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/media/css/dataTables.bootstrap.css') }}">
+
+    <!-- Datatables Editor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') }}">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/magnific/magnific-popup.css') }}">
+{% endblock %}
+
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+    
+    <!-- Admin Modals CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-plugins/admin-modal/adminmodal.css') }}">
+{% endblock %}
+
+{% extends ':sendemail:layout.html.twig' %}
+
+{% block title %}Send Email to Application Group{% endblock %}
+{% set breadcrumbPage = "Send Email to Application Group" %}
+
+{% block content %}
+
+    <form action="{{ path('wit_sendemail_default_appgroup') }}" method="post" id="form">
+
+    <!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr">
+
+            <div class="mw1100 center-block">
+                <h2 class="lh30 mt25 text-center"><b class="text-primary">SENDING EMAIL</b> TO APPLICATION GROUP</h2>
+                <p class="lead mb35 text-center"></p>
+            </div>
+
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                {% if flashMessage %}
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <i class="fa fa-remove pr10"></i>
+                        <strong>{{ flashMessage | raw }}</strong>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+
+            <!-- begin: .admin-form -->
+            <div class="admin-form">
+
+                <div id="p1" class="panel heading-border">
+
+                    <div class="panel-body bg-light">
+                        
+                        <div class="section-divider mb40" id="spy1">
+                            <span>Compose new email</span>
+                        </div>
+                        <!-- .section-divider -->
+
+                        <!-- Basic Inputs -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h6 class="fw400">Email subject:</h6>
+                                <div class="section">
+                                    <label class="field">
+                                        <input type="text" name="subject" id="subject" class="gui-input" placeholder="Subject..">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Text Areas -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h6 class="fw400">Email body:</h6>
+                                <div class="section">
+                                    <textarea class="gui-textarea" id="message" name="message">
+                                        <p><b>Dear All,</b></p>
+                                        <p>Hope you are doing well..</p>
+                                        <p>Message body..</p>
+                                        <p><b>Best Regards,</b>
+                                        <br />Al Watania Poultry Institute Of Technology (WIT)</p>
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end: .admin-form -->
+
+
+        </div>
+        <!-- end: .tray-center -->
+
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- menu quick links -->
+            <div class="p20 admin-form">
+
+                <h4 class="mt5 text-muted fw500">Select Available Recipients</h4>
+
+                <h6 class="fw400">Select Recipients by application Group:</h6>
+                <div class="section mb15">
+                    <label class="field select">
+                        <select id="group" name="group">
+                            <option value=""></option>
+                            {% for group in groups %}
+                                <option value="{{ group.id }}">{{ group.title }}</option>
+                            {% endfor %}
+                        </select>
+                        <i class="arrow double"></i>
+                    </label>
+                </div>
+
+                <hr class="short">
+                <h4 class="mt5 text-muted fw500">Track Recipient's Actions</h4>
+
+                <h6 class="fw400">Select tracking option below:</h6>
+
+                <div class="section">
+                    <label class="field option block">
+                        <input type="radio" name="tracking" disabled="disabled" checked="checked">
+                        <span class="radio"></span> Do not track
+                    </label>
+                </div>
+                <!-- end section -->
+
+                <div class="section">
+                    <label class="field option block">
+                        <input type="radio" name="tracking" disabled="disabled">
+                        <span class="radio"></span> Track
+                    </label>
+                </div>
+                <!-- end section -->
+
+                <hr class="short">
+                <h4 class="mt5 text-muted fw500">Sending</h4>
+
+                <h6 class="fw400">Select sending option below:</h6>
+
+                <div class="section">
+                    <label class="field option block">
+                        <input type="radio" name="send-schedule" disabled="disabled" checked="checked">
+                        <span class="radio"></span> Immediately
+                    </label>
+                </div>
+                <!-- end section -->
+
+                <div class="section">
+                    <label class="field option block">
+                        <input type="radio" name="send-schedule" disabled="disabled">
+                        <span class="radio"></span> Schedule sending on
+                    </label>
+                </div>
+                <!-- end section -->
+
+                <!-- buttons -->
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="section">
+                            <button class="button btn-primary" onClick="return getConfirmationOnEmailAndShowPreloader();">Send Email Now</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="section">
+                            <a class="button">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </aside>
+        <!-- end: .tray-right -->
+
+    </section>
+    <!-- End: Content -->
+
+    </form>
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    <style>
+        /* demo page styles */
+        .custom-nav-animation li {
+            display: none;
+        }
+        .custom-nav-animation li.animated {
+            display: block;
+        }
+        .email-template {
+            display: none;
+        }
+        .email-template.active {
+            display: block;
+        }
+
+        /*th, td { white-space: nowrap; }*/
+        .error{
+            color: red !important;
+        }
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+    <!-- Ckeditor JS -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/editors/ckeditor/ckeditor.js') }}"></script>
+
+    <!-- JQuery Validation -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/additional-methods.min.js') }}"></script>
+    
+    <script type="text/javascript">
+
+        function getConfirmationOnEmailAndShowPreloader(){
+            
+            $("#form").validate({
+                rules: {
+                    subject: {
+                      required: true,
+                    },
+                    message: {
+                      required: true,
+                    },
+                    group: {
+                      required: true,
+                    }
+                }
+            });
+
+            if($("#form").valid()){
+                
+                if(confirm('Please note: email send speed depends upon number of emails..')){
+                    $('#preloader').show();
+                    return true;
+                }else{
+                    return false;
+                }
+
+            }
+
+            return false;
+        }
+
+        jQuery(document).ready(function() {
+
+            // Turn off automatic editor initilization.
+            // Used to prevent conflictions with multiple text 
+            // editors being displayed on the same page.
+            CKEDITOR.disableAutoInline = true;
+
+            // Init Ckeditor
+            CKEDITOR.replace('message', {
+                height: 275,
+                on: {
+                    instanceReady: function(evt) {
+                        $('.cke').addClass('admin-skin cke-hide-bottom');
+                    }
+                },
+            });
+            
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

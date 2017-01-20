@@ -1,0 +1,706 @@
+{% block pagestylesup %}
+    <!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/media/css/dataTables.bootstrap.css') }}">
+
+    <!-- Datatables Editor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') }}">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/magnific/magnific-popup.css') }}">
+{% endblock %}
+
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+    
+    <!-- Admin Modals CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-plugins/admin-modal/adminmodal.css') }}">
+{% endblock %}
+
+{% extends ':admin:admin.html.twig' %}
+
+{% block title %}Admin / User Setting{% endblock %}
+
+{% set breadcrumbPage = "User Setting" %}
+
+{% block content %}
+
+    <!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+        
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr">
+            
+            <div class="mw1100 center-block">
+                <h2 class="lh30 mt25 text-center">ACADEMIC ADMINISTRATION SYSTEM</h2>
+                <p class="lead mb50 text-center">We even included following prebuilt settings to configure your application.</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- start panel -->
+                    <div class="panel email-template active" id="setting_general">
+                        <div class="panel-heading">
+                            <ul class="nav panel-tabs-border panel-tabs panel-tabs-left">
+                                <li class="active"><a href="#tab-user-roles" data-toggle="tab">User Role</a></li>
+                                <li><a href="#tab-bulk-upload" data-toggle="tab">User Bulk Upload</a></li>
+                                <li><a href="#tab-email-setting" data-toggle="tab">Mail Server</a></li>
+                                <li><a href="#tab-email-template" data-toggle="tab">Email Template</a></li>
+                                <li><a href="#tab-login-setting" data-toggle="tab">Login Setting</a></li>
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="tab-content pn br-n">
+                                
+                                <!-- User Role Starts Here -->
+                                <div id="tab-user-roles" class="tab-pane active">
+                                    <div class="row">
+                                        
+                                        <div id="AddNewRoleButtonHolder">
+                                            <a href="javascript:void();" id="addNewRoleButton" class="btn btn-default btn-sm light fw600 ml10">
+                                                <span class="fa fa-plus pr5"></span> 
+                                                Add New Role
+                                            </a>
+                                        </div><br />
+                                        
+                                        <div class="col-md-12">
+
+                                            {% for flashMessage in app.session.flashbag.get('error') %}
+                                                {% if flashMessage %}
+                                                    <div class="alert alert-success alert-dismissable" id="role-add-success">
+                                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                                        <i class="fa fa-check pr10"></i>
+                                                        {{ flashMessage | raw }}
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                            
+                                            <div class="panel panel-visible" id="spy3">
+                                                <div class="panel-heading">
+                                                    <div class="panel-title hidden-xs">
+                                                        <span class="glyphicon glyphicon-tasks"></span>
+                                                        User Roles
+                                                    </div>
+                                                </div>
+                                                <div class="panel-body pn">
+                                                    <table class="table admin-form table-striped table-hover tc-checkbox-1" id="user-role-datatable" cellspacing="0" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-left">SELECT</th>
+                                                                <th>ROLE DETAIL</th>
+                                                                <th>ROLE NAME</th>
+                                                                <th>ACTION</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for role in roles %}
+                                                                <tr>
+                                                                    <td class="">
+                                                                        <label class="option block mn">
+                                                                            <input type="checkbox" name="roleId[]" value="{{ role.id }}">
+                                                                            <span class="checkbox mn"></span>
+                                                                        </label>
+                                                                    </td>
+                                                                    <td>{{ role.name }}</td>
+                                                                    <td>{{ role.role }}</td>
+                                                                    <td class="text-right">
+                                                                        <div class="btn-group text-right">
+                                                                            <button type="button" class="btn btn-warning br2 btn-md fs12 dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> 
+                                                                                Active
+                                                                                <span class="caret ml5"></span>
+                                                                            </button>
+                                                                            <ul class="dropdown-menu" role="menu">
+                                                                                <li><a href="#">Edit</a></li>
+                                                                                <li><a href="#">Remove</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- User Role Ends Here -->
+                                
+                                <!-- Bulk Upload Start Here -->
+                                <div id="tab-bulk-upload" class="tab-pane">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4>Upload Users from CSV / XML file.</h4>
+                                            
+                                            <hr class="short br-lighter">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <h4 class="media-heading">CSV File Template</h4> 
+                                                    Please download and append all your users in this file, don't remove top headers in this file, all fields are required in this file. Please don't change column/ field names in file.
+                                                </div>
+                                                <a class="media-right" href="#">
+                                                    <img data-src="holder.js/60x60" alt="holder-img">
+                                                </a>
+                                            </div>
+                                            <hr class="short br-lighter">
+                                            
+                                            <div class="admin-form">
+                                            
+                                                <div class="section">
+                                                    <label for="file1" class="field-label">Select File To Upload -
+                                                        <span class="small-text text-muted">(ONLY CSV)</span>
+                                                    </label>
+                                                    <label for="file1" class="field prepend-icon file">
+                                                        <span class="button btn-primary">Choose File</span>
+                                                        <input type="file" class="gui-file" name="upload1" id="file1" onChange="document.getElementById('uploader1').value = this.value;">
+                                                        <input type="text" class="gui-input" id="uploader1" placeholder="no file selected" readonly>
+                                                        <label for="comment" class="field-icon"><i class="fa fa-upload"></i>
+                                                        </label>
+                                                    </label>
+                                                </div>
+                                                <!-- end  section -->
+                                                
+                                                <!-- end .form-body section -->
+                                                <div class="panel-footer">
+                                                    <button type="submit" class="button btn-primary">Submit</button>
+                                                </div>
+                                                <!-- end .form-footer section -->
+                                                
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Bulk Upload Ends Here -->
+                                
+                                <!-- Email Settings Starts Here -->
+                                <div id="tab-email-setting" class="tab-pane">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <h4 class="media-heading">Email Setting</h4> 
+                                                    Please configure your email server below, choose correct information, if you don't know it, contact your IT Administration/ Webmaster to do so.
+                                                </div>
+                                            </div><br />
+                                            
+                                            <div class="admin-form">
+                                                <form method="post" action="/" id="form-contact1">
+                                                    <div class="section">
+                                                        <label for="names" class="field prepend-icon">
+                                                            <input type="text" name="names" id="names" class="gui-input" placeholder="Enter Mail Server...">
+                                                            <label for="names" class="field-icon"><i class="fa fa-user"></i>
+                                                            </label>
+                                                        </label>
+                                                    </div>
+                                                    <!-- end section -->
+        
+                                                    <div class="section">
+                                                        <label for="email" class="field prepend-icon">
+                                                            <input type="email" name="email" id="email" class="gui-input" placeholder="Enter Email Address...">
+                                                            <label for="email" class="field-icon"><i class="fa fa-envelope"></i>
+                                                            </label>
+                                                        </label>
+                                                    </div>
+                                                    <!-- end section -->
+        
+                                                    <div class="section">
+                                                        <label for="subject" class="field prepend-icon">
+                                                            <input type="text" name="subject" id="subject" class="gui-input" placeholder="Enter Password...">
+                                                            <label for="subject" class="field-icon"><i class="fa fa-lightbulb-o"></i>
+                                                            </label>
+                                                        </label>
+                                                    </div>
+                                                    <!-- end section -->
+                                                    
+                                                    <div class="section">
+                                                        <label for="names" class="field prepend-icon">
+                                                            <input type="text" name="names" id="names" class="gui-input" placeholder="Enter Confirm Password...">
+                                                            <label for="names" class="field-icon"><i class="fa fa-user"></i>
+                                                            </label>
+                                                        </label>
+                                                    </div>
+                                                    <!-- end section -->
+        
+                                                    <div class="section">
+                                                        <label for="email" class="field prepend-icon">
+                                                            <input type="email" name="email" id="email" class="gui-input" placeholder="Enter Port...">
+                                                            <label for="email" class="field-icon"><i class="fa fa-envelope"></i>
+                                                            </label>
+                                                        </label>
+                                                    </div>
+                                                    <!-- end section -->
+        
+                                                    <div class="section">
+                                                        <label for="subject" class="field prepend-icon">
+                                                            <input type="text" name="subject" id="subject" class="gui-input" placeholder="Enter SSL...">
+                                                            <label for="subject" class="field-icon"><i class="fa fa-lightbulb-o"></i>
+                                                            </label>
+                                                        </label>
+                                                    </div>
+                                                    <!-- end section -->
+                                                    <!-- end .form-body section -->
+                                                    <div class="panel-footer">
+                                                        <button type="submit" class="button btn-primary">Submit</button>
+                                                    </div>
+                                                    <!-- end .form-footer section -->
+                                                </form>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Email Settings Ends Here -->
+                                
+                                <!-- Email Template Starts Here -->
+                                <div id="tab-email-template" class="tab-pane">
+                                    <div class="row">
+                                    
+                                        <div>
+                                            <a href="" class="btn btn-default btn-sm light fw600 ml10">
+                                                <span class="fa fa-plus pr5"></span> 
+                                                Add New Template
+                                            </a>
+                                        </div><br />
+                                    
+                                        <div class="col-md-12">
+                                            
+                                            <div class="panel panel-visible" id="spy1">
+                                                <div class="panel-heading">
+                                                    <div class="panel-title hidden-xs">
+                                                        <span class="glyphicon glyphicon-tasks"></span>Email Templates</div>
+                                                </div>
+                                                <div class="panel-body pn">
+                                                    <table class="table table-striped table-hover" id="datatable" cellspacing="0" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>TEMPLATE NAME</th>
+                                                                <th>ACTION</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Tiger Nixon</td>
+                                                                <td class="text-right">
+                                                                    <div class="btn-group text-right">
+                                                                        <button type="button" class="btn btn-warning br2 btn-md fs12 dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> 
+                                                                            Active
+                                                                            <span class="caret ml5"></span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu" role="menu">
+                                                                            <li><a href="#">Edit</a></li>
+                                                                            <li><a href="#">Remove</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Cedric Kelly</td>
+                                                                <td class="text-right">
+                                                                    <div class="btn-group text-right">
+                                                                        <button type="button" class="btn btn-warning br2 btn-md fs12 dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> 
+                                                                            Active
+                                                                            <span class="caret ml5"></span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu" role="menu">
+                                                                            <li><a href="#">Edit</a></li>
+                                                                            <li><a href="#">Remove</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Brielle Williamson</td>
+                                                                <td class="text-right">
+                                                                    <div class="btn-group text-right">
+                                                                        <button type="button" class="btn btn-warning br2 btn-md fs12 dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> 
+                                                                            Active
+                                                                            <span class="caret ml5"></span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu" role="menu">
+                                                                            <li><a href="#">Edit</a></li>
+                                                                            <li><a href="#">Remove</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Sonya Frost</td>
+                                                                <td class="text-right">
+                                                                    <div class="btn-group text-right">
+                                                                        <button type="button" class="btn btn-warning br2 btn-md fs12 dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> 
+                                                                            Active
+                                                                            <span class="caret ml5"></span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu" role="menu">
+                                                                            <li><a href="#">Edit</a></li>
+                                                                            <li><a href="#">Remove</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Quinn Flynn</td>
+                                                                <td class="text-right">
+                                                                    <div class="btn-group text-right">
+                                                                        <button type="button" class="btn btn-warning br2 btn-md fs12 dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> 
+                                                                            Active
+                                                                            <span class="caret ml5"></span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu" role="menu">
+                                                                            <li><a href="#">Edit</a></li>
+                                                                            <li><a href="#">Remove</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Email Template Ends Here -->
+                                
+                                <!-- Login Setting Starts Here -->
+                                <div id="tab-login-setting" class="tab-pane">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <h4 class="media-heading">Login Setting</h4> 
+                                                    Please configure user login settings, remember this setting will be followed system wide..
+                                                </div>
+                                            </div><br />
+                                            
+                                            <div class="admin-form">
+                                                <form method="post" action="/" id="form-contact1">
+                                                    
+                                                    <div class="section">
+                                                        <label for="file1" class="field-label">User Login Using:</label>
+                                                        <label class="field select">
+                                                            <select id="country" name="country">
+                                                                <option value="">Select User Login Using..</option>
+                                                                <option value="">Email Address</option>
+                                                                <option value="">Username</option>
+                                                            </select>
+                                                            <i class="arrow"></i>
+                                                        </label>
+                                                    </div>
+                                                    <!-- end  section -->
+                                                    
+                                                    <!-- end .form-body section -->
+                                                    <div class="panel-footer">
+                                                        <button type="submit" class="button btn-primary">Submit</button>
+                                                    </div>
+                                                    <!-- end .form-footer section -->
+                                                </form>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Login Settings Ends Here -->
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end panel -->
+                </div>
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+        
+        
+        <!-- Add New Role - Form Popup Starts Here -->
+        <div id="add-new-role-modal-form" class=" popup-basic admin-form mfp-with-anim mfp-hide">
+            <div class="panel">
+                <div class="panel-heading">
+                    <span class="panel-title"><i class="fa fa-rocket"></i>Add New Role</span>
+                </div>
+                <!-- end .panel-heading section -->
+
+                {# <form method="post" action="{{ path('wit_sad_setting_userrolesubmit') }}" id="add-new-role-form"> #}
+                {{ form_start(addUserRoleForm) }}
+                    <div class="panel-body p25">
+                        <div class="section">
+                            <label for="role_name" class="field prepend-icon">
+                                {{ form_widget(addUserRoleForm.role) }}
+                                <label for="comment" class="field-icon"><i class="fa fa-comments"></i>
+                                </label>
+                                <span class="input-footer">
+                                    <strong>Hint:</strong> ROLE_ADMIN...</span>
+                            </label>
+                        </div>
+                        <!-- end section -->
+
+                        <div class="section">
+                            <label for="role_detail" class="field prepend-icon">
+                                {{ form_widget(addUserRoleForm.name) }}
+                                <label for="comment" class="field-icon"><i class="fa fa-comments"></i>
+                                </label>
+                                <span class="input-footer">
+                                    <strong>Hint:</strong> ADMINISTRATOR ROLE...</span>
+                            </label>
+                        </div>
+                        <!-- end section -->
+
+                    </div>
+                    <!-- end .form-body section -->
+                    
+                    <div class="panel-footer">
+                        <button type="reset" class="button" onClick="$.magnificPopup.instance.close();"> Cancel </button>
+                        <button type="submit" class="button btn-primary">Submit</button>
+                    </div>
+                    <!-- end .form-footer section -->
+                    
+                {{ form_end(addUserRoleForm) }}
+            </div>
+            <!-- end: .panel -->
+        </div>
+        <!-- Add New Role - Form Popup Ends Here -->
+        
+
+        <!-- begin: .tray-right -->
+        {% include ('SettingBundle:include:_rightnav.html.twig') %}
+        <!-- end: .tray-right -->
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    <style>
+        /* demo page styles */
+        .custom-nav-animation li {
+            display: none;
+        }
+        .custom-nav-animation li.animated {
+            display: block;
+        }
+        .email-template {
+            display: none;
+        }
+        .email-template.active {
+            display: block;
+        }
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+    <!-- Holder js  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/js/bootstrap/holder.min.js') }}"></script>
+    
+    <!-- Datatables -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+
+    <!-- Datatables Tabletools addon -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+
+    <!-- Datatables Editor addon - READ LICENSING NOT MIT  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/dataTables.editor.js') }}"></script>
+
+    <!-- Datatables Bootstrap Modifications  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/editor.bootstrap.js') }}"></script>
+    
+    <!-- Page Plugins -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/magnific/jquery.magnific-popup.js') }}"></script>
+
+    <!-- Admin Forms Javascript -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.spectrum.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.stepper.min.js') }}"></script>
+    
+    <!-- JQuery Validation -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-forms/js/additional-methods.min.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/js/sticky-tabs.js') }}"></script>
+    
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+
+            // to get tabs through URL as well
+            $('.panel-tabs').stickyTabs();
+
+            // Custom Nav Tray Animation
+            setTimeout(function() {
+                $('.custom-nav-animation li').each(function(i, e) {
+                    var This = $(this);
+                    var timer = setTimeout(function() {
+                        This.addClass('animated animated-short zoomIn');
+                    }, 50 * i);
+                });
+            }, 500);
+            
+            $('#user-role-datatable').dataTable({
+                "aoColumnDefs": [{
+                    'bSortable': false,
+                    'aTargets': [-1]
+                }],
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "",
+                        "sNext": ""
+                    }
+                },
+                "iDisplayLength": 10,
+                "aLengthMenu": [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+                ],
+                "sDom": '<"dt-panelmenu clearfix"Tfr>t<"dt-panelfooter clearfix"ip>',
+                "oTableTools": {
+                    "sSwfPath": "{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/swf/copy_csv_xls_pdf.swf') }}"
+                }
+            });
+            
+            $('#datatable').dataTable({
+                "aoColumnDefs": [{
+                    'bSortable': false,
+                    'aTargets': [-1]
+                }],
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "",
+                        "sNext": ""
+                    }
+                },
+                "iDisplayLength": 10,
+                "aLengthMenu": [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+                ],
+                "sDom": 't<"dt-panelfooter clearfix"ip>',
+                "oTableTools": {
+                    "sSwfPath": "vendor/plugins/datatables/extensions/TableTools/swf/copy_csv_xls_pdf.swf"
+                }
+            });
+
+            // MISC DATATABLE HELPER FUNCTIONS
+
+            // Add Placeholder text to datatables filter bar
+            $('.dataTables_filter input').attr("placeholder", "Enter Terms...");
+            
+            
+            // Add New Role Modal Form
+            $('#addNewRoleButton').on('click', function() {
+                $('#addNewRoleButton').removeClass('active-animation');
+                $(this).addClass('active-animation item-checked');
+
+                // Inline Admin-Form example 
+                $.magnificPopup.open({
+                    removalDelay: 150, //delay removal by X to allow out-animation,
+                    items: {
+                        src: '#add-new-role-modal-form'
+                    },
+                    // overflowY: 'hidden', // 
+                    callbacks: {
+                        beforeOpen: function(e) {
+                            var Animation = 'mfp-flipInX';
+                            this.st.mainClass = Animation;
+                        },
+                        beforeClose: function() {
+                            // Callback available since v0.9.0
+                            console.log('Popup close has been initiated');
+                        },
+                        close: function() {
+                            console.log('Popup removal initiated (after removalDelay timer finished)');
+                        },
+                        afterClose: function() {
+                            console.log('Popup is completely closed');
+                        },
+                    },
+                    midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
+                });
+
+            });
+            
+            //Add New ROle Modal Form Validation and Submit Handler
+            $( "#add-new-role-form" ).validate({
+                    
+                // if valid, post data via AJAX
+                submitHandler: function(form) {
+                    form.submit();
+                    {#
+                    $.post("{{ path('wit_sad_setting_userrolesubmit') }}", { 
+                        role_name: $("#role_name").val(), 
+                        role_detail: $("#role_detail").val() 
+                    }, function(data) {
+                        //console.log(data);
+                        if(data){
+                            $("#role-add-success").fadeIn("slow", function(){
+                                $(this).removeClass("hidden"); //showing success message..
+                                $.magnificPopup.instance.close(); //closing modal dialog
+                                //$('#user-role-datatable > tbody > tr:first').before('<tr><td>Stuff</td></tr>');
+                            });
+                        }else{
+                            console.log("Something wrong happened!");
+                        }
+                    });
+                    #}
+                },
+                
+                /* @validation states + elements 
+                ------------------------------------------- */
+                
+                errorClass: "state-error",
+                validClass: "state-success",
+                errorElement: "em",
+                
+                /* @validation rules 
+                ------------------------------------------ */
+                    
+                rules: {
+                    role_name: {
+                        required: true
+                    },
+                    role_detail: {
+                        required: true
+                    }
+                },
+                
+                /* @validation error messages 
+                ---------------------------------------------- */
+                    
+                messages:{
+                    role_name: {
+                        required: 'Enter role name'
+                    },
+                    role_detail: {
+                        required: 'Enter role detail'
+                    }
+                },
+
+                /* @validation highlighting + error placement  
+                ---------------------------------------------------- */ 
+                
+                highlight: function(element, errorClass, validClass) {
+                        $(element).closest('.field').addClass(errorClass).removeClass(validClass);
+                },
+                unhighlight: function(element, errorClass, validClass) {
+                        $(element).closest('.field').removeClass(errorClass).addClass(validClass);
+                },
+                errorPlacement: function(error, element) {
+                   if (element.is(":radio") || element.is(":checkbox")) {
+                            element.closest('.option-group').after(error);
+                   } else {
+                            error.insertAfter(element.parent());
+                   }
+                }
+            });
+            
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

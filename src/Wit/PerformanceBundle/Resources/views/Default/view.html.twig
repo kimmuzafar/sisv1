@@ -1,0 +1,213 @@
+{% block pagestylesup %}
+    <!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/media/css/dataTables.bootstrap.css') }}">
+
+    <!-- Datatables Editor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') }}">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/magnific/magnific-popup.css') }}">
+{% endblock %}
+
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+{% endblock %}
+
+{% extends ':performance:performance.html.twig' %}
+
+{% block title %}Course Performance Detail{% endblock %}
+
+{% set breadcrumbPage = "Course Performance Detail" %}
+
+{% block content %}
+    
+    <!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+        
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr" id="printable_area">
+            
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                {% if flashMessage %}
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <i class="fa fa-remove pr10"></i>
+                        <strong>{{ flashMessage | raw }}</strong>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            
+            <div class="mw1100 center-block">
+                <h2 class="text-center">COURSE PERFORMANCE DETAIL</h2>
+                <h4 class="text-primary text-center" style="text-transform: uppercase;">{{ marksheet.nameEnglish }} ({{ marksheet.traineeid|default('') }})</h4>
+            </div>
+            
+            <div class="row">
+                
+                <div class="panel panel-transparent" data-animate="fadeIn">
+                    <p class="text-center">
+                        Dispalying below is "{{ marksheet.courseTitle }} ({{ marksheet.coursecode }})" performance detail for "{{ marksheet.nameEnglish }} ({{ marksheet.traineeid|default('') }})"
+                    </p>
+                </div>
+
+                <div class="col-md-12 center-block admin-form">
+
+                    <!-- Personal Info -->
+                    <div class="panel mb50">
+                        <div class="panel-heading">
+                            <span class="panel-title" style="text-transform: uppercase;">Meta Information</span>
+                        </div>
+                        <div class="panel-body">
+                            <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                <tbody>
+                                    <tr><td style="width: 35%;"><h4>PROGRAM NAME</h4></td><td style="width: 65%;">{{ marksheet.program }}</td></tr>
+                                    <tr><td><h4>BATCH NAME</h4></td><td>{{ marksheet.batch }}</td>
+                                    <tr><td><h4>QUARTER NAME</h4></td><td>{{ marksheet.quarter }}</td>
+                                    <tr><td><h4>COURSE NAME</h4></td><td>{{ marksheet.courseTitle }}</td>
+                                    <tr><td><h4>COURSE CODE</h4></td><td>{{ marksheet.coursecode }}</td>
+                                    <tr><td><h4>CREDIT HOURS</h4></td><td>{{ marksheet.creditHours }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br />
+                            <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                <tbody>
+                                    <tr><td style="width: 35%;"><h4>SUBMITTED BY</h4></td><td style="width: 65%;">{{ marksheet.teacherName }}</td></tr>
+                                    <tr><td><h4>DATE</h4></td><td>{{ marksheet.dateCreated|date('Y-m-d h:m') }}</td></tr>
+                                </tbody>
+                            </table>
+                            <br />
+                            <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                <tbody>
+                                    <tr><td style="width: 35%;"><h4>GRADE</h4></td><td style="width: 65%;">{{ marksheet.grade }}</td></tr>
+                                    <tr><td><h4>EARNED POINTS</h4></td><td>{{ marksheet.points }}</td></tr>
+                                    <tr><td><h4>TOTAL EARNED POINTS</h4></td><td>{{ marksheet.subjectTotalPoints }}</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                                
+                    <div class="panel mb50">
+                        <div class="panel-heading" style="text-transform: uppercase;">
+                            <span class="panel-title">{{ marksheet.nameEnglish }}</span>
+                            <div class="widget-menu pull-right mr10">{{ marksheet.traineeid|default('') }}</div>
+                        </div>
+                        <div class="panel-body">
+                            <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center"><h4>GROUP WORK</h4></td>
+                                        <td class="text-center"><h4>ASSIGNMENTS</h4></td>
+                                        <td class="text-center"><h4>QUIZZES</h4></td>
+                                        <td class="text-center"><h4>ATTENDANCE</h4></td>
+                                        <td class="text-center"><h4>FINAL EXAM</h4></td>
+                                        <td class="text-center"><h4>REMARKS</h4></td>
+                                    <tr>
+                                    <tr>
+                                        <td class="text-center">(Max: {{ criteria.groupWork }})</td>
+                                        <td class="text-center">(Max: {{ criteria.assignment }})</td>
+                                        <td class="text-center">(Max: {{ criteria.quiz }})</td>
+                                        <td class="text-center">(Max: {{ criteria.attendance }})</td>
+                                        <td class="text-center">(Max: {{ criteria.finalExam }})</td>
+                                        <td class="text-center">Pass/Fail/Retake</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">{{ marksheet.groupWork }}</td>
+                                        <td class="text-center">{{ marksheet.assignment }}</td>
+                                        <td class="text-center">{{ marksheet.quiz }}</td>
+                                        <td class="text-center">{{ marksheet.attendance }}</td>
+                                        <td class="text-center">{{ marksheet.finalExam }}</td>
+                                        <td class="text-center">
+                                            {% if marksheet.remarks == "Pass" %}
+                                                <div class="btn btn-xs btn-success btn-block">{{ marksheet.remarks }}</div>
+                                            {% elseif marksheet.remarks == "Fail" %}
+                                                <div class="btn btn-xs btn-danger btn-block">{{ marksheet.remarks }}</div>
+                                            {% endif %}
+                                            {% if marksheet.retakeNumber %}
+                                                <div class="btn btn-xs btn-warning btn-block">re-take {{ marksheet.retakeNumber }}</div>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- end: .col-md-12 -->
+
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- menu quick links -->
+            <div class="p20 admin-form">
+
+                <h4 class="mt5 text-muted fw500"> Available Options</h4>
+
+                <hr class="short">
+
+                <div class="section row">
+                    <div class="col-sm-12">
+                        <p><a onclick="$('#main').hide();$('#printable_area').appendTo('body');" class="btn btn-default btn-block"><i class="fa fa-print pr5"></i> Print This Page</a></p>
+                        <hr class="short">
+                        <!-- <p><button class="btn btn-primary btn-gradient btn-block" type="button"><i class="fa fa-floppy-o pr5"></i> Save This Page</button></p>
+                        <hr class="short"> -->
+                        <p><a href="{{ path('wit_performance_default_index_1', { 'course_id': marksheet.courseId }) }}" class="btn btn-default btn-block"><i class="glyphicon glyphicon-arrow-left"></i> &nbsp;&nbsp;&nbsp;Go Back..</a></p>
+                    </div>
+                </div>
+
+            </div>
+
+        </aside>
+        <!-- end: .tray-right -->
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    <style>
+        /* demo page styles */
+        .custom-nav-animation li {
+            display: none;
+        }
+        .custom-nav-animation li.animated {
+            display: block;
+        }
+        .email-template {
+            display: none;
+        }
+        .email-template.active {
+            display: block;
+        }
+
+        /*th, td { white-space: nowrap; }*/
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+    <!-- Datatables -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+
+    <!-- Datatables Tabletools addon -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+
+    <!-- Datatables Editor addon - READ LICENSING NOT MIT  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/dataTables.editor.js') }}"></script>
+
+    <!-- Datatables Bootstrap Modifications  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/editor.bootstrap.js') }}"></script>
+    
+    <script type="text/javascript">
+
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

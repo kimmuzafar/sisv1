@@ -1,0 +1,192 @@
+{% block pagestylesup %}
+	<!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/media/css/dataTables.bootstrap.css') }}">
+
+	<!-- Datatables Editor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') }}">
+
+	<!-- Vendor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/magnific/magnific-popup.css') }}">
+{% endblock %}
+
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+    
+    <!-- Admin Modals CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-plugins/admin-modal/adminmodal.css') }}">
+{% endblock %}
+
+{% extends ':teacher:teacher.html.twig' %}
+
+{% block title %}User-wise grading in course{% endblock %}
+{% set breadcrumbPage = "User-wise grading in course" %}
+
+{% block content %}
+    
+	<!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+		
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr" id="printable">
+
+            <div class="mw1100 center-block">
+                <h2 class="lh30 mt25 text-center">USER-WISE GRADING IN COURSE</h2>
+                {% if marksheets %}
+                    <h4 class="text-primary text-center" style="text-transform: uppercase;">{{ marksheets[0].courseTitle }} ({{ marksheets[0].courseCode }})</h4>
+                {% endif %}
+                <p class="text-center">
+                    Please use "Course Filter" in right navigation to load enrolled student for grading
+                </p>
+            </div>
+            
+            <div class="row">
+                
+                <div class="panel panel-transparent" data-animate="fadeIn">
+                    <h5 class="text-muted mb20 text-center">ALL AVAILABLE USERS FOR RE-TAKE</h5>
+                </div>
+
+            	<div class="col-md-12 center-block admin-form">
+
+                	{% for flashMessage in app.session.flashbag.get('error') %}
+                        {% if flashMessage %}
+                            <div class="alert alert-success alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <i class="fa fa-remove pr10"></i>
+                                <strong>{{ flashMessage | raw }}</strong>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for marksheet in marksheets %}
+                        <form action="{{ path('wit_teacher_course_retakes') }}" method="post">
+                            <div class="panel mb50" id="xedit-demo">
+                                <div class="panel-heading" style="text-transform: uppercase;">
+                                    <span class="panel-title"><b>{{ loop.index }}</b> - {{ marksheet.nameEnglish }}</span>
+                                    <div class="widget-menu pull-right mr10">{{ marksheet.traineeid }}</div>
+                                </div>
+                                <div class="panel-body">
+                                    <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center"><h4>GROUP WORK</h4></td>
+                                                <td class="text-center"><h4>ASSIGNMENTS</h4></td>
+                                                <td class="text-center"><h4>QUIZZES</h4></td>
+                                                <td class="text-center"><h4>ATTENDANCE</h4></td>
+                                                <td class="text-center"><h4>FINAL EXAM</h4></td>
+                                                <td class="text-center"><h4>REMARKS</h4></td>
+                                            <tr>
+                                            <tr>
+                                                <td class="text-center">(Max: {{ criteria.groupWork }})</td>
+                                                <td class="text-center">(Max: {{ criteria.assignment }})</td>
+                                                <td class="text-center">(Max: {{ criteria.quiz }})</td>
+                                                <td class="text-center">(Max: {{ criteria.attendance }})</td>
+                                                <td class="text-center">(Max: {{ criteria.finalExam }})</td>
+                                                <td class="text-center">Pass/Fail</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center"><input type="number" value="{% if marksheet.groupWork %}{{ marksheet.groupWork }}{% else %}0{% endif %}" min="0" max="{{ criteria.groupWork }}" name="groupWork" id="groupWork" class="gui-input" style="width:75px;" /></td>
+                                                <td class="text-center"><input type="number" value="{% if marksheet.assignment %}{{ marksheet.assignment }}{% else %}0{% endif %}" min="0" max="{{ criteria.assignment }}" name="assignment" id="assignment" class="gui-input" style="width:75px;" /></td>
+                                                <td class="text-center"><input type="number" value="{% if marksheet.quiz %}{{ marksheet.quiz }}{% else %}0{% endif %}" min="0" max="{{ criteria.quiz }}" name="quiz" id="quiz" class="gui-input" style="width:75px;" /></td>
+                                                <td class="text-center"><input type="number" value="{% if marksheet.attendance %}{{ marksheet.attendance }}{% else %}0{% endif %}" min="0" max="{{ criteria.attendance }}" name="attendance" id="attendance" class="gui-input" style="width:75px;" /></td>
+                                                <td class="text-center"><input type="number" value="{% if marksheet.finalExam %}{{ marksheet.finalExam }}{% else %}0{% endif %}" min="0" max="{{ criteria.finalExam }}" name="finalExam" id="finalexam" class="gui-input" style="width:75px;" /></td>
+                                                <td class="text-center"><div id="remarks">N/A</div></td>
+
+                                                {# <td class="text-center" style="background-color:#2eb24a; color:white;">Pass</td> #}
+                                                {# <td class="text-center" style="background-color:#ef6266; color:white;">Fail</td> #}
+
+                                                {# this is the marksheet id whose retake is enabled #}
+                                                <input type="hidden" name="marksheet_id" value="{{ marksheet.id }}" />
+
+                                                <input type="hidden" name="finalExamMarksCriteria" value="{{ criteria.finalExam }}" />
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="panel-footer text-right">
+                                    <button type="submit" class="button btn-primary">Submit re-take Now</button>
+                                </div>
+                            </div>
+                        </form>
+                    {% endfor %}
+
+                </div>
+                <!-- end: .col-md-12 -->
+
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- menu quick links -->
+            <div class="p20 admin-form">
+
+                <h4 class="mt5 text-muted fw500"> Available Options</h4>
+                <hr class="short">
+
+                <h6 class="fw400">Course Filter:</h6>
+                <div class="section mb15">
+                    <label class="field select">
+                        <select id="course" name="course" onchange="filterByCourse(this.value)">
+                            {# Current online user is enrolled in each course displaying in dropdown #}
+                            <option value="" selected="selected" style="direction:ltr;"> - Select a course - </option>
+                            {% for data in enrolmentData %}
+                                <option value="{{ data.course.id }}">{{ data.course.title }} ({{ data.course.code }})</option>
+                            {% endfor %}
+                        </select>
+                        <i class="arrow double"></i>
+                    </label>
+                </div>
+
+                <br />
+
+                <h4 class="mt5 text-muted fw500">Help ? (read below)</h4>
+                <hr class="short">
+
+                <p>
+                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i> 
+                    <span class="fs14 fw400 text-muted">Course Filter above, displays courses you are currently enrolled in.</span>
+                </p>
+
+            </div>
+
+        </aside>
+        <!-- end: .tray-right -->
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    <style>
+	    /* demo page styles */
+	    .custom-nav-animation li {
+	        display: none;
+	    }
+	    .custom-nav-animation li.animated {
+	        display: block;
+	    }
+		.email-template {
+			display: none;
+		}
+		.email-template.active {
+			display: block;
+		}
+
+		/*th, td { white-space: nowrap; }*/
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+    <script type="text/javascript">
+        function filterByCourse(cid){
+            var route = "{{ path('wit_teacher_grade_peruserincourse_1', { 'course_id': "PLACEHOLDER" }) }}";
+            window.location = route.replace("PLACEHOLDER", cid);
+        }
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

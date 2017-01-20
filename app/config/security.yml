@@ -1,0 +1,71 @@
+# you can read more about security in the related section of the documentation
+# http://symfony.com/doc/current/book/security.html
+security:
+    # http://symfony.com/doc/current/book/security.html#encoding-the-user-s-password
+    encoders:
+        Wit\ModelBundle\Entity\User:
+          algorithm:        sha1
+          encode_as_base64: false
+          iterations:       1
+
+    # http://symfony.com/doc/current/book/security.html#hierarchical-roles
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+        users:
+            entity:
+                class: Wit\ModelBundle\Entity\User
+                property: email
+
+    # the main part of the security, where you can set up firewalls
+    # for specific sections of your app
+    firewalls:
+        # secures part of the application
+        users_area:
+        #sad_users_area:
+            provider: users
+            #pattern:    ^/sad/
+            anonymous: ~
+            # it's important to notice that in this case _demo_security_check and _demo_login
+            # are route names and that they are specified in the AcmeDemoBundle
+            form_login:
+                check_path: wit_auth_security_logincheck
+                login_path: wit_auth_security_login
+                always_use_default_target_path: true #this will always use default target path, even if user came from another page to login
+                default_target_path: wit_auth_security_loginredirect #role based redirection being done from this controll action..
+            logout:
+                path:   wit_auth_security_logout
+                target: wit_auth_security_login
+            #anonymous: ~
+            #http_basic:
+            #    realm: "Secured Demo Area"
+
+    # with these settings you can restrict or allow access for different parts
+    # of your application based on roles, ip, host or methods
+    # http://symfony.com/doc/current/cookbook/security/access_control.html
+    access_control:
+        - { path: ^/auth/security/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/validate-saudi-id, roles: IS_AUTHENTICATED_ANONYMOUSLY } #it's anonymously allowed because registeration page is calling it for national id validation.
+        - { path: ^/user/check-email-if-already-exist, roles: IS_AUTHENTICATED_ANONYMOUSLY } #it's anonymously allowed because registeration page is calling it for email verification.
+        - { path: ^/admin/, roles: ROLE_ADMIN }
+        - { path: ^/tod/, roles: [ROLE_ADMIN, ROLE_TOD] }
+        - { path: ^/dh/, roles: [ROLE_ADMIN, ROLE_TOD, ROLE_DH] }
+        - { path: ^/sad/, roles: [ROLE_ADMIN, ROLE_SAD] }
+        - { path: ^/user/change-password, roles: [ROLE_ADMIN, ROLE_TOD, ROLE_SAD, ROLE_DH, ROLE_TEACHER, ROLE_STUDENT, ROLE_USER] } #this added on top before /user because it was't working after /user
+        - { path: ^/user/, roles: [ROLE_ADMIN, ROLE_USER] }
+        - { path: ^/account/, roles: [ROLE_ADMIN, ROLE_TOD, ROLE_SAD, ROLE_DH, ROLE_TEACHER, ROLE_STUDENT, ROLE_USER] }
+        - { path: ^/teacher/, roles: [ROLE_ADMIN, ROLE_TOD, ROLE_TEACHER] }
+        - { path: ^/student/, roles: [ROLE_ADMIN, ROLE_SAD, ROLE_STUDENT] }
+        - { path: ^/setting/, roles: [ROLE_ADMIN] }
+        - { path: ^/course/, roles: [ROLE_ADMIN, ROLE_TOD, ROLE_SAD, ROLE_DH] }
+        - { path: ^/enrol/, roles: [ROLE_ADMIN, ROLE_TOD, ROLE_SAD, ROLE_DH] }
+        - { path: ^/performance/, roles: [ROLE_ADMIN, ROLE_TOD, ROLE_SAD, ROLE_DH] }
+        - { path: ^/news/, roles: [ROLE_ADMIN, ROLE_TOD, ROLE_SAD, ROLE_DH, ROLE_TEACHER] }
+        - { path: ^/transcript/, roles: [ROLE_ADMIN, ROLE_TOD, ROLE_SAD, ROLE_DH] }
+        - { path: ^/onboarding/, roles: [ROLE_ADMIN, ROLE_SAD] }
+        - { path: ^/sendemail/, roles: [ROLE_ADMIN, ROLE_SAD] }
+

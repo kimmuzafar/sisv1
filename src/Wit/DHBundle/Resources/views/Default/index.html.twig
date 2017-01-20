@@ -1,0 +1,175 @@
+{% extends ':dh:dh.html.twig' %}
+
+{% block title %}DH / Dashboard{% endblock %}
+{% set breadcrumbPage = "Dashboard" %}
+
+{% block content %}
+    <section id="content" class="table-layout animated fadeIn">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center p25 va-t posr">
+
+            <!-- Dashboard Tiles -->
+            <div class="row mb10">
+                
+                <!-- <div class="col-md-4">
+                    <div class="panel bg-alert light of-h mb10">
+                        <div class="pn pl20 p5">
+                            <div class="icon-bg"> <i class="fa fa-comments-o"></i> </div>
+                            <h2 class="mt15 lh15"> <b>523</b> </h2>
+                            <h5 class="text-muted">Comments</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel bg-info light of-h mb10">
+                        <div class="pn pl20 p5">
+                            <div class="icon-bg"> <i class="fa fa-user"></i> </div>
+                            <h2 class="mt15 lh15"> <b>348</b> </h2>
+                            <h5 class="text-muted">Students</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel bg-warning light of-h mb10">
+                        <div class="pn pl20 p5">
+                            <div class="icon-bg"> <i class="fa fa-envelope"></i> </div>
+                            <h2 class="mt15 lh15"> <b>714</b> </h2>
+                            <h5 class="text-muted">Messages</h5>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="col-md-12">
+                    <div data-animate="fadeIn" class="panel panel-transparent">
+                        <h5 class="text-muted mb20 text-center">NEWS UPDATE FOR DIVISION HEAD</h5>
+                    </div>
+                </div>
+
+                <!-- News List -->
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <span class="panel-title">NEWS UPDATE</span>
+                            <div class="widget-menu pull-right mr10">
+                                <a href="{{ path('wit_quicknews_default_viewall') }}">Browse All</a>
+                            </div>
+                        </div>
+                        <div class="panel-body pn">
+                            <table class="table mbn tc-med-1 tc-bold-last">
+                                <tbody>
+                                    {% for qn in quickNews %}
+                                        {% if qn.dateCreated > app.user.dateCreated %}
+                                        <tr>
+                                            <td {% if qn.isRead==0 %}style="font-weight:bold; font-size:15px;"{% endif %}>
+                                                <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i>
+                                                <span class="va-t mr10"></span><a href="{{ path('wit_quicknews_default_view', {'id':qn.id}) }}">{{ qn.title }}</a>
+                                            </td>
+                                            <td style="font-weight:normal; color:#999;">{{ qn.dateCreated|date("F jS \\a\\t g:ia") }}</td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Admin-panels -->
+            <div class="admin-panels fade-onload sb-l-o-full">
+
+                {#<h3 class="text-center mb25 fw400">Menu Item Options</h3>#}
+
+                <div class="row">
+
+                    <div class="col-sm-6 col-lg-6">
+                        <div class="panel-group accordion" id="tobeapproved">
+                            <div class="panel">
+                                <div class="panel-heading">
+                                    <a class="accordion-toggle accordion-icon link-unstyled" data-toggle="collapse" data-parent="#tobeapproved" href="#tobeapproved_body">
+                                        <span class="panel-title"><span class="glyphicon glyphicon-cog hidden"></span>To Be Approved</span>
+                                    </a>
+                                </div>
+                                <div id="tobeapproved_body" class="panel-collapse collapse in" style="height: auto;">
+                                    <div class="panel-body">
+                                        <p>Praesent non nibh nisi. Proin eu massa faucibus, volutpat tellus eu, dapibus velit. Sed feugiat risus at velit lobortis.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-6">
+                        <div class="panel-group accordion" id="birthdays">
+                            <div class="panel">
+                                <div class="panel-heading">
+                                    <a class="accordion-toggle accordion-icon link-unstyled" data-toggle="collapse" data-parent="#birthdays" href="#birthdays_body">
+                                        <span class="panel-title"><span class="glyphicon glyphicon-cog hidden"></span>Birthday</span>
+                                    </a>
+                                    <div class="widget-menu pull-right mr10">
+                                        <span class="fs11 text-muted"><i class="fa fa-circle text-success fs12 pr5"></i> 45</span>
+                                        <span class="fs11 text-muted ml10"><i class="fa fa-circle text-info fs12 pr5"></i> 17</span>
+                                        <span class="fs11 text-muted ml10"><i class="fa fa-circle text-alert fs12 pr5"></i> 26</span>
+                                    </div>
+                                </div>
+                                <div id="birthdays_body" class="panel-collapse collapse in" style="height: auto;">
+                                    <div class="panel-body">
+                                        <p>Praesent non nibh nisi. Proin eu massa faucibus, volutpat tellus eu, dapibus velit. Sed feugiat risus at velit lobortis porta.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- End Row -->
+
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- store activity timeline -->
+            <ol class="timeline-list pl5 mt10">
+                {% for log in sadLogs %}
+                    {% if log.dateCreated > app.user.dateCreated %}
+                    <li class="timeline-item">
+                        <div class="timeline-icon bg-warning"><span class="fa fa-pencil"></span></div>
+                        <div class="timeline-desc"><b>{{ log.generator }}</b> {{ log.detail|raw }}.</div>
+                        <div class="timeline-date">{{ log.dateCreated|date('y/m/d') }}</div>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                <!--
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-warning"><span class="fa fa-pencil"></span></div>
+                    <div class="timeline-desc"><b>System</b> Your application was reviewd.</div>
+                    <div class="timeline-date">5:25am</div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-system"><span class="fa fa-fire"></span></div>
+                    <div class="timeline-desc"><b>System</b> Your applicaiton is in pending.. waiting for review.</div>
+                    <div class="timeline-date">4:15am</div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-dark light"><span class="fa fa-tags"></span></div>
+                    <div class="timeline-desc"><b>System</b> You have completed your application..</div>
+                    <div class="timeline-date">8:25am</div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-icon bg-system"><span class="fa fa-fire"></span></div>
+                    <div class="timeline-desc"><b>System</b> Your Account was successfully created and activated..</div>
+                    <div class="timeline-date">4:15am</div>
+                </li>
+                -->
+            </ol>
+
+        </aside>
+        <!-- end: .tray-right -->
+
+    </section>
+{% endblock %}

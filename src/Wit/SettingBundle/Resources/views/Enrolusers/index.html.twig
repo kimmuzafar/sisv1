@@ -1,0 +1,116 @@
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+{% endblock %}
+
+{% extends ':admin:admin.html.twig' %}
+
+{% block title %}Enrol Users{% endblock %}
+
+{% set breadcrumbPage = "Enrol Users" %}
+
+{% block content %}
+    
+    <!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr">
+
+            <div class="admin-panels fade-onload mn pn">
+
+                <div class="row">
+
+                    <div class="col-md-8 center-block">
+
+                        {% for flashMessage in app.session.flashbag.get('error') %}
+                            {% if flashMessage %}
+                                <div class="alert alert-success alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <i class="fa fa-remove pr10"></i>
+                                    <strong>{{ flashMessage | raw }}</strong>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        <div class="panel panel-transparent" id="pt0">
+                            
+                            
+                        </div>
+
+                        <div class="panel mt20 mb50 sort-disable" id="p0" data-panel-title="false" data-panel-fullscreen="false" data-panel-remove="false" data-panel-collapse="false" data-panel-fullscreen="false">
+                            <div class="panel-heading">
+                                <span class="panel-icon"><i class="fa fa-edit"></i>
+                                </span>
+                                <span class="panel-title"> Enrol Users</span>
+                            </div>
+                            <div class="panel-body">
+                                
+                                <div class="admin-form">
+
+                                    <p>Select User Role, so all enrollments going to take place below will follow the same role.</p>
+
+                                    <div class="section row">
+                                        <div class="col-md-12">
+                                            <label class="field" for="email">
+                                                <select placeholder="Quarter.." class="gui-input" name="wit_modelbundle_course[coursequarter]" id="wit_modelbundle_course_coursequarter">
+                                                    <option value="2">Student</option>
+                                                    <option value="1">Teacher</option>
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <!-- end section -->
+                                    </div>
+
+                                    <hr class="short alt">
+
+                                    {% for user in users %}
+                                        <div class="media pb20">
+                                            <a class="pull-left" href="#"> 
+                                                <img class="media-object mn thumbnail thumbnail-sm rounded mw80" src="http://127.0.0.1:8000/bundles/secure/default/default-header-user.jpg" alt="...">
+                                            </a>
+                                            <a href="{{ path('wit_setting_enrolusers_enrol', { 'course_id': course.id, 'user_id': user.id }) }}" class="btn btn-warning br2 btn-md fs12 pull-right" aria-expanded="false" style="margin-top:15px;">Enrol</a>
+                                            <div class="media-body mb5">
+                                                <p></p>
+                                                <h4 class="media-heading mbn">{{ user.firstname|capitalize }} {{ user.lastname|capitalize }} <small> - Joining date: {{ user.dateCreated|date('F j, Y, g:i a') }}</small></h4>
+                                                <p></p>
+                                                <p>Id: {{ user.nationalid }}, Email: {{ user.email }}</p>
+                                            </div>
+                                        </div>
+                                        <hr class="short alt">
+                                    {% endfor %}
+
+                                    <!-- end .form-body section -->
+                                    <div class="panel-footer clearfix">
+                                        <a href="{{ path('wit_setting_course_index') }}" class="button btn-primary pull-right">Finish</a>
+                                    </div>
+                                    <!-- end .form-footer section -->
+
+                                </div>
+
+
+                                
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    
+{% endblock %}
+
+{% block pagescripts %}
+    
+{% endblock %}

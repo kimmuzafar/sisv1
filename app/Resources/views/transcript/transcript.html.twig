@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <title>{% block title %}Transcript of Records{% endblock %}</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="">
+    <meta name="author" content="Muzafar Ali Jatoi">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font CSS (Via CDN) -->
+    <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800'>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:400,500,700,300">
+
+    <!-- Page specific styles + stylesheets -->
+    {% block pagestylesup %}{% endblock %}
+
+    <!-- Stylesheets -->
+    {% block stylesheets %}
+        <!-- Theme CSS -->
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/skin/default_skin/css/theme.css') }}">
+    {% endblock %}
+
+    <!-- Page specific styles + stylesheets -->
+    {% block pagestyles %}{% endblock %}
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('bundles/secure/assets/img/favicon.ico') }}">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+
+</head>
+
+<body class="{{ bodyClass|default('blank-page') }}">
+
+<!-- Start: Main -->
+<div id="main">
+
+    <!-- Start: Header -->
+    {% if app.security.token.roles[0].role == "ROLE_ADMIN" %}
+        {% include ':admin/includes:header.html.twig' %}
+    {% elseif app.security.token.roles[0].role == "ROLE_TOD" %}
+        {% include ':tod/includes:header.html.twig' %}
+    {% elseif app.security.token.roles[0].role == "ROLE_SAD" %}
+        {% include ':sad/includes:header.html.twig' %}
+    {% elseif app.security.token.roles[0].role == "ROLE_DH" %}
+        {% include ':dh/includes:header.html.twig' %}
+    {% endif %}
+    <!-- End: Header -->
+
+    <!-- Start: Sidebar -->
+    <aside id="sidebar_left" class="nano nano-primary">
+        <div class="nano-content">
+
+            {% if app.security.token.roles[0].role == "ROLE_ADMIN" %}
+                <!-- Start: Sidebar diamond block -->
+                {% include ':admin/includes:diamondblock.html.twig' %}
+                <!-- sidebar menu -->
+                {% include ':admin/includes:sidebarmenu.html.twig' %}
+            {% elseif app.security.token.roles[0].role == "ROLE_TOD" %}
+                <!-- Start: Sidebar diamond block -->
+                {% include ':tod/includes:diamondblock.html.twig' %}
+                <!-- sidebar menu -->
+                {% include ':tod/includes:sidebarmenu.html.twig' %}
+            {% elseif app.security.token.roles[0].role == "ROLE_SAD" %}
+                <!-- Start: Sidebar diamond block -->
+                {% include ':sad/includes:diamondblock.html.twig' %}
+                <!-- sidebar menu -->
+                {% include ':sad/includes:sidebarmenu.html.twig' %}
+            {% elseif app.security.token.roles[0].role == "ROLE_DH" %}
+                <!-- Start: Sidebar diamond block -->
+                {% include ':dh/includes:diamondblock.html.twig' %}
+                <!-- sidebar menu -->
+                {% include ':dh/includes:sidebarmenu.html.twig' %}
+            {% endif %}
+
+            <div class="sidebar-toggle-mini">
+                <a href="#">
+                    <span class="fa fa-sign-out"></span>
+                </a>
+            </div>
+
+        </div>
+    </aside>
+
+    <!-- Start: Content-Wrapper -->
+    <section id="content_wrapper">
+
+        {% if app.security.token.roles[0].role == "ROLE_ADMIN" %}
+            <!-- Start: Topbar-Dropdown magic block -->
+            {% include ':admin/includes:magicblock.html.twig' %}
+        {% elseif app.security.token.roles[0].role == "ROLE_TOD" %}
+            <!-- Start: Topbar-Dropdown magic block -->
+            {% include ':tod/includes:magicblock.html.twig' %}
+        {% elseif app.security.token.roles[0].role == "ROLE_SAD" %}
+            <!-- Start: Topbar-Dropdown magic block -->
+            {% include ':sad/includes:magicblock.html.twig' %}
+        {% elseif app.security.token.roles[0].role == "ROLE_DH" %}
+            <!-- Start: Topbar-Dropdown magic block -->
+            {% include ':dh/includes:magicblock.html.twig' %}
+        {% endif %}
+
+        <!-- Start: Topbar or Breadcrumbs -->
+        {% block breadcrumbs %}
+            {# Wrapped inside a block because breakcrubs are different for some pages, so custom include expected.. #}
+            {% if app.security.token.roles[0].role == "ROLE_ADMIN" %}
+                {% include ':admin/includes:breadcrumb.html.twig' %}
+            {% elseif app.security.token.roles[0].role == "ROLE_TOD" %}
+                {% include ':tod/includes:breadcrumb.html.twig' %}
+            {% elseif app.security.token.roles[0].role == "ROLE_SAD" %}
+                {% include ':sad/includes:breadcrumb.html.twig' %}
+            {% elseif app.security.token.roles[0].role == "ROLE_DH" %}
+                {% include ':dh/includes:breadcrumb.html.twig' %}
+            {% endif %}
+        {% endblock %}
+
+        <!-- Begin: Content -->
+        {% block content %}{% endblock %}
+        <!-- End: Content -->
+
+    </section>
+
+    <!-- Start: Right Sidebar - hidden to be activated using button -->
+    {#{% include ':admin/includes:rightsidebarmenuhidden.html.twig' %}#}
+    <!-- End: Right Sidebar - hidden to be activated using button -->
+
+</div>
+<!-- End: Main -->
+
+<!-- BEGIN: PAGE SCRIPTS -->
+
+{% block javascripts %}
+    <!-- jQuery -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/jquery/jquery-1.11.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/jquery/jquery_ui/jquery-ui.min.js') }}"></script>
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/js/bootstrap/bootstrap.min.js') }}"></script>
+
+    <!-- Theme Javascript -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/js/utility/utility.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/js/main.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/js/demo.js') }}"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            "use strict";
+            // Init Theme Core
+            Core.init();
+            // Init Theme Core
+            Demo.init();
+        });
+    </script>
+{% endblock %}
+
+<!-- Page specific styles + stylesheets -->
+{% block pagestylesdown %}{% endblock %}
+
+<!-- Page specific scripts + script files -->
+{% block pagescripts %}{% endblock %}
+
+<!-- END: PAGE SCRIPTS -->
+
+</body>
+
+</html>

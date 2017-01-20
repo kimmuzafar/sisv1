@@ -1,0 +1,35 @@
+<header id="topbar">
+    <div class="topbar-left">
+        <ol class="breadcrumb">
+            <li class="crumb-active">
+                <a href="{{ path('wit_dh_default_index') }}">Dashboard</a>
+            </li>
+            <li class="crumb-icon">
+                <a href="{{ path('wit_dh_default_index') }}">
+                    <span class="glyphicon glyphicon-home"></span>
+                </a>
+            </li>
+            <li class="crumb-link">
+                <a href="{{ path('wit_dh_default_index') }}">Home</a>
+            </li>
+            <li class="crumb-trail">{{ breadcrumbPage|default('Dashboard') }}</li>
+        </ol>
+    </div>
+    <div class="topbar-right">
+        <label for="topbar-multiple" class="control-label pr10 fs11 text-muted">
+            WELCOME TO, DIVISION HEAD'S PORTAL
+        </label>
+		<a href="{{ path("wit_auth_security_logout") }}" class="btn btn-default btn-sm light fw600 ml10">
+            <span class="fa fa-sign-out pr5"></span> 
+            Logout
+        </a>
+        <!-- if enabled it can activate "right sidebar menu hidden -->
+        <!--
+        <div class="ml15 ib va-m" id="toggle_sidemenu_r">
+            <a href="#" class="pl5"> <i class="fa fa-sign-in fs22 text-primary"></i>
+                <span class="badge badge-hero badge-danger">3</span>
+            </a>
+        </div>
+        -->
+    </div>
+</header>

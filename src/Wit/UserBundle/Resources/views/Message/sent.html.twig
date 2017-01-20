@@ -1,0 +1,312 @@
+{% extends ':user:user.html.twig' %}
+
+{% block title %}Sent Messages{% endblock %}
+
+{% block pagestylesup %}
+    <!-- Admin Forms CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+
+    <!-- Summernote CSS  -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/editors/summernote/summernote.css') }}">
+
+    <!-- Admin Dock CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-plugins/admin-dock/dockmodal.css') }}">
+{% endblock %}
+
+{% set breadcrumbPage = "Sent Messages" %}
+
+{% set bodyClass = "messages-page" %}
+
+{% block content %}
+
+    <!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+
+        <!-- begin: .tray-left -->
+        <aside class="tray tray-left pn va-t tray250" data-tray-height="match">
+
+            <!-- quick compose message button -->
+            <div class="ph15 pv10 br-b br-light">
+                <button id="quick-compose" type="button" class="btn btn-danger light btn-block fw600">Quick Compose</button>
+            </div>
+
+            <!-- message menu  -->
+            <div class="p10">
+
+                <!-- menu links -->
+                <h4 class="ph10 mt10 mb5"> Menu </h4>
+                <ul class="nav nav-messages p5" role="menu">
+                    <li class="">
+                        <a href="{{ path('wit_user_message_index') }}" class="text-dark fw600 p10 animated animated-short fadeInUp">
+                            <span class="fa fa-envelope pr5"></span> Inbox
+                            <span class="pull-right lh20 h-20 label label-warning label-sm">2</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="{{ path('wit_user_message_sent') }}" class="text-dark fw600 p10 animated animated-short fadeInUp">
+                            <span class="fa fa-mail-reply pr5"></span> Sent
+                            <span class="pull-right lh20 h-20 label label-muted label-sm">2</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#" class="fw600 p10 animated animated-short fadeInUp">
+                            <span class="fa fa-save pr5"></span> Drafts
+                            <span class="pull-right lh20 h-20 label label-warning label-sm">6</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#" class="fw600 p10 animated animated-short fadeInUp">
+                            <span class="fa fa-trash-o pr5"></span> Trash
+                            <span class="pull-right lh20 h-20 label label-muted label-sm">14</span>
+                        </a>
+                    </li>
+                </ul>
+                {#
+                <!-- menu tags -->
+                <h4 class="ph10 mv15"> Tags </h4>
+                <hr class="mn br-light">
+                <ul class="nav nav-messages p5" role="menu">
+                    <li class="">
+                        <a href="#" class="text-dark fw600 p8 animated animated-short fadeInUp">
+                            Clients
+                            <span class="fa fa-circle text-warning fs14 pull-right lh20"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#" class="text-dark fw600 p8 animated animated-short fadeInUp">
+                            Contractors
+                            <span class="fa fa-circle text-system fs14 pull-right lh20"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#" class="text-dark fw600 p8 animated animated-short fadeInUp">
+                            Employees
+                            <span class="fa fa-circle text-primary fs14 pull-right lh20"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#" class="text-dark fw600 p8 animated animated-short fadeInUp">
+                            Suppliers
+                            <span class="fa fa-circle text-alert fs14 pull-right lh20"></span>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- menu labels -->
+                <h4 class="ph10 mv15"> Labels </h4>
+                <hr class="mn br-light">
+                <ul class="nav nav-messages p5" role="menu">
+                    <li class="">
+                        <a href="#" class="text-dark fw600 p8 animated animated-short fadeInUp">
+                            Work
+                            <span class="pull-right lh20 h-20 label label-info label-sm">11</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#" class="text-dark fw600 p8 animated animated-short fadeInUp">
+                            Meetings
+                            <span class="pull-right lh20 h-20 label label-success label-sm">8</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#" class="text-dark fw600 p8 animated animated-short fadeInUp">
+                            Competition
+                            <span class="pull-right lh20 h-20 label label-primary label-sm">4</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#" class="text-dark fw600 p8 animated animated-short fadeInUp">
+                            Promotions
+                            <span class="pull-right lh20 h-20 label label-system label-sm">16</span>
+                        </a>
+                    </li>
+                </ul>
+                #}
+            </div>
+
+        </aside>
+        <!-- end: .tray-left -->
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center pn va-t bg-light">
+
+            <!-- message toolbar header -->
+            <div class="pv10 pl15 bg-white pr10 br-b">
+                <div class="row table-layout">
+
+                    <!-- toolbar left btn group -->
+                    <div class="hidden-xs hidden-sm col-md-3 va-m pln">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default light"><i class="fa fa-refresh"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- toolbar right btn group -->
+                    <div class="col-xs-12 col-md-9 text-right prn">
+                        <button type="button" class="btn btn-danger light visible-xs-inline-block mr10">Compose</button>
+                        <div class="btn-group mr10">
+                            <button type="button" class="btn btn-default light"><i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default light"><i class="fa fa-chevron-left"></i>
+                            </button>
+                            <button type="button" class="btn btn-default light"><i class="fa fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- message listings table -->
+            <table id="message-table" class="table admin-form theme-warning tc-checkbox-1">
+                <thead>
+                    <tr class="">
+                        <th class="text-center hidden-xs">Select</th>
+                        <th>To</th>
+                        <th>Subject</th>
+                        <th class="hidden-xs"></th>
+                        <th class="text-center">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for message in messagesEntities %}
+                        <tr class="message-unread">
+                            <td class="hidden-xs">
+                                <label class="option block mn">
+                                    <input type="checkbox" name="mobileos" value="FR">
+                                    <span class="checkbox mn"></span>
+                                </label>
+                            </td>
+                            <td class="">{{ message.toUser.username|title }}</td>
+                            <td class="">{{ message.subject }}</td>
+                            <td class="hidden-xs">
+                                <i class="text-muted va-b"></i>
+                            </td>
+                            <td class="text-right fw600">{{ message.dateCreated|date('M d') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        <!-- end: .tray-center -->
+
+    </section>
+    <!-- End: Content -->
+
+    <!-- Admin Dock Quick Compose Message -->
+    <div class="quick-compose-form">
+        <form id="new-message-form" method="post">
+            <select name="newMsgUser" id="newMsgUser" class="form-control">
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.firstname|title }} {{ user.lastname|title }}</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="newMsgSubject" id="newMsgSubject" class="form-control" placeholder="Subject...">
+            <div class="summernote-quick">Compose your message here...</div>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block pagescripts %}
+    <!-- Admin Dock -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/admin-tools/admin-plugins/admin-dock/dockmodal.js') }}"></script>
+
+    <!-- Summernote JS -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/editors/summernote/summernote.min.js') }}"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+
+            var msgListing = $('#message-table > tbody > tr > td');
+            var msgCheckbox = $('#message-table > tbody > tr input[type=checkbox]');
+
+            // on message table checkbox click, toggle highlighted class
+            msgCheckbox.on('click', function() {
+                $(this).parents('tr').toggleClass('highlight');
+            });
+
+            // on message table row click, redirect page. Unless target was a checkbox
+            msgListing.not(":first-child").on('click', function(e) {
+
+                // stop event bubble if clicked item is not a checkbox
+                e.stopPropagation();
+                e.preventDefault();
+
+                // Redirect to message compose page if clicked item is not a checkbox
+                window.location = "";
+            });
+
+            // On button click display quick compose message form
+            $('#quick-compose').on('click', function() {
+
+                // Admin Dock Plugin
+                $('.quick-compose-form').dockmodal({
+                    minimizedWidth: 260,
+                    width: 470,
+                    height: 480,
+                    title: 'Compose Message',
+                    initialState: "docked",
+                    buttons: [{
+                        html: "Send",
+                        buttonClass: "btn btn-primary btn-sm",
+                        click: function(e, dialog) {
+
+                            var user = document.getElementById('newMsgUser').value;
+                            var subject = document.getElementById('newMsgSubject').value;
+                            var msgBody = jQuery('.note-editable').text();
+
+                            jQuery.post("{{ path('wit_user_message_new') }}", { newMsgUser: user, newMsgSubject: subject, newMsgBody: msgBody }, function(data){
+                                if(data==true){
+                                    // do something when the button is clicked
+                                    dialog.dockmodal("close");
+
+                                    // after dialog closes fire a success notification
+                                    setTimeout(function() {
+                                        msgCallback();
+                                    }, 500);
+                                }
+                            });
+                        }
+                    }]
+                });
+            });
+
+            // example email compose success notification
+            function msgCallback() {
+                (new PNotify({
+                    title: 'Message Success!',
+                    text: 'Your message has been <b>Sent.</b>',
+                    hide: false,
+                    type: 'success',
+                    addclass: "mt50",
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    },
+                    history: {
+                        history: false
+                    }
+                }));
+            };
+            // Init Summernote
+            $('.summernote-quick').summernote({
+                height: 275, //set editable area's height
+                focus: false, //set focus editable area after Initialize summernote
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', ]],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                ]
+            });
+
+
+
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}

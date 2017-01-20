@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <title>Error..</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="">
+    <meta name="author" content="Muzafar Ali Jatoi">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font CSS (Via CDN) -->
+    <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800'>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:400,500,700,300">
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/skin/default_skin/css/theme.css') }}">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('bundles/secure/assets/img/favicon.ico') }}">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+
+</head>
+
+<body class="error-page sb-l-c sb-r-c">
+
+    <!-- Start: Main -->
+    <div id="main">
+
+        <!-- Start: Content-Wrapper -->
+        <section id="content_wrapper">
+
+
+        	<!-- Begin: Content -->
+            <section id="content">
+
+                <div class="center-block mt50 mw800 animated fadeIn">
+                    <h1 class="error-title"> Error! </h1>
+                    <h2 class="error-subtitle">Internal Server Error.</h2>
+                </div>
+
+                <div class="mid-section animated fadeIn">
+                    <div class="mid-content clearfix">
+                        <input type="text" class="form-control" placeholder="Ask a question!">
+                        <div class="pull-left">
+                            <img src="" class="img-responsive mt20 w225" alt="">
+                        </div>
+                        <div class="pull-right mt20">
+                            <a href="http://wit.edu.sa/" title="facebook link"><i class="fa fa-facebook-square fs40 text-primary mr15"></i>
+                            </a>
+                            <a href="http://wit.edu.sa/" title="twitter link"><i class="fa fa-twitter-square fs40 text-info mr15"></i>
+                            </a>
+                            <a href="http://wit.edu.sa/" title="google plus link"><i class="fa fa-google-plus-square fs40 text-danger-light mr15"></i>
+                            </a>
+                            <a href="http://wit.edu.sa/" title="email link"><i class="fa fa-envelope-square fs40 text-warning"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </section>
+            <!-- End: Content -->
+
+            <a href="{{ path('wit_auth_security_login') }}" id="return-arrow">
+                <i class="fa fa-arrow-left fa-3x text-primary"></i>
+                <span> Return<br> to Login page! </span>
+            </a>
+
+
+        </section>
+
+
+    </div>
+    <!-- End: Main -->
+
+    <!-- BEGIN: PAGE SCRIPTS -->
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/jquery/jquery-1.11.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/jquery/jquery_ui/jquery-ui.min.js') }}"></script>
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/js/bootstrap/bootstrap.min.js') }}"></script>
+
+    <!-- Theme Javascript -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/js/utility/utility.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/js/main.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/assets/js/demo.js') }}"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+
+            "use strict";
+
+            // Init Theme Core    
+            Core.init();
+
+            // Init Demo JS    
+            Demo.init();
+
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+
+</body>
+
+</html>

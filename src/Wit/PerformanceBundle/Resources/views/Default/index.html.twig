@@ -1,0 +1,268 @@
+{% block pagestylesup %}
+    <!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/media/css/dataTables.bootstrap.css') }}">
+
+    <!-- Datatables Editor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') }}">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/vendor/plugins/magnific/magnific-popup.css') }}">
+{% endblock %}
+
+{% block pagestyles %}
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/secure/assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+{% endblock %}
+
+{% extends ':performance:performance.html.twig' %}
+
+{% block title %}Course-wise Performance{% endblock %}
+
+{% set breadcrumbPage = "Course-wise Performance" %}
+
+{% block content %}
+    
+    <!-- Begin: Content -->
+    <section id="content" class="table-layout animated fadeIn">
+
+        <!-- begin: .tray-center -->
+        <div class="tray tray-center va-t posr">
+
+            <div class="mw1100 center-block">
+                <h2 class="lh30 mt25 text-center">COURSE-WISE PERFORMANCE</h2>
+                {% if marksheets %}
+                    <h4 class="text-primary text-center" style="text-transform: uppercase;">
+                        {{ marksheets[0].courseTitle }} ({{ marksheets[0].courseCode }})
+                    </h4>
+                {% endif %}
+                <p class="text-center">
+                    Please use "Course Filter" in right navigation to load available performances for selected course
+                </p>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12 center-block">
+
+                    {% for flashMessage in app.session.flashbag.get('error') %}
+                        {% if flashMessage %}
+                            <div class="alert alert-success alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <i class="fa fa-remove pr10"></i>
+                                <strong>{{ flashMessage | raw }}</strong>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    <div class="panel panel-visible" id="spy3">
+                        <div class="panel-heading" style="text-transform: uppercase;">
+                            <div class="panel-title hidden-xs">
+                                {% if marksheets %}<span class="text-primary">{{ marksheets[0].courseTitle }} ({{ marksheets[0].courseCode }})</span> - {% endif %} Performance List
+                            </div>
+                        </div>
+                        <div class="panel-body pn">
+                            
+                            <table class="table admin-form theme-warning tc-checkbox-1 fs13" id="user-role-datatable">
+                                <thead>
+                                    <tr>
+                                        <!-- <th class="text-left">SELECT</th> -->
+                                        <th class="text-left">NAME</th>
+                                        <th class="text-center">T.MARKS</th>
+                                        <th class="text-center">REMARKS</th>
+                                        <th class="text-center">DATE</th>
+                                        <th class="text-right"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for marksheet in marksheets %}
+                                        <tr>
+                                            <!-- <td class="">
+                                                <label class="option block mn">
+                                                    <input type="checkbox" name="applications[]" value="{{ marksheet.id }}">
+                                                    <span class="checkbox mn"></span>
+                                                </label>
+                                            </td> -->
+                                            <td class="text-left">{{ marksheet.nameEnglish }}</td>
+                                            <td class="text-center">{{ marksheet.totalMarks }}</td>
+                                            <td class="text-center">
+                                                {% if marksheet.remarks == "Pass" %}
+                                                    <div class="btn btn-xs btn-success btn-block">{{ marksheet.remarks }}</div>
+                                                {% elseif marksheet.remarks == "Fail" %}
+                                                    <div class="btn btn-xs btn-danger btn-block">{{ marksheet.remarks }}</div>
+                                                {% endif %}
+                                                {% if marksheet.retakeNumber %}
+                                                    <div class="btn btn-xs btn-warning btn-block">re-take {{ marksheet.retakeNumber }}</div>
+                                                {% endif %}
+                                            </td>
+                                            <td class="text-center">{{ marksheet.dateCreated|date('Y-m-d') }}</td>
+                                            <td class="text-right">
+                                                <div class="btn-group text-right">
+                                                    <button type="button" class="btn btn-warning br2 btn-md fs12 dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> 
+                                                        Action
+                                                        <span class="caret ml5"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li><a href="{{ path('wit_performance_default_view', {'marksheet_id': marksheet.id}) }}">View Detail</a></li>
+                                                        {# Allow re-takes to be enabled for original performance / marksheet and not for re-taken performance / marksheet #}
+                                                        
+                                                        {% if not marksheet.retakeNumber %}
+                                                            {% if marksheet.isRetakeEnabled %}
+                                                                <li class="divider"></li>
+                                                                <li><a href="{{ path('wit_performance_default_retakestatus', {'marksheet_id':marksheet.id, 'status':0}) }}" onclick="return confirm('Please confirm (disabling re-take) by pressing (OK) button');"><span class="text-danger">Disable Re-Take</span></a></li>
+                                                            {% else %}
+                                                                <li class="divider"></li>
+                                                                <li><a href="{{ path('wit_performance_default_retakestatus', {'marksheet_id':marksheet.id, 'status':1}) }}" onclick="return confirm('Please confirm (enabling re-take) by pressing (OK) button');"><span class="text-success">Enable Re-Take</span></a></li>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                        <li class="divider"></li>
+                                                        <li><a href="{{ path('wit_performance_default_remove', {'marksheet_id': marksheet.id}) }}" onclick="return confirm('Please confirm removal by pressing (OK) button');">Remove</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div> 
+                    <!-- end: spy3 -->
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- end: .tray-center -->
+
+        <!-- begin: .tray-right -->
+        <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+
+            <!-- menu quick links -->
+            <div class="p20 admin-form">
+
+                <h4 class="mt5 text-muted fw500"> Available Options</h4>
+                <hr class="short">
+
+                <h6 class="fw400">Course Filter:</h6>
+                <div class="section mb15">
+                    <label class="field select">
+                        <select id="course" name="course" onchange="filterByCourse(this.value)" style="direction:rtl">
+                            <option value="" selected="selected" style="direction:ltr;"> - - - - - - - - Select a course - - - - - - - - </option>
+                            {% for course in courseEntities %}
+                                <option value="{{ course.id }}" style="direction:ltr;">{{ course.coursequarter.coursebatch.coursecategory.title }} &rarr; {{ course.coursequarter.coursebatch.title }} &rarr; {{ course.coursequarter.title }} &rarr; {{ course.title }} ({{ course.code }})</option>
+                            {% endfor %}
+                        </select>
+                        <i class="arrow double"></i>
+                    </label>
+                </div>
+
+                <br />
+
+                <h4 class="mt5 text-muted fw500">Help ? (read below)</h4>
+                <hr class="short">
+
+                <p>
+                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i> 
+                    <span class="fs14 fw400 text-muted">Course Filter above, displays only those courses whose grading status is complete.</span>
+                </p>
+                <p>
+                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i> 
+                    <span class="fs14 fw400 text-muted">Re-take can be enabled and disabled for any performance record from action dropdown.</span>
+                </p>
+                <p>
+                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i> 
+                    <span class="fs14 fw400 text-muted">Once re-take is enabled for any performance, teacher can submit new re-take, original performance record will also remain.</span>
+                </p>
+                <p>
+                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i> 
+                    <span class="fs14 fw400 text-muted">Removal of any performance record excepting re-takes, will allow teacher to submit it again.</span>
+                </p>
+                <p>
+                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i> 
+                    <span class="fs14 fw400 text-muted">Multiple performance records for an student within same course means he has re-takes.</span>
+                </p>
+                <p>
+                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i> 
+                    <span class="fs14 fw400 text-muted">Any performance record which is a re-take actually will have re-take status and count in remarks column.</span>
+                </p>
+
+            </div>
+
+        </aside>
+        <!-- end: .tray-right -->
+
+    </section>
+    <!-- End: Content -->
+
+{% endblock %}
+
+{% block pagestylesdown %}
+    <style>
+        /* demo page styles */
+        .custom-nav-animation li {
+            display: none;
+        }
+        .custom-nav-animation li.animated {
+            display: block;
+        }
+        .email-template {
+            display: none;
+        }
+        .email-template.active {
+            display: block;
+        }
+
+        /*th, td { white-space: nowrap; }*/
+    </style>
+{% endblock %}
+
+{% block pagescripts %}
+    <!-- Datatables -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+
+    <!-- Datatables Tabletools addon -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+
+    <!-- Datatables Editor addon - READ LICENSING NOT MIT  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/dataTables.editor.js') }}"></script>
+
+    <!-- Datatables Bootstrap Modifications  -->
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/secure/vendor/plugins/datatables/extensions/Editor/js/editor.bootstrap.js') }}"></script>
+    
+    <script type="text/javascript">
+
+        function filterByCourse(cid){
+            var route = "{{ path('wit_performance_default_index_1', { 'course_id': "PLACEHOLDER" }) }}";
+            window.location = route.replace("PLACEHOLDER", cid);
+        }
+
+        jQuery(document).ready(function() {
+            
+            $('#user-role-datatable').dataTable({
+                "aoColumnDefs": [{
+                    'bSortable': false,
+                    'aTargets': [-1]
+                }],
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "",
+                        "sNext": ""
+                    }
+                },
+                "iDisplayLength": 10,
+                "aLengthMenu": [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+                ],
+                "sDom": '<"dt-panelmenu clearfix"Tfr>t<"dt-panelfooter clearfix"ip>',
+                "oTableTools": {
+                    "sSwfPath": "{{ asset('bundles/secure/vendor/plugins/datatables/extensions/TableTools/swf/copy_csv_xls_pdf.swf') }}"
+                }
+            });
+            
+        });
+    </script>
+    <!-- END: PAGE SCRIPTS -->
+{% endblock %}
